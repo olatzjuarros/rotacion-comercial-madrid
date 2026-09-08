@@ -1,0 +1,78 @@
+# hito9_scoring_2026
+# Ejecutado: 2026-09-04 11:31:10
+# Comando: src/hito9_scoring_2026.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_113110_hito9_scoring_2026.log
+Campeon: D. Completo (con geo micro)
+Variables (15): ['id_epigrafe', 'id_division', 'desc_distrito_local', 'desc_tipo_acceso_local', 'antiguedad_negocio', 'antiguedad_local', 'rotaciones_previas', 'tasa_rotacion_local', 'antiguedad_censurada', 'n_locales_150m', 'n_competidores_200m', 'pct_vacantes_150m', 'diversidad_150m', 'competencia_relativa_200m', 'rotacion_entorno_150m']
+
+Vocabulario congelado (2023+2024): 806 palabras
+
+Panel 2026: 152,099 locales   abiertos: 99,581
+  excluidos por placeholder / rotulo generico: 22,147
+  UNIVERSO A PUNTUAR: 77,434
+
+Ventana de historia replicada: 2023-2026 (3 anios, = cohorte 2018 de entrenamiento)
+
+Locales sin historia previa (altas 2026): 0
+
+==============================================================================
+3. DISTRIBUCION DE LAS VARIABLES DE HISTORIA  (2026 vs test vs train)
+==============================================================================
+   2026 se ha calculado con la ventana de 3 anios replicada. Si la
+   correccion funciona, la fila '2026' debe parecerse ahora a 'train'
+   y no disparar el max como antes (antiguedad llegaba a 11).
+
+variable               fuente      min     p25  mediana     p75      max
+------------------------------------------------------------------------
+antiguedad_negocio     test       0.00    6.00     6.00    6.00     6.00
+antiguedad_negocio     2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_negocio     train      0.00    0.00     1.00    2.00     3.00
+
+antiguedad_local       test       0.00    6.00     6.00    6.00     6.00
+antiguedad_local       2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_local       train      0.00    0.00     1.00    2.00     3.00
+
+rotaciones_previas     test       0.00    0.00     0.00    0.00     5.00
+rotaciones_previas     2026       0.00    0.00     0.00    0.00     3.00
+rotaciones_previas     train      0.00    0.00     0.00    0.00     3.00
+
+tasa_rotacion_local    test       0.00    0.00     0.00    0.00     0.83
+tasa_rotacion_local    2026       0.00    0.00     0.00    0.00     1.00
+tasa_rotacion_local    train      0.00    0.00     0.00    0.00     1.00
+
+antiguedad_censurada   test       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   2026       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   train      0.00    1.00     1.00    1.00     1.00
+
+==============================================================================
+   RECORTE RESIDUAL AL RANGO DE TRAIN  (red de seguridad tras la ventana)
+==============================================================================
+  antiguedad_negocio     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_local       rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  rotaciones_previas     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  tasa_rotacion_local    rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_censurada   rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+
+  Con la ventana replicada el recorte deberia ser marginal. Si aun
+  asi recorta mucho en 'rotaciones_previas', es que en 3 anios un
+  local puede rotar mas veces que las vistas en 2015-2018 (ventana
+  identica pero anios distintos); el clip lo deja en el maximo visto.
+Traceback (most recent call last):
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito9_scoring_2026.py", line 235, in <module>
+    main()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito9_scoring_2026.py", line 179, in main
+    X = universo[columnas].copy()
+        ~~~~~~~~^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\pandas\core\frame.py", line 4384, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\pandas\core\indexes\base.py", line 6302, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\pandas\core\indexes\base.py", line 6355, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['n_locales_150m', 'n_competidores_200m', 'pct_vacantes_150m', 'diversidad_150m', 'competencia_relativa_200m', 'rotacion_entorno_150m'] not in index"
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 11:31:34

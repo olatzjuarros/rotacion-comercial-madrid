@@ -1,0 +1,81 @@
+# hito7_campeon
+# Ejecutado: 2026-09-05 18:29:45
+# Comando: hito7_campeon.py --dir ../datos --repeticiones 500 --no-guardar
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_182945_hito7_campeon.log
+train 316,973   val 80,660   test 81,398
+tasa base en test: 3.97%
+bootstrap: 500 remuestreos
+
+  entrenado: A. Solo sector
+  entrenado: B. Sector + distrito
+  entrenado: C. Sector + distrito + historia
+  entrenado: D. Completo (con geo micro)
+  entrenado: E. Sin sector
+  entrenado: F. Sector + distrito + historia + marca
+
+==============================================================================
+RESULTADOS EN TEST  (cohorte 2021->2022, nunca vista)
+==============================================================================
+                                         n_vars   auc          auc_ic  lift10       lift_ic  brier
+modelo                                                                                            
+A. Solo sector                                2 0.665  [0.656, 0.673]   1.800  [1.68, 1.93]  0.038
+B. Sector + distrito                          3 0.667  [0.658, 0.675]   2.004  [1.88, 2.14]  0.038
+C. Sector + distrito + historia               9 0.667  [0.659, 0.676]   1.988  [1.87, 2.15]  0.038
+D. Completo (con geo micro)                  15 0.670  [0.661, 0.678]   2.007  [1.87, 2.15]  0.038
+E. Sin sector                                13 0.603  [0.594, 0.612]   1.574  [1.49, 1.74]  0.038
+F. Sector + distrito + historia + marca      15 0.672  [0.663, 0.681]   2.140  [2.03, 2.31]  0.038
+
+==============================================================================
+¿HAY DIFERENCIAS REALES?
+==============================================================================
+  Referencia: 'A. Solo sector' -> AUC 0.665 [0.656, 0.673], lift 1.80 [1.68, 1.93]
+
+  Diferencias con bootstrap PAREADO (mismos locales en cada
+  remuestreo). Si el intervalo no cruza el cero, la mejora es real.
+
+  B. Sector + distrito            
+      AUC  +0.002  IC [-0.003, +0.007]  no concl.
+      lift +0.20   IC [+0.09, +0.33]   REAL 
+  C. Sector + distrito + historia 
+      AUC  +0.002  IC [-0.005, +0.009]  no concl.
+      lift +0.19   IC [+0.06, +0.37]   REAL 
+  D. Completo (con geo micro)     
+      AUC  +0.005  IC [-0.001, +0.012]  no concl.
+      lift +0.21   IC [+0.06, +0.35]   REAL 
+  E. Sin sector                   
+      AUC  -0.062  IC [-0.073, -0.051]  REAL 
+      lift -0.23   IC [-0.37, -0.00]   REAL 
+  F. Sector + distrito + historia + marca
+      AUC  +0.007  IC [+0.001, +0.014]  REAL 
+      lift +0.34   IC [+0.20, +0.52]   REAL 
+
+==============================================================================
+ELECCION DEL CAMPEON  (lift10 + desempate por parsimonia)
+==============================================================================
+
+  1. Lider provisional por lift10 puntual: 'F. Sector + distrito + historia + marca' (2.140, 15 variables)
+
+  2. Contraste PAREADO del lider contra cada candidato con MENOS
+     variables (si el IC de la diferencia cruza el cero, empatan):
+       A. Solo sector                   (2 vars)  lift -0.340  IC diferencia [-0.50, -0.21]  -> el lider gana de verdad
+       B. Sector + distrito             (3 vars)  lift -0.136  IC diferencia [-0.28, -0.01]  -> el lider gana de verdad
+       C. Sector + distrito + historia  (9 vars)  lift -0.152  IC diferencia [-0.27, -0.03]  -> el lider gana de verdad
+       E. Sin sector                    (13 vars)  lift -0.566  IC diferencia [-0.72, -0.41]  -> el lider gana de verdad
+
+  3. Desempate por parsimonia entre [F. Sector + distrito + historia + marca (15v)]:
+     'F. Sector + distrito + historia + marca' gana de verdad a todos los candidatos con menos
+     variables: se queda como campeon.
+
+==============================================================================
+CAMPEON: F. Sector + distrito + historia + marca
+==============================================================================
+
+  [--no-guardar] NO se sobrescribe modelo_campeon.joblib ni
+  ficha_modelo.json. El campeon en produccion lo fija otra
+  decision (ver salida/decision_modelo.md). Esta corrida solo
+  actualiza la comparativa de candidatos para RESULTADOS.md.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 18:33:29

@@ -1,0 +1,124 @@
+# hito3b_cohortes
+# Ejecutado: 2026-09-03 19:16:20
+# Comando: src/hito3b_cohortes.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_191620_hito3b_cohortes.log
+====================================================================
+1. AUDITORIA DE ESQUEMAS
+====================================================================
+fichero                       cols  faltan  encoding
+  actividades_2014_12.csv       44       -  utf-8
+  actividades_2015_12.csv       46       -  utf-8
+  actividades_2016_12.csv       46       -  utf-8
+  actividades_2017_11.csv       46       -  utf-8
+  actividades_2018_12.csv       46       -  utf-8
+  actividades_2019_12.csv       46       -  utf-8
+  actividades_2020_12.csv       46       -  utf-8
+  actividades_2021_12.csv       46       -  utf-8-sig
+  actividades_2022_12.csv       49       -  utf-8-sig
+  actividades_2023_12.csv       49       -  utf-8-sig
+  actividades_2024_12.csv       49       -  utf-8-sig
+  actividades_2025_12.csv       47       -  utf-8-sig
+  actividades_2026_06.csv       47       -  utf-8-sig
+
+  Columnas comunes a todos los anios: 42
+  De las utiles, disponibles en todos: 16
+  NO estan en todos los anios: coordenada_y_agrupacion
+  --> esas variables solo se podran usar en los anios que las tengan
+
+====================================================================
+2. CARGA Y CALIDAD POR ANIO
+====================================================================
+  anio     filas   locales  %abierto  %rot.vacio  %coord.ok
+  2014   154,932   142,484    66.4%      32.4%     90.5%
+  2015   157,569   144,168    67.8%       0.2%     95.4%
+  2016   159,772   145,065    68.4%       0.2%     95.0%
+  2017   161,097   145,752    68.8%       0.2%     94.6%
+  2018   162,447   146,716    69.2%       0.2%     94.2%
+  2019   163,617   147,576    69.4%       0.2%     93.9%
+  2020   164,591   148,033    69.2%       0.0%     93.5%
+  2021   167,380   149,935    66.1%       0.0%     93.1%
+  2022   168,482   150,522    66.1%       0.1%     92.8%
+  2023   168,820   150,731    65.9%       0.1%     92.8%
+  2024   169,730   151,286    66.0%       0.1%     90.5%
+  2025: excluidos 51,008 locales de acceso Interior (25.1%)
+  2025   224,096   151,880    65.6%      24.7%     90.3%
+  2026: excluidos 51,293 locales de acceso Interior (25.2%)
+  2026   225,184   152,099    65.5%      24.4%     90.2%
+
+====================================================================
+3. VOCABULARIO DE SECTOR (congelado con 2023-2024)
+====================================================================
+  806 palabras. Se usa el MISMO vocabulario en todas
+  las cohortes para que las tasas sean comparables entre si.
+
+====================================================================
+3bis. SIMILITUD ENTRE ANIOS CONSECUTIVOS
+====================================================================
+  Si un par se parece MUCHO mas que el resto, uno de los dos
+  ficheros esta congelado o duplicado.
+
+         par  locales comunes  rotulos identicos
+  2014-2015          142,140            59.25%
+  2015-2016          144,003            95.24%
+  2016-2017          144,792            95.40%
+  2017-2018          145,698            94.96%
+  2018-2019          146,712            95.92%
+  2019-2020          147,567            96.23%
+  2020-2021          148,004            86.51%
+  2021-2022          149,891            94.53%
+  2022-2023          150,513            99.10%
+  2023-2024          150,718            97.48%
+  2024-2025          151,160            64.72%
+  2025-2026          151,878            97.31%
+
+  Mediana: 95.32%
+  SOSPECHOSOS (mas de 1 punto por encima de la mediana):
+     2022-2023: 99.10%
+     2023-2024: 97.48%
+     2025-2026: 97.31%
+  --> esas cohortes NO deben usarse para entrenar
+
+====================================================================
+4. CHURN POR COHORTE  (reglas congeladas del hito 2)
+====================================================================
+     cohorte  universo  excluidos  cerr.adm  rotacion    CHURN
+  2014->2015    77,036     18.5%    0.46%    4.05%   4.85%
+  2015->2016    78,932     19.2%    0.96%    3.45%   4.55%
+  2016->2017    79,717     19.6%    0.77%    3.69%   4.72%
+  2017->2018    80,170     20.0%    0.82%    3.97%   4.83%
+  2018->2019    81,101     20.1%    0.87%    3.25%   4.12%
+  2019->2020    81,654     20.3%    1.07%    2.61%   3.69%
+  2020->2021    82,137     19.8%    7.85%    9.42%  17.29%
+  2021->2022    82,343     16.9%    1.07%    2.98%   4.07%
+  2022->2023    81,719     17.9%    0.39%    0.88%   1.27%
+  2023->2024    81,752     17.8%    0.93%    2.53%   3.47%
+  2024->2025    82,143     17.7%    1.40%    5.64%   7.05%
+  2025->2026    77,938     21.8%    0.49%    1.54%   2.03%
+
+  Media 5.16%   min 1.27%   max 17.29%   desv 4.09%
+
+  LECTURA: si todas las cohortes caen en una banda estrecha,
+  las reglas del hito 2 generalizan. Si 2023-2024 es un caso
+  aparte, estaban sobreajustadas a esos dos ficheros.
+
+5. GUARDANDO PANEL LIGERO EN C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\datos\panel
+  panel_2014.parquet  (142,484 filas)
+  panel_2015.parquet  (144,168 filas)
+  panel_2016.parquet  (145,065 filas)
+  panel_2017.parquet  (145,752 filas)
+  panel_2018.parquet  (146,716 filas)
+  panel_2019.parquet  (147,576 filas)
+  panel_2020.parquet  (148,033 filas)
+  panel_2021.parquet  (149,935 filas)
+  panel_2022.parquet  (150,522 filas)
+  panel_2023.parquet  (150,731 filas)
+  panel_2024.parquet  (151,286 filas)
+  panel_2025.parquet  (151,880 filas)
+  panel_2026.parquet  (152,099 filas)
+
+  A partir de ahora cargamos estos, no los CSV.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 19:17:21

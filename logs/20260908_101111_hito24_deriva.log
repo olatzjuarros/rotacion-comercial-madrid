@@ -1,0 +1,36 @@
+# hito24_deriva
+# Ejecutado: 2026-09-08 10:11:11
+# Comando: src/hito24_deriva.py --min-peticiones 2
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260908_101111_hito24_deriva.log
+peticiones registradas: 2
+referencia de entrenamiento: 316,973 filas (cohortes [np.int64(2015), np.int64(2016), np.int64(2017), np.int64(2018)])
+
+==============================================================================
+PSI POR VARIABLE  (esperado = entrenamiento, observado = peticiones)
+==============================================================================
+  epigrafe              PSI 15.343   -> DERIVA ALTA
+  division              PSI 10.658   -> DERIVA ALTA
+  distrito              PSI  9.181   -> DERIVA ALTA
+  tipo_acceso           PSI  1.200   -> DERIVA ALTA
+C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\pandas\core\arraylike.py:402: RuntimeWarning: divide by zero encountered in log
+  result = getattr(ufunc, method)(*inputs, **kwargs)
+  antiguedad            PSI    inf   -> DERIVA ALTA
+  rotaciones_previas    PSI  0.000   -> estable
+
+==============================================================================
+DERIVA ALTA en: epigrafe, division, distrito, tipo_acceso, antiguedad.
+Las peticiones que recibe la API no se parecen a los datos con
+los que se entreno el campeon. Revisar el caso de uso y valorar
+un reentrenamiento con cohortes mas recientes.
+
+  Detalle de 'antiguedad' (la de mayor PSI):
+                    esperado  observado  psi_bin
+antiguedad_negocio                              
+(-inf, 1.0]           0.5370     1.0000   0.2879
+(1.0, 2.0]            0.2392     0.0000      inf
+(2.0, inf]            0.2238     0.0000      inf
+
+#------------------------------------------------------------------
+# Fin: 2026-09-08 10:11:12

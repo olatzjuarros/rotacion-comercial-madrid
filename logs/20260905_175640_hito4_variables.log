@@ -1,0 +1,138 @@
+# hito4_variables
+# Ejecutado: 2026-09-05 17:56:40
+# Comando: src/hito4_variables.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_175640_hito4_variables.log
+Paneles cargados: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+Vocabulario congelado: 806 palabras
+
+Cohorte 2015->2016  (train)
+  universo 78,413   target 4.44%
+  con vecindario: 95.1%
+  cadenas (es_cadena=1): 33.4%   en agrupacion: 9.2%
+Cohorte 2016->2017  (train)
+  universo 79,049   target 4.50%
+  con vecindario: 94.9%
+  cadenas (es_cadena=1): 33.4%   en agrupacion: 9.0%
+Cohorte 2017->2018  (train)
+  universo 79,324   target 4.65%
+  con vecindario: 94.6%
+  cadenas (es_cadena=1): 33.5%   en agrupacion: 9.0%
+Cohorte 2018->2019  (train)
+  universo 80,187   target 4.00%
+  con vecindario: 94.2%
+  cadenas (es_cadena=1): 33.6%   en agrupacion: 9.1%
+Cohorte 2019->2020  (val)
+  universo 80,660   target 3.53%
+  con vecindario: 94.1%
+  cadenas (es_cadena=1): 33.4%   en agrupacion: 9.2%
+Cohorte 2020->2021  (covid)
+  universo 81,122   target 17.03%
+  con vecindario: 93.9%
+  cadenas (es_cadena=1): 33.5%   en agrupacion: 9.1%
+Cohorte 2021->2022  (test)
+  universo 81,398   target 3.97%
+  con vecindario: 93.5%
+  cadenas (es_cadena=1): 33.4%   en agrupacion: 8.9%
+
+==============================================================
+RESUMEN
+==============================================================
+                size    sum      mean
+uso   cohorte                        
+covid 2020     81122  13816  0.170311
+test  2021     81398   3234  0.039731
+train 2015     78413   3478  0.044355
+      2016     79049   3555  0.044972
+      2017     79324   3689  0.046505
+      2018     80187   3207  0.039994
+val   2019     80660   2851  0.035346
+
+Tasa de cierre por antiguedad del negocio:
+  (sin la cohorte COVID y sin antiguedad censurada, ver abajo)
+                     size      mean
+antiguedad_negocio                 
+<1                  21427  0.071032
+1                   11259  0.065192
+2                    8042  0.058816
+3-4                  7572  0.056656
+5+                   2162  0.056429
+
+  Si la tasa baja al aumentar la antiguedad, la variable funciona.
+
+MISMA TABLA SIN FILTRAR (para ver el efecto de los artefactos):
+                      size      mean
+antiguedad_negocio                  
+<1                  102122  0.050606
+1                    89903  0.046394
+2                    84301  0.046168
+3-4                 152664  0.037998
+5+                  131163  0.112821
+  La cohorte COVID contamina los tramos altos: en 2020 los
+  negocios de 2015 tenian 5 anios, y ese anio cerro todo.
+
+Antiguedad CENSURADA por cohorte (no se puede medir hacia atras):
+cohorte
+2015    1.000000
+2016    0.959190
+2017    0.922256
+2018    0.884732
+2019    0.857030
+2020    0.836974
+2021    0.750682
+  En la cohorte 2015 es del 100%: la cadena empieza ahi y no
+  sabemos cuanto llevaba abierto nadie. Esa cohorte no aporta
+  informacion de antiguedad.
+
+Tasa de cierre por rotaciones previas del local (sin COVID):
+                      size      mean
+rotaciones_previas                  
+0                   436544  0.038990
+1                    38162  0.065615
+2                     3734  0.110070
+3                      591  0.131980
+
+==============================================================
+MARCA / CADENA / AGRUPACION  vs  CHURN   (sin COVID)
+==============================================================
+  tasa de churn global (sin covid): 4.18%
+
+  por nº de locales de la misma marca en Madrid:
+                         size      mean
+n_locales_misma_marca                  
+1 (unico)              265945  0.041535
+2                       52811  0.041469
+3-4                     40666  0.043427
+5-9                     40779  0.043969
+10+                     78830  0.040835
+
+  es_cadena (>=3 locales de la misma marca):
+             size      mean
+es_cadena                  
+0          318756  0.041524
+1          160275  0.042290
+
+  en_agrupacion (mercado / galeria):
+                 size      mean
+en_agrupacion                  
+0              435646  0.039858
+1               43385  0.061081
+
+  por nº de palabras del rotulo:
+                     size      mean
+n_palabras_rotulo                  
+1                   96373  0.044193
+2                  169203  0.043729
+3                   98348  0.040225
+4                   55526  0.039333
+5                   59581  0.037193
+
+  LECTURA: si las cadenas y los locales en agrupacion NO rotan
+  menos que los independientes, estas variables no aportan y hay
+  que decirlo (el candidato F de hito7 lo confirmara con IC).
+
+Guardado: datos\dataset_modelado.pkl   (560,153 filas)
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 18:29:13

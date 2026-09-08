@@ -1,0 +1,74 @@
+# hito20_redundancia_marca
+# Ejecutado: 2026-09-07 16:53:18
+# Comando: src/hito20_redundancia_marca.py --dir datos --repeticiones 500
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260907_165318_hito20_redundancia_marca.log
+==============================================================================
+1. REDUNDANCIA: en_agrupacion  vs  desc_tipo_acceso_local == 'Agrupado'
+==============================================================================
+en_agrupacion                0      1
+desc_tipo_acceso_local               
+Agrupado                     0  28724
+PC Asociado               5045      0
+Puerta Calle            283204      0
+
+  correlacion( acceso=='Agrupado' , en_agrupacion ) = 1.0000
+  acceso=='Agrupado': 28,724   en_agrupacion==1: 28,724   coinciden: 316,973 de 316,973
+
+  -> SON LA MISMA VARIABLE. La unica señal 'nueva' del paquete F
+     (en_agrupacion) ya estaba en C via desc_tipo_acceso_local.
+
+==============================================================================
+2. DE DONDE VIENE LA MEJORA DE F  (ablacion sobre el test)
+==============================================================================
+                                          n_vars    auc  lift10  brier
+variante                                                              
+C (base)                                       9 0.6670  2.0194 0.0377
+F = C + 6 marca                               15 0.6718  2.1554 0.0376
+F sin rotulo (long/n_palabras)                13 0.6600  2.0163 0.0377
+F sin cadena (n_marca/es_cadena/n_agrup)      12 0.6691  2.0750 0.0376
+C + solo rotulo (long/n_palabras)             11 0.6691  2.0750 0.0376
+
+  lift de C: 2.0194
+    F = C + 6 marca                             lift 2.1554  (+0.1361 vs C)
+    F sin rotulo (long/n_palabras)              lift 2.0163  (-0.0031 vs C)
+    F sin cadena (n_marca/es_cadena/n_agrup)    lift 2.0750  (+0.0557 vs C)
+    C + solo rotulo (long/n_palabras)           lift 2.0750  (+0.0557 vs C)
+
+  Contraste PAREADO de cada variante contra C (IC de la diferencia):
+    F = C + 6 marca                             IC lift [+0.009, +0.259]  -> diferencia real
+    F sin rotulo (long/n_palabras)              IC lift [-0.155, +0.075]  -> empate
+    C + solo rotulo (long/n_palabras)           IC lift [-0.076, +0.169]  -> empate
+
+  Importancia por permutacion (caida de lift10 al desordenar cada
+  variable de marca en F; 3 repeticiones):
+    n_locales_agrupacion     +0.0443
+    longitud_rotulo          +0.0093
+    es_cadena                +0.0000
+    en_agrupacion            +0.0000
+    n_locales_misma_marca    -0.0309
+    n_palabras_rotulo        -0.0340
+
+==============================================================================
+3. PROSPECTIVA 2025->2026  (6 meses; lift de ORDEN, comparable)
+==============================================================================
+
+  B. Sector + distrito
+    prospectiva: AUC 0.665   lift decil 10 2.069   deciles monotonos: False
+    lift por decil: 0.19 0.23 0.44 0.92 0.86 1.05 1.39 1.35 1.50 2.08
+
+  C. Sector + distrito + historia
+    prospectiva: AUC 0.667   lift decil 10 1.909   deciles monotonos: False
+    lift por decil: 0.17 0.34 0.45 0.59 1.07 1.09 1.30 1.34 1.85 1.82
+
+  F. Sector + distrito + historia + marca
+    prospectiva: AUC 0.665   lift decil 10 1.967   deciles monotonos: False
+    lift por decil: 0.19 0.34 0.38 0.87 0.82 1.28 1.03 1.49 1.62 1.98
+
+  LECTURA: si el lift prospectivo de F cae por debajo del de C
+  (~1,91) o de B (~2,04), la mejora de F en test no se sostiene en
+  el tiempo y la estabilidad temporal pesa en contra de F.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-07 16:55:04

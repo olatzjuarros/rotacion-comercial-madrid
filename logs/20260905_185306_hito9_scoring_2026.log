@@ -1,0 +1,125 @@
+# hito9_scoring_2026
+# Ejecutado: 2026-09-05 18:53:06
+# Comando: src/hito9_scoring_2026.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_185306_hito9_scoring_2026.log
+Campeon: F. Sector + distrito + historia + marca
+Variables (15): ['id_epigrafe', 'id_division', 'desc_distrito_local', 'desc_tipo_acceso_local', 'antiguedad_negocio', 'antiguedad_local', 'rotaciones_previas', 'tasa_rotacion_local', 'antiguedad_censurada', 'n_locales_misma_marca', 'es_cadena', 'en_agrupacion', 'n_locales_agrupacion', 'longitud_rotulo', 'n_palabras_rotulo']
+
+Vocabulario congelado (2023+2024): 806 palabras
+
+Panel 2026: 152,099 locales   abiertos: 99,581
+  excluidos por placeholder / rotulo generico: 22,147
+  UNIVERSO A PUNTUAR: 77,434
+
+Ventana de historia replicada: 2023-2026 (3 anios, = cohorte 2018 de entrenamiento)
+
+Locales sin historia previa (altas 2026): 0
+Variables de marca anadidas: es_cadena 31.8%, en_agrupacion 8.6%
+
+==============================================================================
+3. DISTRIBUCION DE LAS VARIABLES DE HISTORIA  (2026 vs test vs train)
+==============================================================================
+   2026 se ha calculado con la ventana de 3 anios replicada. Si la
+   correccion funciona, la fila '2026' debe parecerse ahora a 'train'
+   y no disparar el max como antes (antiguedad llegaba a 11).
+
+variable               fuente      min     p25  mediana     p75      max
+------------------------------------------------------------------------
+antiguedad_negocio     test       0.00    6.00     6.00    6.00     6.00
+antiguedad_negocio     2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_negocio     train      0.00    0.00     1.00    2.00     3.00
+
+antiguedad_local       test       0.00    6.00     6.00    6.00     6.00
+antiguedad_local       2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_local       train      0.00    0.00     1.00    2.00     3.00
+
+rotaciones_previas     test       0.00    0.00     0.00    0.00     5.00
+rotaciones_previas     2026       0.00    0.00     0.00    0.00     3.00
+rotaciones_previas     train      0.00    0.00     0.00    0.00     3.00
+
+tasa_rotacion_local    test       0.00    0.00     0.00    0.00     0.83
+tasa_rotacion_local    2026       0.00    0.00     0.00    0.00     1.00
+tasa_rotacion_local    train      0.00    0.00     0.00    0.00     1.00
+
+antiguedad_censurada   test       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   2026       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   train      0.00    1.00     1.00    1.00     1.00
+
+==============================================================================
+   RECORTE RESIDUAL AL RANGO DE TRAIN  (red de seguridad tras la ventana)
+==============================================================================
+  antiguedad_negocio     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_local       rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  rotaciones_previas     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  tasa_rotacion_local    rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_censurada   rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+
+  Con la ventana replicada el recorte deberia ser marginal. Si aun
+  asi recorta mucho en 'rotaciones_previas', es que en 3 anios un
+  local puede rotar mas veces que las vistas en 2015-2018 (ventana
+  identica pero anios distintos); el clip lo deja en el maximo visto.
+
+Guardado: salida\riesgo_2026.csv   (77,434 locales)
+  probabilidad: min 0.0000  media 0.0353  max 0.5000
+  tasa base del modelo (ficha): 4.07%  -> la media deberia rondar eso
+
+==============================================================================
+TOP 20 DE MAYOR RIESGO
+==============================================================================
+ id_local                                       rotulo                                                                                             desc_epigrafe desc_distrito_local  probabilidad
+270099657 CARNICERÍA Y POLLERÍA CON CASQUERÍA 'MIGUEL'                                                                       COMERCIO AL POR MENOR DE CARNICERIA              TETUAN         0.500
+ 60000921                     POLLO ESTILO KOREANO PEK                                                                                                 CAFETERIA              TETUAN         0.163
+140000309                                BIRRA Y CARNE                                                                                           BAR RESTAURANTE           MORATALAZ         0.163
+170000707                         JUAL LOCK BAR LOUNGE                                                                                            BAR CON COCINA          VILLAVERDE         0.163
+270041889                                    EL BILLAR                                                                              BAR ESPECIAL SIN ACTUACIONES              CENTRO         0.163
+270101955                      CARNICERÍA CORTE LATINO                                                                       COMERCIO AL POR MENOR DE CARNICERIA              TETUAN         0.163
+270103300                                      DUM DUM                                                                                           BAR RESTAURANTE              TETUAN         0.163
+270191053                                 BAR AMARILLO                                                                                            BAR CON COCINA          VILLAVERDE         0.163
+270313878                    BAR RESTAURANTE RIO SORBE                                                                                           BAR RESTAURANTE FUENCARRAL-EL PARDO         0.163
+270401458                            ASADOR 'LA TORRE'                                                                                           BAR RESTAURANTE          VILLAVERDE         0.163
+270413832                                      CAYUMAS       INTERMEDIARIOS DEL COMERCIO DE TEXTILES, PRENDAS DE VESTIR, PELETERIA, CALZADO Y ARTICULOS DE CUERO           SALAMANCA         0.163
+270454548                                   MCDONALD'S                                                                                           BAR RESTAURANTE              TETUAN         0.163
+270519776                          EL GUSTILLO ESPAÑOL OTRO COMERCIO AL POR MENOR DE PRODUCTOS ALIMENTICIOS (PERECEDEROS Y NO PERECEDEROS) CON VENDEDOR N.C.O.P.              CENTRO         0.163
+270527649                                     CATARSIS                                                                           CENTROS DE TATUAJE Y/O ANILLADO          VILLAVERDE         0.163
+270528572                          C&C TATTOO PIERCING                                                                           CENTROS DE TATUAJE Y/O ANILLADO              CENTRO         0.163
+270552978                                        KÜKIE                              COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR              RETIRO         0.163
+280027547                     CARNICEROS COFFEE BAKERY                              COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR              TETUAN         0.163
+280029711                                    MOVIL REP                                      COMERCIO AL POR MENOR DE PRODUCTOS DE TELEFONIA Y TELECOMUNICACIONES              TETUAN         0.163
+280029885           TIO MISTI GOURMET GRILL &PARRILLAS                                                                                            BAR CON COCINA              TETUAN         0.163
+280031004                             JUAN VALDEZ CAFÉ                                                                                               RESTAURANTE              TETUAN         0.163
+
+==============================================================================
+DISTRIBUCION DE PROBABILIDAD POR DISTRITO
+==============================================================================
+                        n  media  mediana    p90
+desc_distrito_local                             
+SALAMANCA            5554 0.0465   0.0526 0.0624
+VICALVARO            1073 0.0441   0.0419 0.0690
+CENTRO               8485 0.0434   0.0419 0.0624
+RETIRO               2664 0.0415   0.0395 0.0690
+TETUAN               4491 0.0414   0.0395 0.0690
+CHAMBERI             5131 0.0405   0.0395 0.0624
+MORATALAZ            1354 0.0383   0.0366 0.0624
+BARAJAS              1106 0.0364   0.0366 0.0624
+VILLAVERDE           3155 0.0351   0.0246 0.0624
+VILLA DE VALLECAS    2628 0.0348   0.0366 0.0618
+CIUDAD LINEAL        5151 0.0330   0.0306 0.0587
+ARGANZUELA           3511 0.0323   0.0306 0.0556
+CHAMARTIN            4360 0.0320   0.0306 0.0526
+FUENCARRAL-EL PARDO  3819 0.0317   0.0306 0.0587
+CARABANCHEL          5369 0.0308   0.0306 0.0526
+SAN BLAS-CANILLEJAS  3095 0.0304   0.0297 0.0547
+MONCLOA-ARAVACA      2975 0.0301   0.0306 0.0547
+PUENTE DE VALLECAS   4181 0.0298   0.0246 0.0547
+HORTALEZA            2864 0.0291   0.0246 0.0547
+USERA                2419 0.0262   0.0246 0.0526
+LATINA               4048 0.0241   0.0218 0.0395
+
+  Si el orden por distrito es plausible (mas riesgo en distritos
+  con mas rotacion historica) y el top 20 no es absurdo, el scoring
+  tiene sentido a ojo.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 18:53:19

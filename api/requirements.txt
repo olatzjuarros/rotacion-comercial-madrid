@@ -1,0 +1,18 @@
+# API de riesgo de rotacion comercial - TFM Censo de Locales de Madrid
+# Version de Python objetivo: 3.12
+
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.5
+
+# El modelo campeon es un Pipeline de scikit-learn serializado con joblib;
+# hay que reconstruirlo con las mismas versiones con que se entreno.
+scikit-learn==1.9.0
+joblib==1.6.0
+numpy==2.5.2
+pandas==3.0.5
+pyarrow==25.0.1
+
+# Tests
+pytest==9.1.1
+httpx==0.28.1

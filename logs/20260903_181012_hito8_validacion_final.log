@@ -1,0 +1,45 @@
+# hito8_validacion_final
+# Ejecutado: 2026-09-03 18:10:12
+# Comando: src/hito8_validacion_final.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_181012_hito8_validacion_final.log
+panel 2021: 149,935 filas   panel 2022: 150,522 filas
+Vocabulario congelado (2023+2024): 806 palabras
+
+Universo 2021 (abiertos, sin placeholder ni generico): 82,343
+Target (churn) = 4.07%  (3,349 casos)
+
+Rotulos que difieren literalmente: 5,576
+  ...pero las reglas dicen 'mismo negocio': 3,121
+  ...rotacion real (a validar a mano):      2,455
+
+Guardado: salida\validacion\positivos_40.csv   (40 casos)
+Guardado: salida\validacion\descartados_25.csv   (25 casos)
+Guardado: salida\validacion\_conteos.json
+
+======================================================================
+REVISION MANUAL PENDIENTE  (la hace una persona, no este script)
+======================================================================
+
+  1. Abre positivos_40.csv y, para cada uno de los 40 casos, decide
+     mirando rotulo_2021 y rotulo_2022 si el cambio es un CIERRE / cambio de
+     negocio real. Escribe 1 si lo es, 0 si en realidad es el mismo negocio
+     (ampliacion del nombre, errata, forma juridica...). Cada 0 es un FALSO
+     POSITIVO del target.
+
+  2. Abre descartados_25.csv y, para cada uno de los 25 casos, decide
+     si el cambio de rotulo SI era un cierre real que las reglas dejaron
+     escapar. Escribe 1 si era un cierre real, 0 si acertaron. Cada 1 es un
+     FALSO NEGATIVO del target.
+
+  3. El error residual que va a la memoria es:
+       - tasa de falsos positivos  = (nº de 0 en es_cierre_real)  / 40
+       - tasa de falsos negativos  = (nº de 1 en era_cierre_real) / 25
+
+  Esos dos numeros cuantifican el ruido de etiqueta del target FINAL, el que
+  se ha modelado. No reutilices los porcentajes de la validacion anterior.
+
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:10:16

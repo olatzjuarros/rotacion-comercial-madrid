@@ -1,0 +1,51 @@
+# hito11_contraste_distrito
+# Ejecutado: 2026-09-03 18:12:45
+# Comando: src/hito11_contraste_distrito.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_181245_hito11_contraste_distrito.log
+Cohorte de test: 82,343 locales   tasa real global 4.07%   riesgo medio predicho 3.78%
+
+====================================================================
+ROTACION REAL vs RIESGO PREDICHO POR DISTRITO  (test 2021)
+====================================================================
+                     n_locales  tasa_real_%  riesgo_predicho_%
+distrito                                                      
+CENTRO                    9036         5.56               4.67
+RETIRO                    2811         5.19               4.48
+SALAMANCA                 5934         4.82               4.93
+USERA                     2664         4.62               2.67
+VICALVARO                 1092         4.49               4.81
+PUENTE DE VALLECAS        4382         4.36               3.28
+FUENCARRAL-EL PARDO       4071         4.35               3.25
+TETUAN                    4713         4.29               4.34
+CHAMBERI                  5471         4.22               4.61
+CIUDAD LINEAL             5579         4.18               3.35
+VILLAVERDE                3329         4.15               3.87
+MORATALAZ                 1524         4.07               3.96
+VILLA DE VALLECAS         2716         4.01               3.74
+MONCLOA-ARAVACA           3101         3.90               3.27
+CHAMARTIN                 4679         3.87               3.53
+HORTALEZA                 3000         3.37               2.94
+ARGANZUELA                3794         3.35               3.49
+BARAJAS                   1220         3.28               3.73
+LATINA                    4306         2.93               2.69
+SAN BLAS-CANILLEJAS       3241         2.68               3.12
+CARABANCHEL               5680         2.06               3.40
+
+====================================================================
+CORRELACION DE SPEARMAN  (orden real vs orden predicho)
+====================================================================
+  rho = +0.495    p-valor = 0.0226    (n = 21 distritos)
+
+  *** HALLAZGO: rho = 0.49 < 0.5. El modelo NO ordena
+  bien los distritos por riesgo. Como la geografia entra solo
+  como 'desc_distrito_local' y su aporte ya era debil (lift +0,20
+  en hito7), el mapa de riesgo por distrito hay que leerlo con
+  mucha cautela: no es un ranking fiable de barrios peligrosos.
+  Es un problema a declarar, no un detalle.
+
+Guardado: salida\figuras\real_vs_predicho_distrito.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:12:46

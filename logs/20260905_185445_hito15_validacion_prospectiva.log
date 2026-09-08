@@ -1,0 +1,109 @@
+# hito15_validacion_prospectiva
+# Ejecutado: 2026-09-05 18:54:45
+# Comando: src/hito15_validacion_prospectiva.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_185445_hito15_validacion_prospectiva.log
+Campeon: F. Sector + distrito + historia + marca   variables: ['id_epigrafe', 'id_division', 'desc_distrito_local', 'desc_tipo_acceso_local', 'antiguedad_negocio', 'antiguedad_local', 'rotaciones_previas', 'tasa_rotacion_local', 'antiguedad_censurada', 'n_locales_misma_marca', 'es_cadena', 'en_agrupacion', 'n_locales_agrupacion', 'longitud_rotulo', 'n_palabras_rotulo']
+
+==============================================================================
+1. UNIVERSO Y TARGET: cohorte 2025 -> 2026 (junio)
+==============================================================================
+  universo 77,820   target (6 meses) 2.01%   (1,566 casos)
+
+==============================================================================
+2. VARIABLES DEL CAMPEON  (ventana de historia replicada, 3 anios)
+==============================================================================
+  Ventana de historia: 2022-2025 (3 anios, igual que la cohorte 2018 de train)
+  historia: ['antiguedad_censurada', 'antiguedad_local', 'antiguedad_negocio', 'rotaciones_previas', 'tasa_rotacion_local']
+  marca / rotulo / agrupacion: ['en_agrupacion', 'es_cadena', 'longitud_rotulo', 'n_locales_agrupacion', 'n_locales_misma_marca', 'n_palabras_rotulo']   (es_cadena 31.9%)
+
+==============================================================================
+   RECORTE RESIDUAL AL RANGO DE TRAIN
+==============================================================================
+  antiguedad_negocio     rango train [0.000, 3.000]   recortados 0 (0.0%)
+  antiguedad_local       rango train [0.000, 3.000]   recortados 0 (0.0%)
+  rotaciones_previas     rango train [0.000, 3.000]   recortados 0 (0.0%)
+  tasa_rotacion_local    rango train [0.000, 1.000]   recortados 0 (0.0%)
+  antiguedad_censurada   rango train [0.000, 1.000]   recortados 0 (0.0%)
+
+==============================================================================
+3. METRICAS EN LA COHORTE PROSPECTIVA  (500 remuestreos bootstrap)
+==============================================================================
+  tasa base (6 meses, NO comparable con test): 2.01%
+  AUC   0.665   IC95% [0.653, 0.677]
+  lift decil 10   1.967   IC95% [1.79, 2.18]
+
+  DECILES DE RIESGO:
+       size  sum  mean  lift
+decil                       
+1      7782   29 0.004 0.185
+2      7782   54 0.007 0.345
+3      7782   60 0.008 0.383
+4      7782  137 0.018 0.875
+5      7782  128 0.016 0.817
+6      7782  200 0.026 1.277
+7      7782  161 0.021 1.028
+8      7782  233 0.030 1.488
+9      7782  254 0.033 1.622
+10     7782  310 0.040 1.980
+
+  CALIBRACION (probabilidad predicha vs frecuencia real):
+       tramo     n  prob_predicha  frecuencia_real
+(0.00, 0.01]  4649         0.0077           0.0030
+(0.01, 0.02] 15757         0.0156           0.0067
+(0.02, 0.03] 13129         0.0240           0.0145
+(0.03, 0.04] 18649         0.0351           0.0220
+(0.04, 0.06] 17575         0.0520           0.0298
+(0.06, 1.00]  8061         0.0704           0.0399
+  Al ser una ventana de 6 meses, la frecuencia real es estructuralmente mas baja que la probabilidad (calibrada para 12
+  meses). Eso es ESPERADO, no un fallo de calibracion.
+
+==============================================================================
+5. COMPARACION CON EL TEST (2021->2022, ficha_modelo.json)
+==============================================================================
+metrica               test 2021 (12m)    prospectiva 2025 (6m)
+AUC                             0.672                    0.665
+lift decil 10                   2.140                    1.967
+tasa base                      3.97%                   2.01%  <- NO COMPARABLE (6 meses vs 12)
+
+  RESPUESTA: SI se mantiene la
+  capacidad de ORDENAR siete-ocho anios despues del entrenamiento.
+  El IC del AUC (0.653-0.677) queda por encima de 0,5 y
+  el IC del lift (1.79-2.18) por encima de 1: el campeon sigue
+  ordenando mejor que el azar y concentrando riesgo en el decil 10,
+  sin haberse reentrenado ni recalibrado. La tasa base y las
+  probabilidades absolutas NO se comparan (ventana de 6 vs 12 meses).
+
+Guardado: salida\prospectiva_2025_2026.csv   (77,820 locales)
+
+==============================================================================
+TOP 20: mayor riesgo predicho QUE EFECTIVAMENTE ROTARON  (para el video)
+==============================================================================
+                                                       rotulo                                   rotulo_2026                                                                              desc_epigrafe   desc_distrito_local  prob
+id_local                                                                                                                                                                                                                          
+270045360                                                 FOX                                       D`COPAS                                                               BAR ESPECIAL SIN ACTUACIONES  CENTRO               0.144
+280027560                         MACHU PICHU / LOCAL 227-231                                    EL PARCERO                                                                             BAR CON COCINA  TETUAN               0.133
+280027547                                      DULCES Y CAKES                      CARNICEROS COFFEE BAKERY               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA SIN OBRADOR  TETUAN               0.131
+30000658   BANDERÍN PUBLICITARIO (MIMETIZADO PARA SMALL CELL)                                    MOVIL TECH                       COMERCIO AL POR MENOR DE PRODUCTOS DE TELEFONIA Y TELECOMUNICACIONES  RETIRO               0.125
+270025591                                       VERSO & AROMA                                 VERSO & AROMA                                                                             BAR CON COCINA  FUENCARRAL-EL PARDO  0.125
+270059823                                            ALOPAISA                               CHIFA PACHAMAMA                                                                            BAR RESTAURANTE  RETIRO               0.125
+270062435                                           DOBLE UVE                                     DOBLE UVE               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR  RETIRO               0.125
+270099657            MIGUEL CARNICERÍA/ CAJON 115-116-117-118  CARNICERÍA Y POLLERÍA CON CASQUERÍA 'MIGUEL'                                                        COMERCIO AL POR MENOR DE CARNICERIA  TETUAN               0.125
+270112499                                          ENTREPANES                                 ITALIAN PIZZA  COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA CON OBRADOR-BARRA DEGUSTACION  CHAMBERI             0.125
+270279080               FLOR DE HARINA PANADERÍA Y TEQUEÑERÍA                                  NANA KARAMEL                                 ESTABLECIMIENTOS DE VENTA DE PLATOS PREPARADOS CON OBRADOR  FUENCARRAL-EL PARDO  0.125
+270313917                                              BOMBON                                         OKOFI                    COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA SIN OBRADOR  CENTRO               0.125
+270519056                                       ASIYA¿S COFFE                                      LA TORTA                                                                                  CAFETERIA  RETIRO               0.125
+270520056                                          PERSEPOLIS                                    PERSEPOLIS                    COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA SIN OBRADOR  CENTRO               0.125
+270562813                                       MOON TOPPINGS                                         AMIRA                                                                            BAR RESTAURANTE  CIUDAD LINEAL        0.125
+270577208                                             RODILLA                                        PINKIS                    COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA SIN OBRADOR  HORTALEZA            0.125
+280020372                                         ROUSQUILLAS                               PASTEART BAKERY               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR  RETIRO               0.125
+280001764                                          BUMP GREEN                               RELAIS DE PARIS                                                                            BAR RESTAURANTE  SALAMANCA            0.125
+280038375                                         LASHES & GO                                   LASHES & GO                                                            CENTROS DE TATUAJE Y/O ANILLADO  CHAMBERI             0.125
+280003655                                                NIKI                             PELUQUERÍA CANINA                                            TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)  SALAMANCA            0.125
+280009937                                        BAKERY CON Z                                    SIN ROTULO  COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA CON OBRADOR-BARRA DEGUSTACION  CENTRO               0.125
+
+Guardado: salida\figuras\prospectiva_deciles.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 18:55:06

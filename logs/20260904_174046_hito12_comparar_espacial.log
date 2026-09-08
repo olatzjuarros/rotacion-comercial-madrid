@@ -1,0 +1,10 @@
+# hito12_comparar_espacial
+# Ejecutado: 2026-09-04 17:40:46
+# Comando: src\hito12_comparar_espacial.py --anio 2021
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_174046_hito12_comparar_espacial.log
+[PARA] no encuentro spark\vecindario_pyspark_2021.csv. Ejecuta primero uno de los notebooks de spark/ (o pasa --resultado con la ruta).
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 17:40:46

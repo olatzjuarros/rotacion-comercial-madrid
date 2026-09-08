@@ -1,0 +1,37 @@
+# hito21_grid_simulador
+# Ejecutado: 2026-09-05 22:43:46
+# Comando: src/hito21_grid_simulador.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_224346_hito21_grid_simulador.log
+Campeon: C. Sector + distrito + historia   tasa base 0.0397
+Epigrafes: 437   distritos: 21
+Perfil 'local tipico' (medianas 2026): {'antiguedad_negocio': 3.0, 'antiguedad_local': 3.0, 'rotaciones_previas': 0.0, 'tasa_rotacion_local': 0.0, 'antiguedad_censurada': 1.0}
+
+[1] simulador_grid.csv
+  simulador_grid.csv / simulador_grid_es.csv   (27,531 filas)
+    prob: min 0.0000  media 0.0396  max 0.2000
+    OJO al importar en Tableau: 'epigrafe_codigo' es TEXTO (hay codigos con ceros a la izquierda: 000000, 010001, ...). Si Tableau lo detecta como numero, los pierde.
+
+    VERIFICACION por distrito ('ACABADO DE EDIFICIOS (CARPINTERIA, REVOCAMIENTO, REVESTIMIENTO DE SUELOS Y PAREDES,  PINTURA, ACRISTALAMIENTO)', perfil 'local tipico'):
+      6 valores distintos en 21 distritos
+      mas riesgo:  ARGANZUELA           0.0214
+      menos riesgo:USERA                0.0134
+      cociente alto/bajo: 1.59x
+
+[2] cohortes_churn.csv
+  cohortes_churn.csv / cohortes_churn_es.csv   (12 filas)
+
+[3] distrito_real_vs_predicho.csv
+Traceback (most recent call last):
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito21_grid_simulador.py", line 239, in <module>
+    main()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito21_grid_simulador.py", line 212, in main
+    pool["_pred"] = campeon.predict_proba(preparar_X(pool, paquete))[:, 1]
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\prediccion.py", line 86, in preparar_X
+    raise ValueError(
+ValueError: La columna 'id_epigrafe' trae valores que el modelo nunca vio: ['0', '10001', '10002', '108004', '120001', '20001', '492001', '500001']. Categorias validas (muestra): ['000000', '010001', '010002', '020001', '060001', '090001', '101001', '101002']. Codificarlos seria un nulo silencioso (bug tarea 29).
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 22:43:59

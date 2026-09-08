@@ -1,0 +1,52 @@
+# hito13_export_tableau
+# Ejecutado: 2026-09-05 22:55:26
+# Comando: src/hito13_export_tableau.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_225526_hito13_export_tableau.log
+Leidos 77,434 locales de salida\riesgo_2026.csv
+
+Reproyeccion EPSG:25830 -> EPSG:4326: 72,385 locales con coordenada valida, 5,049 sin (6.5%) -> lat/lon vacias
+  De los que tienen coordenada, 100.0% caen en el bounding box de Madrid
+
+Generando salida/tableau/:
+  riesgo_locales.csv / riesgo_locales_es.csv   (77,434 filas)
+  riesgo_por_barrio.csv / riesgo_por_barrio_es.csv   (131 filas)
+  riesgo_por_epigrafe.csv / riesgo_por_epigrafe_es.csv   (213 filas)
+
+================================================================
+VISTA RAPIDA
+================================================================
+  Barrios de mas riesgo medio:
+desc_distrito_local desc_barrio_local  n_locales  riesgo_medio
+          VICALVARO      EL CAÑAVERAL         81       0.05782
+          SALAMANCA         RECOLETOS       1199       0.04972
+          SALAMANCA        CASTELLANA        831       0.04927
+             RETIRO             IBIZA        700       0.04853
+          SALAMANCA              GOYA       1217       0.04818
+
+  Epigrafes de mas riesgo medio (>= 50 locales):
+                                                                                      desc_epigrafe  n_locales  riesgo_medio
+          COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA CON OBRADOR-BARRA DEGUSTACION        123       0.08867
+                                                    TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)        144       0.08667
+                                                                    CENTROS DE TATUAJE Y/O ANILLADO        214       0.08501
+                                                               CHOCOLATERIA/SALON DE TE Y HELADERIA         52       0.07921
+                        COMERCIO AL POR MENOR DE COMPLEMENTOS Y ALIMENTOS PARA ANIMALES DE COMPAÑIA        131       0.07105
+INTERMEDIARIOS DEL COMERCIO DE TEXTILES, PRENDAS DE VESTIR, PELETERIA, CALZADO Y ARTICULOS DE CUERO         63       0.06974
+                            COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA SIN OBRADOR        185       0.06897
+                                                                       ACTIVIDADES DE LOS GIMNASIOS        564       0.06707
+
+  213 epigrafes superan el umbral de 50 locales.
+
+================================================================
+QUE FICHERO CARGAR EN TABLEAU
+================================================================
+  Segun 'Configuracion regional' de Tableau (o del sistema):
+    - Ingles / EE. UU. / neutro  ->  <nombre>.csv     (coma + punto decimal)
+    - Espanol (Espana)           ->  <nombre>_es.csv  (; + coma decimal)
+  Si al conectar los campos 'riesgo_medio', 'latitud'... salen NULL,
+  estas usando la version equivocada: cambia a la otra.
+  Los .csv normales sirven ademas para pandas/Python sin tocar nada.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 22:55:27

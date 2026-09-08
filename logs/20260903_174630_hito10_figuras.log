@@ -1,0 +1,59 @@
+# hito10_figuras
+# Ejecutado: 2026-09-03 17:46:30
+# Comando: src/hito10_figuras.py --saltar-shap
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_174630_hito10_figuras.log
+Vocabulario congelado (2023+2024): 806 palabras
+
+[1] churn_por_cohorte.png
+   2014->2015  churn  4.85%  (n=77,036, excluida)
+   2015->2016  churn  4.55%  (n=78,932, train)
+   2016->2017  churn  4.72%  (n=79,717, train)
+   2017->2018  churn  4.83%  (n=80,170, train)
+   2018->2019  churn  4.12%  (n=81,101, train)
+   2019->2020  churn  3.69%  (n=81,654, val)
+   2020->2021  churn 17.29%  (n=82,137, excluida)
+   2021->2022  churn  4.07%  (n=82,343, test)
+   2022->2023  churn  1.27%  (n=81,719, excluida)
+   2023->2024  churn  3.47%  (n=81,752, excluida)
+   2024->2025  churn  7.05%  (n=82,143, excluida)
+   2025->2026  churn  2.03%  (n=77,938, excluida)
+
+[2] calibracion.png
+
+[3] deciles_lift.png
+       size  sum  mean  lift
+decil                       
+1      8235   73 0.009 0.218
+2      8234  110 0.013 0.328
+3      8234  190 0.023 0.567
+4      8234  235 0.029 0.702
+5      8235  272 0.033 0.812
+6      8234  375 0.046 1.120
+7      8234  388 0.047 1.159
+8      8234  458 0.056 1.368
+9      8234  509 0.062 1.520
+10     8235  739 0.090 2.206
+   lift decil 10 (ficha, oficial): 2.138
+
+[4] ablaciones.png
+   fuente: logs/20260903_142335_hito7_campeon.log
+                         modelo  lift    lo    hi
+                 A. Solo sector 1.771 1.660 1.900
+           B. Sector + distrito 1.968 1.850 2.110
+C. Sector + distrito + historia 2.138 1.980 2.240
+    D. Completo (con geo micro) 2.102 1.950 2.230
+                  E. Sin sector 1.738 1.640 1.910
+
+Figuras en C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\salida\figuras
+   ablaciones.png
+   calibracion.png
+   casos_shap.md
+   churn_por_cohorte.png
+   deciles_lift.png
+   shap_beeswarm.png
+   shap_importancia.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 17:47:05

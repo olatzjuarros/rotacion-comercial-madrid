@@ -1,0 +1,37 @@
+# hito12_comparar_espacial
+# Ejecutado: 2026-09-03 18:18:28
+# Comando: src/hito12_comparar_espacial.py --anio 2021
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_181828_hito12_comparar_espacial.log
+Sedona: 139,586 filas   Local: calculando variables_espaciales...
+Local:  149,935 filas
+En comun: 139,586 locales
+
+  [aviso] solo en local: 10,349   solo en Sedona: 0
+  (normal si local incluye filas sin coordenada; deberian ser 0 en el otro sentido)
+
+======================================================================
+COMPARACION POR VARIABLE  (anio 2021)
+======================================================================
+  n_locales_150m          coinciden 139,584/139,586 (100.00%)   dif. maxima 1
+  n_competidores_200m     coinciden 139,586/139,586 (100.00%)   dif. maxima 0
+  pct_vacantes_150m       coinciden 139,586/139,586 (100.00%)   dif. maxima 1.11e-16
+  diversidad_150m         coinciden 139,585/139,586 (100.00%)   dif. maxima 0.753
+
+  Hay diferencias. Detalle abajo.
+
+======================================================================
+5 CASOS DISCREPANTES  (de 3)
+======================================================================
+ id_local  n_locales_150m_loc  n_locales_150m_sed  n_competidores_200m_loc  n_competidores_200m_sed  pct_vacantes_150m_loc  pct_vacantes_150m_sed  diversidad_150m_loc  diversidad_150m_sed
+270403203               212.0                 213                      4.0                        4               0.382075               0.382075             0.089623             0.089623
+270403205                72.0                  73                      3.0                        3               0.138889               0.138889             0.263889             0.263889
+270403361                69.0                  69                     18.0                       18               0.565217               0.565217             0.246377             0.999000
+
+  Causas tipicas: locales exactamente en el borde de 150/200 m
+  (redondeo distinto en cKDTree vs ST_DWithin) o coordenadas
+  duplicadas. Si son <0,1% y de +-1 vecino, es ruido de frontera.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:24:02

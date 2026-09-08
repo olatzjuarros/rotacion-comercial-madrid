@@ -1,0 +1,20 @@
+# hito8_validacion_final
+# Ejecutado: 2026-09-04 18:39:33
+# Comando: src/hito8_validacion_final.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_183933_hito8_validacion_final.log
+panel 2021: 149,935 filas   panel 2022: 150,522 filas
+Vocabulario congelado (2023+2024): 806 palabras
+
+Universo 2021 (abiertos, sin placeholder ni generico): 81,398
+Target (churn) = 3.97%  (3,234 casos)
+
+Rotulos que difieren literalmente: 3,343
+  ...pero las reglas dicen 'mismo negocio': 998
+  ...rotacion real (a validar a mano):      2,345
+
+[PARA] salida\validacion\positivos_40.csv ya tiene celdas 'es_cierre_real' rellenas a mano. Re-ejecutar hito8 las borraria. Si de verdad quieres regenerar la muestra, borra ese fichero primero.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 18:39:38

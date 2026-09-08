@@ -1,0 +1,58 @@
+# hito7_campeon
+# Ejecutado: 2026-09-04 11:28:50
+# Comando: src/hito7_campeon.py --dir datos --repeticiones 500
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_112850_hito7_campeon.log
+train 316,973   val 80,660   test 81,398
+tasa base en test: 3.97%
+bootstrap: 500 remuestreos
+
+  entrenado: A. Solo sector
+  entrenado: B. Sector + distrito
+  entrenado: C. Sector + distrito + historia
+  entrenado: D. Completo (con geo micro)
+  entrenado: E. Sin sector
+
+==============================================================================
+RESULTADOS EN TEST  (cohorte 2021->2022, nunca vista)
+==============================================================================
+                                 n_vars   auc          auc_ic  lift10       lift_ic  brier
+modelo                                                                                    
+A. Solo sector                        2 0.665  [0.656, 0.674]   1.880  [1.74, 2.00]  0.038
+B. Sector + distrito                  3 0.668  [0.658, 0.676]   2.016  [1.90, 2.17]  0.038
+C. Sector + distrito + historia       9 0.668  [0.660, 0.678]   2.026  [1.90, 2.18]  0.038
+D. Completo (con geo micro)          15 0.670  [0.661, 0.679]   2.112  [1.97, 2.26]  0.038
+E. Sin sector                        13 0.603  [0.594, 0.612]   1.574  [1.49, 1.74]  0.038
+
+==============================================================================
+¿HAY DIFERENCIAS REALES?
+==============================================================================
+  Referencia: 'A. Solo sector' -> AUC 0.665 [0.656, 0.674], lift 1.88 [1.74, 2.00]
+
+  Diferencias con bootstrap PAREADO (mismos locales en cada
+  remuestreo). Si el intervalo no cruza el cero, la mejora es real.
+
+  B. Sector + distrito            
+      AUC  +0.002  IC [-0.003, +0.007]  no concl.
+      lift +0.14   IC [+0.04, +0.28]   REAL 
+  C. Sector + distrito + historia 
+      AUC  +0.003  IC [-0.003, +0.010]  no concl.
+      lift +0.15   IC [+0.03, +0.34]   REAL 
+  D. Completo (con geo micro)     
+      AUC  +0.004  IC [-0.003, +0.011]  no concl.
+      lift +0.23   IC [+0.11, +0.39]   REAL 
+  E. Sin sector                   
+      AUC  -0.063  IC [-0.074, -0.052]  REAL 
+      lift -0.31   IC [-0.43, -0.08]   REAL 
+
+==============================================================================
+CAMPEON POR LIFT: D. Completo (con geo micro)
+==============================================================================
+  Guardado: datos/modelo_campeon.joblib
+  Ficha:    datos/ficha_modelo.json
+
+  Esta ficha es la fuente unica de los numeros de la memoria.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 11:31:08

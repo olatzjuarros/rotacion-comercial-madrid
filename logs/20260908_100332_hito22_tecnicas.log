@@ -1,0 +1,45 @@
+# hito22_tecnicas
+# Ejecutado: 2026-09-08 10:03:32
+# Comando: src/hito22_tecnicas.py --repeticiones 500
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260908_100332_hito22_tecnicas.log
+train 316,973   val 80,660   test 81,398
+tasa base test: 3.97%   desbalanceo 1:24
+variables (fijas, campeon C): ['id_epigrafe', 'id_division', 'desc_distrito_local', 'desc_tipo_acceso_local', 'antiguedad_negocio', 'antiguedad_local', 'rotaciones_previas', 'tasa_rotacion_local', 'antiguedad_censurada']
+bootstrap: 500 remuestreos
+xgboost disponible: True
+
+campeon actual (C. Sector + distrito + historia): AUC 0.667  lift10 2.019
+
+==============================================================================
+ENTRENAMIENTO Y EVALUACION POR TECNICA  (test 2021->2022)
+==============================================================================
+  1. Regresion logistica     AUC 0.666  lift10 1.988  Brier 0.0377  fit    5.0s  pred 4.28ms/1k
+  2. Arbol de decision       AUC 0.637  lift10 1.781  Brier 0.0378  fit    3.3s  pred 2.22ms/1k
+  3. Random Forest           AUC 0.652  lift10 2.013  Brier 0.0377  fit   25.8s  pred 7.42ms/1k
+  4. XGBoost                 AUC 0.663  lift10 2.050  Brier 0.0377  fit   10.3s  pred 3.52ms/1k
+  5. HistGradientBoosting    AUC 0.667  lift10 2.019  Brier 0.0377  fit    4.1s  pred 5.29ms/1k
+
+  Dos mejores por lift10 en validacion: 1. Regresion logistica + 4. XGBoost
+  6. Ensamblado (votacion)   AUC 0.670  lift10 2.041  Brier 0.0377
+
+==============================================================================
+INTERVALOS (bootstrap) Y DIFERENCIA CONTRA EL CAMPEON (pareado)
+==============================================================================
+  1. Regresion logistica     lift -0.031 vs campeon  IC dif [-0.18, +0.10]  -> empata con el campeon
+  2. Arbol de decision       lift -0.238 vs campeon  IC dif [-0.38, -0.10]  -> PEOR que el campeon
+  3. Random Forest           lift -0.006 vs campeon  IC dif [-0.13, +0.14]  -> empata con el campeon
+  4. XGBoost                 lift +0.031 vs campeon  IC dif [-0.10, +0.17]  -> empata con el campeon
+  5. HistGradientBoosting    lift +0.000 vs campeon  IC dif [+0.00, +0.00]  -> empata con el campeon
+  6. Ensamblado (votacion)   lift +0.022 vs campeon  IC dif [-0.10, +0.14]  -> empata con el campeon
+
+==============================================================================
+NINGUNA TECNICA BATE AL CAMPEON DE FORMA ESTADISTICAMENTE CLARA.
+  El algoritmo actual (HistGradientBoosting) esta justificado:
+  empata en rendimiento y es de los mas baratos de operar.
+
+Informe: salida\comparativa_tecnicas.md
+
+#------------------------------------------------------------------
+# Fin: 2026-09-08 10:08:14

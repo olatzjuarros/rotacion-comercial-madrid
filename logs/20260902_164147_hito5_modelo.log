@@ -1,0 +1,88 @@
+# hito5_modelo
+# Ejecutado: 2026-09-02 16:41:47
+# Comando: src\hito5_modelo.py --dir datos --sin-2015
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260902_164147_hito5_modelo.log
+Dataset: 566,054 filas
+
+Excluida la cohorte 2015 del entrenamiento
+train 240,988 filas  (4.55% cierres, cohortes [np.int64(2016), np.int64(2017), np.int64(2018)])
+val   81,654 filas  (3.69%)
+test  82,343 filas  (4.07%)
+
+==============================================================================
+VALIDACION  (cohorte 2019->2020)
+==============================================================================
+  0. Azar                    AUC 0.497   AP 0.037   lift10 1.03x  (3.8% vs 3.7%)   lift20 1.00x
+  1. Solo sector             AUC 0.603   AP 0.055   lift10 1.83x  (6.7% vs 3.7%)   lift20 1.49x
+  1b. Solo historia          AUC 0.545   AP 0.045   lift10 1.74x  (6.4% vs 3.7%)   lift20 1.37x
+  1c. Solo geografia         AUC 0.567   AP 0.048   lift10 1.44x  (5.3% vs 3.7%)   lift20 1.30x
+  2. Logistica completa      AUC 0.641   AP 0.060   lift10 1.94x  (7.2% vs 3.7%)   lift20 1.73x
+
+==============================================================================
+TEST TEMPORAL  (cohorte 2021->2022, nunca vista)
+==============================================================================
+  2. Logistica completa      AUC 0.644   AP 0.067   lift10 1.81x  (7.3% vs 4.1%)   lift20 1.62x
+  Brier 0.1732  (calibracion; mas bajo es mejor)
+
+==============================================================================
+LIFT POR DECILES DE RIESGO  (test)
+==============================================================================
+                  size  sum  mean  lift
+D1 (mas seguro)   8235   86 0.010 0.257
+D2                8234  109 0.013 0.325
+D3                8234  201 0.024 0.600
+D4                8234  276 0.034 0.824
+D5                8235  325 0.039 0.970
+D6                8234  357 0.043 1.066
+D7                8234  462 0.056 1.380
+D8                8234  451 0.055 1.347
+D9                8234  477 0.058 1.424
+D10 (mas riesgo)  8235  605 0.073 1.806
+
+  El decil 10 es donde el modelo concentra el riesgo.
+  Un lift de 3x significa que ahi cierran el triple que de media.
+
+==============================================================================
+COEFICIENTES  (signo = direccion del efecto)
+==============================================================================
+
+  Reducen el riesgo de cierre:
+cat__id_division_33   -1.570
+cat__id_division_84   -1.153
+cat__id_division_70   -1.103
+cat__id_division_35   -0.901
+cat__id_division_25   -0.875
+cat__id_division_28   -0.849
+cat__id_division_49   -0.741
+cat__id_division_60   -0.725
+
+  Aumentan el riesgo de cierre:
+cat__id_division_47   +0.872
+cat__id_division_61   +0.893
+cat__id_division_56   +1.009
+cat__id_division_96   +1.029
+cat__id_division_75   +1.043
+cat__id_division_00   +1.162
+cat__id_division_78   +1.285
+cat__id_division_93   +1.337
+
+==============================================================================
+LECTURA
+==============================================================================
+                        auc    ap  lift10
+modelo                                   
+0. Azar               0.497 0.037   1.029
+1. Solo sector        0.603 0.055   1.826
+1b. Solo historia     0.545 0.045   1.739
+1c. Solo geografia    0.567 0.048   1.444
+2. Logistica completa 0.641 0.060   1.938
+
+  Saber solo el sector da AUC 0.603.
+  Anadir historia y geografia lo lleva a 0.641.
+  La aportacion real del trabajo es esa diferencia: +0.037
+  Si es pequena, el modelo esta prediciendo el sector, no el riesgo.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-02 16:41:51

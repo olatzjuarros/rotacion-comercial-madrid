@@ -1,0 +1,14 @@
+# Dependencias del contenedor de Hugging Face Spaces.
+# Es el requirements de api/ (la API no usa matplotlib, shap, pyproj, etc.).
+# Python 3.12. El campeon (modelo_campeon.joblib) se deserializa con ESTAS
+# versiones exactas de scikit-learn / joblib / numpy.
+
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.5
+
+scikit-learn==1.9.0
+joblib==1.6.0
+numpy==2.5.2
+pandas==3.0.5
+pyarrow==25.0.1

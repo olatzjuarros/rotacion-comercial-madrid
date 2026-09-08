@@ -1,0 +1,124 @@
+# hito9_scoring_2026
+# Ejecutado: 2026-09-03 18:08:13
+# Comando: src/hito9_scoring_2026.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_180813_hito9_scoring_2026.log
+Campeon: C. Sector + distrito + historia
+Variables (9): ['id_epigrafe', 'id_division', 'desc_distrito_local', 'desc_tipo_acceso_local', 'antiguedad_negocio', 'antiguedad_local', 'rotaciones_previas', 'tasa_rotacion_local', 'antiguedad_censurada']
+
+Vocabulario congelado (2023+2024): 806 palabras
+
+Panel 2026: 152,099 locales   abiertos: 99,581
+  excluidos por placeholder / rotulo generico: 22,035
+  UNIVERSO A PUNTUAR: 77,546
+
+Ventana de historia replicada: 2023-2026 (3 anios, = cohorte 2018 de entrenamiento)
+
+Locales sin historia previa (altas 2026): 0
+
+==============================================================================
+3. DISTRIBUCION DE LAS VARIABLES DE HISTORIA  (2026 vs test vs train)
+==============================================================================
+   2026 se ha calculado con la ventana de 3 anios replicada. Si la
+   correccion funciona, la fila '2026' debe parecerse ahora a 'train'
+   y no disparar el max como antes (antiguedad llegaba a 11).
+
+variable               fuente      min     p25  mediana     p75      max
+------------------------------------------------------------------------
+antiguedad_negocio     test       0.00    5.00     6.00    6.00     6.00
+antiguedad_negocio     2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_negocio     train      0.00    0.00     1.00    2.00     3.00
+
+antiguedad_local       test       0.00    6.00     6.00    6.00     6.00
+antiguedad_local       2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_local       train      0.00    0.00     1.00    2.00     3.00
+
+rotaciones_previas     test       0.00    0.00     0.00    0.00     5.00
+rotaciones_previas     2026       0.00    0.00     0.00    0.00     3.00
+rotaciones_previas     train      0.00    0.00     0.00    0.00     3.00
+
+tasa_rotacion_local    test       0.00    0.00     0.00    0.00     0.83
+tasa_rotacion_local    2026       0.00    0.00     0.00    0.00     1.00
+tasa_rotacion_local    train      0.00    0.00     0.00    0.00     1.00
+
+antiguedad_censurada   test       0.00    0.00     1.00    1.00     1.00
+antiguedad_censurada   2026       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   train      0.00    1.00     1.00    1.00     1.00
+
+==============================================================================
+   RECORTE RESIDUAL AL RANGO DE TRAIN  (red de seguridad tras la ventana)
+==============================================================================
+  antiguedad_negocio     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_local       rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  rotaciones_previas     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  tasa_rotacion_local    rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_censurada   rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+
+  Con la ventana replicada el recorte deberia ser marginal. Si aun
+  asi recorta mucho en 'rotaciones_previas', es que en 3 anios un
+  local puede rotar mas veces que las vistas en 2015-2018 (ventana
+  identica pero anios distintos); el clip lo deja en el maximo visto.
+
+Guardado: salida\riesgo_2026.csv   (77,546 locales)
+  probabilidad: min 0.0000  media 0.0364  max 0.1429
+  tasa base del modelo (ficha): 4.07%  -> la media deberia rondar eso
+
+==============================================================================
+TOP 20 DE MAYOR RIESGO
+==============================================================================
+ id_local                                       rotulo                                                            desc_epigrafe desc_distrito_local  probabilidad
+140000309                                BIRRA Y CARNE                                                          BAR RESTAURANTE           MORATALAZ         0.143
+270002391                            BRAVO MURILLO 360                                              DISCOTECAS Y SALAS DE BAILE              TETUAN         0.143
+270059823                              CHIFA PACHAMAMA                                                              RESTAURANTE              RETIRO         0.143
+270099657 CARNICERÍA Y POLLERÍA CON CASQUERÍA 'MIGUEL'                                      COMERCIO AL POR MENOR DE CARNICERIA              TETUAN         0.143
+270101955                      CARNICERÍA CORTE LATINO                                      COMERCIO AL POR MENOR DE CARNICERIA              TETUAN         0.143
+270103300                                      DUM DUM                                                          BAR RESTAURANTE              TETUAN         0.143
+270168505                                VANITY STUDIO                                                     INSTITUTO DE BELLEZA       CIUDAD LINEAL         0.143
+270401458                            ASADOR 'LA TORRE'                                                          BAR RESTAURANTE          VILLAVERDE         0.143
+270454548                                   MCDONALD'S                                                          BAR RESTAURANTE              TETUAN         0.143
+270562813                                        AMIRA                                                          BAR RESTAURANTE       CIUDAD LINEAL         0.143
+280031158                                     LA FARRA                                              DISCOTECAS Y SALAS DE BAILE              TETUAN         0.143
+280031969                                  MAGIC DRINK                                              DISCOTECAS Y SALAS DE BAILE              TETUAN         0.143
+280063198                                LA NAVE DISCO                                              DISCOTECAS Y SALAS DE BAILE          VILLAVERDE         0.143
+285006121                    PRESENTADO EN EL PROYECTO    COMERCIO AL POR MENOR DE HELADOS CON OBRADOR CON BARRA DE DEGUSTACION              RETIRO         0.143
+285009145                                TAKOS FRITTEN                                                          BAR RESTAURANTE              TETUAN         0.143
+285029983                        CARNICERIA DON MIGUEL COMERCIO AL POR MENOR DE PRODUCTOS ALIMENTICIOS NO PERECEDEROS ENVASADOS          VILLAVERDE         0.143
+ 30000458                                ASADOR ATAYEB                                                          BAR RESTAURANTE              RETIRO         0.123
+ 30000978                                    MB CLINIC                                                     INSTITUTO DE BELLEZA              RETIRO         0.123
+ 30001127                                     COUZAPIN                                                          BAR RESTAURANTE              RETIRO         0.123
+110003705                                      LIO LIO                  CENTROS DE JUEGOS O CELEBRACIONES INFANTILES SIN COCINA         CARABANCHEL         0.123
+
+==============================================================================
+DISTRIBUCION DE PROBABILIDAD POR DISTRITO
+==============================================================================
+                        n  media  mediana    p90
+desc_distrito_local                             
+SALAMANCA            5558 0.0482   0.0601 0.0650
+VICALVARO            1074 0.0475   0.0443 0.0697
+CENTRO               8504 0.0439   0.0443 0.0650
+CHAMBERI             5133 0.0439   0.0443 0.0697
+RETIRO               2668 0.0438   0.0428 0.0697
+TETUAN               4499 0.0421   0.0428 0.0697
+MORATALAZ            1354 0.0378   0.0308 0.0697
+VILLAVERDE           3160 0.0371   0.0291 0.0650
+BARAJAS              1106 0.0368   0.0308 0.0650
+VILLA DE VALLECAS    2634 0.0361   0.0308 0.0650
+ARGANZUELA           3519 0.0339   0.0308 0.0650
+CHAMARTIN            4370 0.0337   0.0308 0.0650
+CIUDAD LINEAL        5156 0.0324   0.0291 0.0650
+CARABANCHEL          5381 0.0323   0.0308 0.0607
+MONCLOA-ARAVACA      2980 0.0317   0.0291 0.0650
+FUENCARRAL-EL PARDO  3823 0.0313   0.0291 0.0650
+PUENTE DE VALLECAS   4184 0.0313   0.0248 0.0650
+SAN BLAS-CANILLEJAS  3097 0.0304   0.0248 0.0650
+HORTALEZA            2867 0.0289   0.0216 0.0650
+USERA                2422 0.0265   0.0216 0.0601
+LATINA               4056 0.0248   0.0216 0.0443
+
+  Si el orden por distrito es plausible (mas riesgo en distritos
+  con mas rotacion historica) y el top 20 no es absurdo, el scoring
+  tiene sentido a ojo.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:08:27

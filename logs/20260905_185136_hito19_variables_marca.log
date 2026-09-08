@@ -1,0 +1,105 @@
+# hito19_variables_marca
+# Ejecutado: 2026-09-05 18:51:36
+# Comando: src/hito19_variables_marca.py --dir datos --repeticiones 500 --fijar-campeon-F
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_185136_hito19_variables_marca.log
+train 316,973   val 80,660   test 81,398
+tasa base test: 3.97%   bootstrap: 500
+
+==============================================================================
+PARTE B -- CANDIDATO F (C + marca) vs C
+==============================================================================
+  entrenado: C. Sector + distrito + historia (9 variables)
+  entrenado: F. Sector + distrito + historia + marca (15 variables)
+
+                                         n_vars    auc          auc_ic  lift10       lift_ic  brier
+modelo                                                                                             
+C. Sector + distrito + historia               9 0.6668  [0.659, 0.676]  1.9884  [1.87, 2.15] 0.0377
+F. Sector + distrito + historia + marca      15 0.6718  [0.663, 0.681]  2.1400  [2.03, 2.31] 0.0376
+
+  F vs C, bootstrap PAREADO:
+    delta AUC   +0.0050  IC [+0.0025, +0.0076]
+    delta lift10 +0.1515  IC [+0.0187, +0.2762]  -> MEJORA REAL
+    delta Brier -0.00004  IC [-0.00006, -0.00001]  -> F no empeora
+
+  --- dispersion ---
+
+  --- C. Sector + distrito + historia ---
+  valores de probabilidad distintos en test: 56 (de 81,398 locales)
+  desviacion tipica:                         0.02004
+  rango intercuartilico (IQR):                0.03580  [0.02138, 0.05719]
+  grupos (epigrafe x distrito) con >=2 locales: 4,643
+  CV medio DENTRO de esos grupos (simple):    0.14933
+  CV medio DENTRO de esos grupos (ponderado): 0.19248
+  % locales que comparten prob. exacta con >=10 mas: 99.96%
+
+  --- F. Sector + distrito + historia + marca ---
+  valores de probabilidad distintos en test: 56 (de 81,398 locales)
+  desviacion tipica:                         0.01973
+  rango intercuartilico (IQR):                0.03406  [0.01852, 0.05258]
+  grupos (epigrafe x distrito) con >=2 locales: 4,643
+  CV medio DENTRO de esos grupos (simple):    0.17714
+  CV medio DENTRO de esos grupos (ponderado): 0.21011
+  % locales que comparten prob. exacta con >=10 mas: 99.98%
+
+  --- utilidad (cierres capturados por cada 100 visitados) ---
+    C. Sector + distrito + historia               18/100  (18%)
+    F. Sector + distrito + historia + marca       16/100  (16%)
+
+  --- calibracion ---
+
+    C. Sector + distrito + historia
+                  n  cierre_real  prob_predicha
+tramo                                          
+(0.0, 0.02]   15588       0.0098         0.0125
+(0.02, 0.04]  41173       0.0349         0.0291
+(0.04, 0.06]   6945       0.0511         0.0523
+(0.06, 0.08]  16844       0.0705         0.0646
+(0.08, 0.12]    824       0.1201         0.1026
+(0.12, 1.0]      24       0.2500         0.1483
+
+    F. Sector + distrito + historia + marca
+                  n  cierre_real  prob_predicha
+tramo                                          
+(0.0, 0.02]   20458       0.0129         0.0139
+(0.02, 0.04]  32393       0.0337         0.0306
+(0.04, 0.06]  19009       0.0572         0.0520
+(0.06, 0.08]   8798       0.0798         0.0664
+(0.08, 0.12]    331       0.0906         0.1044
+(0.12, 1.0]     409       0.1443         0.1283
+
+------------------------------------------------------------------------------
+  CRITERIO DE ACEPTACION (fijado antes de ver el resultado):
+  VEREDICTO: campeon = F
+  F mejora el lift sobre C y el IC de la diferencia NO cruza el cero -> F campeon por RENDIMIENTO.
+
+==============================================================================
+PARTE C -- EL CAJON DE EPIGRAFES RAROS DEL OrdinalEncoder
+==============================================================================
+  id_epigrafe distintos en train: 440
+  universo puntuable 2026: 77,434 locales
+
+              config   epigrafes en cajon    locales 2026 en cajon
+    vieja (250 / 20)                  191      2,679 ( 3.46%)
+  nueva t26 (254 / 10)                  187      2,530 ( 3.27%)
+
+  Con la config nueva quedan 187 epigrafes agrupados en
+  un unico cajon: comparten prediccion aunque sean actividades
+  distintas. Es la limitacion que va a la memoria (salida/DATOS.md).
+
+  --- rendimiento de C: encoder viejo (250/20) vs nuevo (254/10) ---
+    AUC   viejo 0.6683  nuevo 0.6668  delta IC [-0.0033, +0.0004]
+    lift10 viejo 2.0256  nuevo 1.9884  delta IC [-0.1326, +0.0762]
+    Brier viejo 0.03766  nuevo 0.03767  delta IC [-0.00001, +0.00002]
+
+    -> el rendimiento NO empeora con la config nueva: se mantiene 254 / 10.
+
+==============================================================================
+FIJANDO CAMPEON: F. Sector + distrito + historia + marca
+==============================================================================
+  Guardado: datos/modelo_campeon.joblib + ficha_modelo.json
+  Pendiente (fuera de este script): hito9 -> hito10 -> hito13 -> hito15 y RESULTADOS.md.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 18:52:34

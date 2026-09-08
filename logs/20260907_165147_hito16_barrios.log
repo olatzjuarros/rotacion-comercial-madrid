@@ -1,0 +1,100 @@
+# hito16_barrios
+# Ejecutado: 2026-09-07 16:51:47
+# Comando: src/hito16_barrios.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260907_165147_hito16_barrios.log
+Vocabulario congelado: 806 palabras
+
+==============================================================================
+1. AREA DE CADA BARRIO (ConvexHull, aproximada)
+==============================================================================
+  246 barrios con area estimable (mediana 2.48 km2)
+Construyendo churn por barrio, todas las transiciones 2014->2015 .. 2025->2026 ...
+  2014->2015: 128 barrios, churn medio 3.50%
+  2015->2016: 128 barrios, churn medio 4.33%
+  2016->2017: 128 barrios, churn medio 4.38%
+  2017->2018: 129 barrios, churn medio 4.31%
+  2018->2019: 132 barrios, churn medio 3.64%
+  2019->2020: 131 barrios, churn medio 3.17%
+  2020->2021: 131 barrios, churn medio 16.45%
+  2021->2022: 131 barrios, churn medio 3.71%
+  2022->2023: 131 barrios, churn medio 1.24%
+  2023->2024: 131 barrios, churn medio 3.32%
+  2024->2025: 131 barrios, churn medio 7.08%
+  2025->2026: 131 barrios, churn medio 2.21%
+
+Barrios: 132 codigos vistos -> 131 tras quedarse solo con los oficiales de 2021 (esquema <2015 descartado)
+
+Panel barrio x anio: 1,433 filas (131 barrios x 11 anios)
+          size   mean
+uso                  
+covid      131 0.1645
+excluida   524 0.0346
+test       131 0.0371
+train      516 0.0417
+val        131 0.0317
+
+train 516   val 131   test 131   (aviso: son ~131 barrios por cohorte, MUCHO menos que a nivel de local -> intervalos anchos, poca potencia)
+
+[aviso] 1 columnas constantes en train, fuera: ['mezcla_-1']
+
+==============================================================================
+2-4. MODELOS  (val = cohorte 2019, test = cohorte 2021, igual que a nivel de local)
+==============================================================================
+
+ Sobre VALIDACION (2019 -> 2020, año normal, sin sacudida el año anterior):
+  0. Media historica del barrio MAE 0.0143 [0.0124, 0.0164]   R2 -0.116 [-0.697, +0.245]
+  1. Persistencia (año pasado) MAE 0.0127 [0.0110, 0.0145]   R2 +0.013 [-0.541, +0.384]
+  2. Regresion lineal          MAE 0.0148 [0.0130, 0.0165]   R2 -0.095 [-0.497, +0.150]
+  3. Boosting                  MAE 0.0122 [0.0106, 0.0140]   R2 +0.163 [-0.131, +0.353]
+
+ Sobre TEST (2021 -> 2022):
+  0. Media historica del barrio MAE 0.0260 [0.0238, 0.0283]   R2 -2.419 [-3.439, -1.721]
+  1. Persistencia (año pasado) MAE 0.1283 [0.1194, 0.1383]   R2 -73.219 [-97.004, -57.081]
+  2. Regresion lineal          MAE 0.0146 [0.0128, 0.0164]   R2 -0.237 [-0.527, -0.036]
+  3. Boosting                  MAE 0.0132 [0.0114, 0.0153]   R2 -0.170 [-0.452, +0.028]
+
+==============================================================================
+5. COMPARACION HONESTA CONTRA LA PERSISTENCIA
+==============================================================================
+  OJO al leer esto: la persistencia predice 2021->2022 con 'lo que paso
+  el año pasado' = la transicion 2020->2021, que es la cohorte COVID
+  (churn medio ~16% vs ~3-4% normal). Cualquier año de test que NO venga
+  justo despues de un shock haria quedar mucho mejor a la persistencia;
+  esta comparacion es dura con ella por una razon de calendario, no
+  porque 'la tasa del año pasado' sea mala idea en general.
+  0. Media historica del barrio vs persistencia:  dMAE -0.1023   dR2 +70.800   -> MEJOR que persistencia
+  2. Regresion lineal          vs persistencia:  dMAE -0.1136   dR2 +72.982   -> MEJOR que persistencia
+  3. Boosting                  vs persistencia:  dMAE -0.1151   dR2 +73.048   -> MEJOR que persistencia
+
+  CONCLUSION: '3. Boosting' bate a la persistencia (MAE 0.0132 vs 0.1283).
+
+==============================================================================
+7. CAPACIDAD PREDICTIVA: BARRIO vs LOCAL -- CUANTIFICADA
+==============================================================================
+  Nivel LOCAL (campeon C. Sector + distrito + historia, target binario individual):
+    AUC 0.667   lift decil10 2.019
+  Nivel BARRIO (target continuo, tasa agregada):
+    boosting R2 -0.170   persistencia R2 -73.219
+
+  OJO antes de comparar: el R2 del barrio parece 'mas alto' casi seguro
+  porque promediar cientos de locales CANCELA el ruido idiosincratico de
+  cada cierre individual (ley de los grandes numeros), no porque el barrio
+  se entienda mejor. La comparacion justa no es AUC-vs-R2 (miden cosas
+  distintas): es cuanto aporta el MODELO por encima de solo conocer el
+  pasado, en cada nivel:
+    local:  lift10 del campeon 2.02x sobre la tasa base (conocer solo el sector ya da la mayor parte)
+    barrio: boosting vs persistencia  dR2 = +73.048, dMAE = -0.1151
+  Si dR2/dMAE del barrio es ~0, el 'modelo mejora poco sobre la inercia'
+  es la MISMA conclusion que a nivel de local (el sector/la historia ya
+  sabian casi todo lo que se puede saber); si es claramente positivo, el
+  barrio SI añade algo que la persistencia no tenia.
+
+==============================================================================
+6. FIGURA: predicho vs real por barrio, test 2021
+==============================================================================
+Guardado: salida\figuras\barrios_predicho_vs_real.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-07 16:52:50

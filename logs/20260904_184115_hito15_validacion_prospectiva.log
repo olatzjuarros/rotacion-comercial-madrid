@@ -1,0 +1,96 @@
+# hito15_validacion_prospectiva
+# Ejecutado: 2026-09-04 18:41:15
+# Comando: src/hito15_validacion_prospectiva.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_184115_hito15_validacion_prospectiva.log
+Campeon: B. Sector + distrito   variables: ['id_epigrafe', 'id_division', 'desc_distrito_local']
+
+==============================================================================
+1. UNIVERSO Y TARGET: cohorte 2025 -> 2026 (junio)
+==============================================================================
+  universo 77,820   target (6 meses) 2.01%   (1,566 casos)
+
+==============================================================================
+2. VARIABLES DEL CAMPEON  (ventana de historia replicada, 3 anios)
+==============================================================================
+
+==============================================================================
+3. METRICAS EN LA COHORTE PROSPECTIVA  (500 remuestreos bootstrap)
+==============================================================================
+  tasa base (6 meses, NO comparable con test): 2.01%
+  AUC   0.666   IC95% [0.655, 0.678]
+  lift decil 10   2.043   IC95% [1.88, 2.28]
+
+  DECILES DE RIESGO:
+       size  sum  mean  lift
+decil                       
+1      7782   27 0.003 0.172
+2      7782   49 0.006 0.313
+3      7782   58 0.007 0.370
+4      7782  121 0.016 0.773
+5      7782  165 0.021 1.054
+6      7782  162 0.021 1.034
+7      7782  212 0.027 1.354
+8      7782  215 0.028 1.373
+9      7782  235 0.030 1.501
+10     7782  322 0.041 2.056
+
+  CALIBRACION (probabilidad predicha vs frecuencia real):
+       tramo     n  prob_predicha  frecuencia_real
+(0.00, 0.01]   990         0.0030           0.0030
+(0.01, 0.02] 26286         0.0158           0.0068
+(0.03, 0.04] 22901         0.0342           0.0214
+(0.04, 0.06] 21333         0.0488           0.0287
+(0.06, 1.00]  6310         0.0808           0.0445
+  Al ser una ventana de 6 meses, la frecuencia real es estructuralmente mas baja que la probabilidad (calibrada para 12
+  meses). Eso es ESPERADO, no un fallo de calibracion.
+
+==============================================================================
+5. COMPARACION CON EL TEST (2021->2022, ficha_modelo.json)
+==============================================================================
+metrica               test 2021 (12m)    prospectiva 2025 (6m)
+AUC                             0.668                    0.666
+lift decil 10                   2.016                    2.043
+tasa base                      3.97%                   2.01%  <- NO COMPARABLE (6 meses vs 12)
+
+  RESPUESTA: SI se mantiene la
+  capacidad de ORDENAR siete-ocho anios despues del entrenamiento.
+  El IC del AUC (0.655-0.678) queda por encima de 0,5 y
+  el IC del lift (1.88-2.28) por encima de 1: el campeon sigue
+  ordenando mejor que el azar y concentrando riesgo en el decil 10,
+  sin haberse reentrenado ni recalibrado. La tasa base y las
+  probabilidades absolutas NO se comparan (ventana de 6 vs 12 meses).
+
+Guardado: salida\prospectiva_2025_2026.csv   (77,820 locales)
+
+==============================================================================
+TOP 20: mayor riesgo predicho QUE EFECTIVAMENTE ROTARON  (para el video)
+==============================================================================
+                                             rotulo                                   rotulo_2026                                                                              desc_epigrafe   desc_distrito_local  prob
+id_local                                                                                                                                                                                                                
+60000692                  CARNICERIA SIERRA Y REJAS                     CARNICERIA GIRALDEZ AYALA                                                        COMERCIO AL POR MENOR DE CARNICERIA  TETUAN               0.108
+10003121                              LA MANO ZURDA                                    SIN ROTULO                                                            CENTROS DE TATUAJE Y/O ANILLADO  CENTRO               0.108
+170000712                        LA TAHONA DE DAVID                               EL HORNO DE ELY               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA SIN OBRADOR  VILLAVERDE           0.108
+30000447                                      'DIA'                                         'DIA'               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR  RETIRO               0.108
+190000692                          AVANTI DENTISTRY                       CENTRO DE BELLEZA GULAR                                                                         CENTRO DE ESTETICA  VICALVARO            0.108
+270062435                                 DOBLE UVE                                     DOBLE UVE               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR  RETIRO               0.108
+270099657  MIGUEL CARNICERÍA/ CAJON 115-116-117-118  CARNICERÍA Y POLLERÍA CON CASQUERÍA 'MIGUEL'                                                        COMERCIO AL POR MENOR DE CARNICERIA  TETUAN               0.108
+270112499                                ENTREPANES                                 ITALIAN PIZZA  COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA CON OBRADOR-BARRA DEGUSTACION  CHAMBERI             0.108
+270121696                      GELATERIA CARTE D'OR                                   DAIXI SWEET                                                       CHOCOLATERIA/SALON DE TE Y HELADERIA  CHAMBERI             0.108
+270361013                               LAS FUENTES                                  DOÑA CARMELA               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA SIN OBRADOR  TETUAN               0.108
+270515921                               ENTREDULCES              PURAKAI AÇAI BOWLS AND SMOOTHIES               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA SIN OBRADOR  RETIRO               0.108
+270431599                      CROQUETA Y PRESUMIDA                                        CALIDO                                 ESTABLECIMIENTOS DE VENTA DE PLATOS PREPARADOS SIN OBRADOR  CHAMBERI             0.108
+270527649                       CENTRO DE TATUTAJES                                      CATARSIS                                                            CENTROS DE TATUAJE Y/O ANILLADO  VILLAVERDE           0.108
+270439661                                   EL PASO                              LOCUTORIO MINAYA                   COMERCIO AL POR MENOR DE PRODUCTOS ALIMENTICIOS NO PERECEDEROS ENVASADOS  TETUAN               0.108
+270538971                          EL CLUB DEL CAFE                                     DOBLE UVE               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR  RETIRO               0.108
+270541747                                MANGITALIA                                  EL VENECIANO                                 ESTABLECIMIENTOS DE VENTA DE PLATOS PREPARADOS SIN OBRADOR  TETUAN               0.108
+270542402                     EL SITIO DE TU RECREO                             MI PEQUEÑO RECREO                                                                CENTROS DE CUIDADO INFANTIL  CHAMBERI             0.108
+270543250               FOR GYM NUTRICION DEPORTIVA                                 LOS CACHORROS                   COMERCIO AL POR MENOR DE PRODUCTOS ALIMENTICIOS NO PERECEDEROS ENVASADOS  TETUAN               0.108
+270552978                                  XAUDABLE                                         KÜKIE               COMERCIO AL POR MENOR DE PAN Y PRODUCTOS DE PANADERIA Y BOLLERIA CON OBRADOR  RETIRO               0.108
+270483092              COMIDA PREPARADA PARA LLEVAR                                 IMPERIO RESET                                 ESTABLECIMIENTOS DE VENTA DE PLATOS PREPARADOS SIN OBRADOR  CHAMBERI             0.108
+
+Guardado: salida\figuras\prospectiva_deciles.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 18:41:36

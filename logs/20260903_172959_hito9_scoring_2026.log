@@ -1,0 +1,122 @@
+# hito9_scoring_2026
+# Ejecutado: 2026-09-03 17:29:59
+# Comando: src/hito9_scoring_2026.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_172959_hito9_scoring_2026.log
+Campeon: C. Sector + distrito + historia
+Variables (9): ['id_epigrafe', 'id_division', 'desc_distrito_local', 'desc_tipo_acceso_local', 'antiguedad_negocio', 'antiguedad_local', 'rotaciones_previas', 'tasa_rotacion_local', 'antiguedad_censurada']
+
+Vocabulario congelado (2023+2024): 806 palabras
+
+Panel 2026: 152,099 locales   abiertos: 99,581
+  excluidos por placeholder / rotulo generico: 22,035
+  UNIVERSO A PUNTUAR: 77,546
+
+Locales sin historia previa (altas 2026): 0
+
+==============================================================================
+3. DESPLAZAMIENTO DE DISTRIBUCION 2026 vs COHORTE DE TEST (2021)
+==============================================================================
+   La tabla compara 2026 con test. El recorte se hace al rango de
+   ENTRENAMIENTO (cohortes 2015-2018), que es lo que el modelo vio
+   al ajustarse.
+
+variable               fuente      min     p25  mediana     p75      max
+------------------------------------------------------------------------
+antiguedad_negocio     test       0.00    5.00     6.00    6.00     6.00
+antiguedad_negocio     2026       0.00    7.00    11.00   11.00    11.00
+antiguedad_negocio     train      0.00    0.00     1.00    2.00     3.00
+
+antiguedad_local       test       0.00    6.00     6.00    6.00     6.00
+antiguedad_local       2026       0.00   11.00    11.00   11.00    11.00
+antiguedad_local       train      0.00    0.00     1.00    2.00     3.00
+
+rotaciones_previas     test       0.00    0.00     0.00    0.00     5.00
+rotaciones_previas     2026       0.00    0.00     0.00    1.00     7.00
+rotaciones_previas     train      0.00    0.00     0.00    0.00     3.00
+
+tasa_rotacion_local    test       0.00    0.00     0.00    0.00     0.83
+tasa_rotacion_local    2026       0.00    0.00     0.00    0.09     0.64
+tasa_rotacion_local    train      0.00    0.00     0.00    0.00     1.00
+
+antiguedad_censurada   test       0.00    0.00     1.00    1.00     1.00
+antiguedad_censurada   2026       0.00    0.00     1.00    1.00     1.00
+antiguedad_censurada   train      0.00    1.00     1.00    1.00     1.00
+
+==============================================================================
+   RECORTE AL RANGO DE ENTRENAMIENTO  (% de locales 2026 afectados)
+==============================================================================
+  antiguedad_negocio     rango train [0.000, 3.000]   recortados 69,070 (89.1%)   [0 por debajo, 69,070 por encima]
+  antiguedad_local       rango train [0.000, 3.000]   recortados 76,977 (99.3%)   [0 por debajo, 76,977 por encima]
+  rotaciones_previas     rango train [0.000, 3.000]   recortados    229 ( 0.3%)   [0 por debajo, 229 por encima]
+  tasa_rotacion_local    rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_censurada   rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+
+  Nota para la memoria: el recorte NO corrige el sesgo, solo evita
+  que el modelo puntue fuera de su dominio. Los locales con historia
+  larga (rotaciones o antiguedad altas) se puntuan como el caso
+  extremo visto en entrenamiento, no mas alla.
+
+Guardado: salida\riesgo_2026.csv   (77,546 locales)
+  probabilidad: min 0.0000  media 0.0391  max 0.1429
+  tasa base del modelo (ficha): 4.07%  -> la media deberia rondar eso
+
+==============================================================================
+TOP 20 DE MAYOR RIESGO
+==============================================================================
+ id_local                              rotulo                                                                             desc_epigrafe  desc_distrito_local  probabilidad
+ 60000068                              PANETI COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA CON OBRADOR-BARRA DEGUSTACION TETUAN                       0.143
+270515245                                HIPP                     COMERCIO AL POR MENOR DE HELADOS CON OBRADOR CON BARRA DE DEGUSTACION CENTRO                       0.143
+280052424                       DESVAN BAKERY                                                      CHOCOLATERIA/SALON DE TE Y HELADERIA CARABANCHEL                  0.143
+ 30001245                           PIERAPETS                                           TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS) RETIRO                       0.123
+ 60002457                       IKIGAI BAKERY COMERCIO AL POR MENOR DE PASTELERIA, CONFITERIA, REPOSTERIA CON OBRADOR-BARRA DEGUSTACION TETUAN                       0.123
+ 70001062                                UÑAS                                                                      INSTITUTO DE BELLEZA CHAMBERI                     0.123
+ 70001419            LA NUOVA GIANGROSSI S.L.                                                      CHOCOLATERIA/SALON DE TE Y HELADERIA CHAMBERI                     0.123
+ 70002506                        UNIQUE NAILS                                                                      INSTITUTO DE BELLEZA CHAMBERI                     0.123
+110003209                        VENTA DULCES                                                        COMERCIO AL POR MENOR DE GOLOSINAS CARABANCHEL                  0.123
+150002508                     SMILE TAKE AWAY                                ESTABLECIMIENTOS DE VENTA DE PLATOS PREPARADOS SIN OBRADOR CIUDAD LINEAL                0.123
+170000465                      DONER KEBABISH                                                                            BAR CON COCINA VILLAVERDE                   0.123
+170000791 PELUQUERIA CANINA ANUBIS TANIA RUIZ                                           TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS) VILLAVERDE                   0.123
+170001881               PELUQUERIA CANINA MIA                                           TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS) VILLAVERDE                   0.123
+270059189                              NAPOLI                                                      CHOCOLATERIA/SALON DE TE Y HELADERIA RETIRO                       0.123
+270121710                      BLASSED BEAUTY                                                                      INSTITUTO DE BELLEZA CHAMBERI                     0.123
+270124074                       CELINDA ORTIZ                                                                      INSTITUTO DE BELLEZA CHAMBERI                     0.123
+270168505                       VANITY STUDIO                                                                      INSTITUTO DE BELLEZA CIUDAD LINEAL                0.123
+270187996                    TRAVESURAS TATOO                                                           CENTROS DE TATUAJE Y/O ANILLADO SAN BLAS-CANILLEJAS          0.123
+270402700                              AYAAAN                  COMERCIO AL POR MENOR DE PRODUCTOS ALIMENTICIOS NO PERECEDEROS ENVASADOS VILLAVERDE                   0.123
+270408036             ANGEL MORENO BOXING GYM                                                              ACTIVIDADES DE LOS GIMNASIOS MORATALAZ                    0.123
+
+==============================================================================
+DISTRIBUCION DE PROBABILIDAD POR DISTRITO
+==============================================================================
+                         n  media  mediana    p90
+desc_distrito_local                              
+VICALVARO             1074 0.0500   0.0557 0.0754
+SALAMANCA             5558 0.0498   0.0601 0.0697
+CHAMBERI              5133 0.0476   0.0443 0.0697
+CENTRO                8504 0.0474   0.0443 0.0697
+RETIRO                2668 0.0473   0.0443 0.0754
+TETUAN                4499 0.0452   0.0428 0.0754
+MORATALAZ             1354 0.0406   0.0308 0.0697
+VILLAVERDE            3160 0.0400   0.0308 0.0697
+VILLA DE VALLECAS     2634 0.0390   0.0308 0.0650
+BARAJAS               1106 0.0389   0.0308 0.0650
+ARGANZUELA            3519 0.0366   0.0308 0.0650
+CHAMARTIN             4370 0.0363   0.0308 0.0650
+CARABANCHEL           5381 0.0350   0.0308 0.0650
+CIUDAD LINEAL         5156 0.0347   0.0308 0.0650
+MONCLOA-ARAVACA       2980 0.0344   0.0308 0.0650
+PUENTE DE VALLECAS    4184 0.0340   0.0291 0.0650
+FUENCARRAL-EL PARDO   3823 0.0338   0.0291 0.0650
+SAN BLAS-CANILLEJAS   3097 0.0315   0.0248 0.0650
+HORTALEZA             2867 0.0308   0.0238 0.0650
+USERA                 2422 0.0284   0.0217 0.0607
+LATINA                4056 0.0273   0.0216 0.0601
+
+  Si el orden por distrito es plausible (mas riesgo en distritos
+  con mas rotacion historica) y el top 20 no es absurdo, el scoring
+  tiene sentido a ojo.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 17:30:35

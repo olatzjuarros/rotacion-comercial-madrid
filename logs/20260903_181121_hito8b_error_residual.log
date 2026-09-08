@@ -1,0 +1,42 @@
+# hito8b_error_residual
+# Ejecutado: 2026-09-03 18:11:21
+# Comando: src/hito8b_error_residual.py --dir C:/Users/Ibon/AppData/Local/Temp/claude/c--Users-Ibon-OneDrive---Mondragon-Unibertsitatea-Escritorio-Olatz-M-ster-v2-TFM/bfeafb74-fa45-4dd5-b403-e2384734187b/scratchpad/vtest
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_181121_hito8b_error_residual.log
+======================================================================
+VALIDACION MANUAL DEL TARGET  (cohorte 2021->2022)
+======================================================================
+  Universo: 82,343   churn actual: 3,349 (4.07%)
+  Poblacion 'rotacion real'        : 2,455  (de aqui salen los 40 positivos)
+  Poblacion 'descartados = mismo'  : 3,121  (de aqui salen los 25 descartados)
+
+----------------------------------------------------------------------
+FALSOS POSITIVOS  (es_cierre_real = 0)
+----------------------------------------------------------------------
+  6 de 40  ->  tasa 15.0%   IC95% Wilson [7.1%, 29.1%]
+
+FALSOS NEGATIVOS  (era_cierre_real = 1)
+----------------------------------------------------------------------
+  3 de 25  ->  tasa 12.0%   IC95% Wilson [4.2%, 30.0%]
+
+======================================================================
+EFECTO NETO SOBRE LA TASA DE CHURN
+======================================================================
+  Falsos positivos restan  ~368 casos (+0.45% sobre la tasa)
+  Falsos negativos suman   ~375 casos (+0.45% sobre la tasa)
+
+  Tasa de churn observada : 4.07%
+  Tasa de churn corregida : 4.07%   (rango por IC: 3.36% a 4.99%)
+
+  El target SUBESTIMA la rotacion real en ~0.01% (en terminos absolutos sobre el 4%).
+  En terminos relativos: +0% del churn.
+
+  Frase para la memoria:
+  "La revision manual de 65 casos estima un 15% de falsos
+   positivos y un 12% de falsos negativos en la frontera de
+   identidad del rotulo. El efecto neto sobre la tasa de churn del
+   4.07% es de +0.01% puntos, dentro del ruido."
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:11:21

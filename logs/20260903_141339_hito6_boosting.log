@@ -1,0 +1,99 @@
+# hito6_boosting
+# Ejecutado: 2026-09-03 14:13:39
+# Comando: src\hito6_boosting.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_141339_hito6_boosting.log
+train 319,920   val 81,654   test 82,343
+tasa base test: 4.07%
+
+==============================================================================
+1. ¿CRECE LA APORTACION CON UN MODELO NO LINEAL?  (validacion)
+==============================================================================
+  Solo sector                    AUC 0.639   AP 0.059   lift10 2.16x
+  Completo (boosting)            AUC 0.655   (+0.016)   AP 0.064   lift10 1.88x
+
+  Logistica lineal daba +0.039 sobre solo sector.
+  Boosting da +0.016.
+  Si ha crecido, la culpa era del modelo lineal.
+  Si no, la geografia y la historia aportan poco. Y se dice.
+
+==============================================================================
+2. ABLACIONES  (quitar un bloque y ver cuanto se pierde)
+==============================================================================
+  sin historia                   AUC 0.643   (-0.012)   AP 0.060   lift10 1.95x
+  sin geografia                  AUC 0.656   (+0.001)   AP 0.063   lift10 1.87x
+  sin sector/distrito            AUC 0.592   (-0.064)   AP 0.053   lift10 1.70x
+  solo historia                  AUC 0.544   (-0.111)   AP 0.044   lift10 1.75x
+  solo geografia                 AUC 0.562   (-0.093)   AP 0.046   lift10 1.45x
+
+  El numero entre parentesis es lo que se PIERDE respecto al
+  modelo completo. Cuanto mas negativo, mas aporta ese bloque.
+
+==============================================================================
+3. TEST TEMPORAL Y CALIBRACION
+==============================================================================
+  Completo, sin calibrar         AUC 0.663   AP 0.072   lift10 2.15x
+    Brier 0.0386   prob. media 0.042 vs real 0.041
+  Completo, calibrado            AUC 0.661   AP 0.069   lift10 2.10x
+    Brier 0.0385   prob. media 0.037 vs real 0.041
+
+  La calibracion NO cambia el orden (mismo AUC), solo hace que
+  el numero sea creible. Es lo que devolvera la API.
+
+  ¿Son creibles las probabilidades? (test, modelo calibrado)
+                  n  cierre_real  prob_predicha
+tramo                                          
+(0.0, 0.02]   16560        0.011          0.013
+(0.02, 0.04]  37324        0.035          0.028
+(0.04, 0.06]  13400        0.055          0.052
+(0.06, 0.08]  12623        0.068          0.066
+(0.08, 0.12]   2143        0.105          0.090
+(0.12, 1.0]     293        0.140          0.147
+  Si las dos ultimas columnas se parecen, esta bien calibrado.
+
+==============================================================================
+4. DECILES DE RIESGO  (test, calibrado)
+==============================================================================
+       size  sum  mean  lift
+decil                       
+1      8235   72 0.009 0.215
+2      8234  109 0.013 0.325
+3      8234  208 0.025 0.621
+4      8234  245 0.030 0.732
+5      8235  287 0.035 0.857
+6      8234  350 0.043 1.045
+7      8234  407 0.049 1.215
+8      8234  454 0.055 1.356
+9      8234  491 0.060 1.466
+10     8235  726 0.088 2.168
+
+==============================================================================
+5. IMPORTANCIA POR PERMUTACION  (sobre el test, AUC)
+==============================================================================
+  Mide cuanto empeora el AUC al desordenar cada variable.
+                           caida_auc
+variable                            
+id_epigrafe                  +0.1294
+desc_distrito_local          +0.0105
+rotaciones_previas           +0.0054
+pct_vacantes_150m            +0.0039
+n_locales_150m               +0.0018
+diversidad_150m              +0.0013
+id_division                  +0.0011
+competencia_relativa_200m    +0.0010
+desc_tipo_acceso_local       +0.0007
+tasa_rotacion_local          +0.0003
+antiguedad_local             -0.0001
+rotacion_entorno_150m        -0.0002
+n_competidores_200m          -0.0002
+antiguedad_censurada         -0.0003
+antiguedad_negocio           -0.0013
+
+  OJO: si 'antiguedad_censurada' sale arriba, sospechamos, porque
+  esa bandera correlaciona con el anio de la cohorte.
+
+Modelo calibrado guardado en datos/modelo_calibrado.joblib
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 14:14:25

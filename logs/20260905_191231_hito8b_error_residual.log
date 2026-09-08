@@ -1,0 +1,17 @@
+# hito8b_error_residual
+# Ejecutado: 2026-09-05 19:12:31
+# Comando: src/hito8b_error_residual.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_191231_hito8b_error_residual.log
+[aviso] descartados_25.csv: la columna 'era_cierre_real' esta sin rellenar. Se omite este bloque del calculo.
+Traceback (most recent call last):
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito8b_error_residual.py", line 170, in <module>
+    main()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito8b_error_residual.py", line 107, in main
+    n_fn = int((desc == 1).sum())
+               ^^^^^^^^^^^^^^^
+AttributeError: 'bool' object has no attribute 'sum'
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 19:12:31

@@ -1,0 +1,124 @@
+# hito9_scoring_2026
+# Ejecutado: 2026-09-04 18:30:39
+# Comando: src/hito9_scoring_2026.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_183039_hito9_scoring_2026.log
+Campeon: B. Sector + distrito
+Variables (3): ['id_epigrafe', 'id_division', 'desc_distrito_local']
+
+Vocabulario congelado (2023+2024): 806 palabras
+
+Panel 2026: 152,099 locales   abiertos: 99,581
+  excluidos por placeholder / rotulo generico: 22,147
+  UNIVERSO A PUNTUAR: 77,434
+
+Ventana de historia replicada: 2023-2026 (3 anios, = cohorte 2018 de entrenamiento)
+
+Locales sin historia previa (altas 2026): 0
+
+==============================================================================
+3. DISTRIBUCION DE LAS VARIABLES DE HISTORIA  (2026 vs test vs train)
+==============================================================================
+   2026 se ha calculado con la ventana de 3 anios replicada. Si la
+   correccion funciona, la fila '2026' debe parecerse ahora a 'train'
+   y no disparar el max como antes (antiguedad llegaba a 11).
+
+variable               fuente      min     p25  mediana     p75      max
+------------------------------------------------------------------------
+antiguedad_negocio     test       0.00    6.00     6.00    6.00     6.00
+antiguedad_negocio     2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_negocio     train      0.00    0.00     1.00    2.00     3.00
+
+antiguedad_local       test       0.00    6.00     6.00    6.00     6.00
+antiguedad_local       2026       0.00    3.00     3.00    3.00     3.00
+antiguedad_local       train      0.00    0.00     1.00    2.00     3.00
+
+rotaciones_previas     test       0.00    0.00     0.00    0.00     5.00
+rotaciones_previas     2026       0.00    0.00     0.00    0.00     3.00
+rotaciones_previas     train      0.00    0.00     0.00    0.00     3.00
+
+tasa_rotacion_local    test       0.00    0.00     0.00    0.00     0.83
+tasa_rotacion_local    2026       0.00    0.00     0.00    0.00     1.00
+tasa_rotacion_local    train      0.00    0.00     0.00    0.00     1.00
+
+antiguedad_censurada   test       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   2026       0.00    1.00     1.00    1.00     1.00
+antiguedad_censurada   train      0.00    1.00     1.00    1.00     1.00
+
+==============================================================================
+   RECORTE RESIDUAL AL RANGO DE TRAIN  (red de seguridad tras la ventana)
+==============================================================================
+  antiguedad_negocio     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_local       rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  rotaciones_previas     rango train [0.000, 3.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  tasa_rotacion_local    rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+  antiguedad_censurada   rango train [0.000, 1.000]   recortados      0 ( 0.0%)   [0 por debajo, 0 por encima]
+
+  Con la ventana replicada el recorte deberia ser marginal. Si aun
+  asi recorta mucho en 'rotaciones_previas', es que en 3 anios un
+  local puede rotar mas veces que las vistas en 2015-2018 (ventana
+  identica pero anios distintos); el clip lo deja en el maximo visto.
+
+Guardado: salida\riesgo_2026.csv   (77,434 locales)
+  probabilidad: min 0.0000  media 0.0354  max 0.1200
+  tasa base del modelo (ficha): 4.07%  -> la media deberia rondar eso
+
+==============================================================================
+TOP 20 DE MAYOR RIESGO
+==============================================================================
+ id_local                                rotulo                                   desc_epigrafe desc_distrito_local  probabilidad
+ 30001245                             PIERAPETS TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              RETIRO         0.120
+ 60002677                            101 AMIGOS TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              TETUAN         0.120
+150001407                             LA CASETA TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)       CIUDAD LINEAL         0.120
+150002211 CENTRO DE DIA KANGURATECA LUIS AMIGÓ                      CENTROS DE CUIDADO INFANTIL       CIUDAD LINEAL         0.120
+150002693                           VANITY PETS TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)       CIUDAD LINEAL         0.120
+170000791   PELUQUERIA CANINA ANUBIS TANIA RUIZ TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)          VILLAVERDE         0.120
+170001881                 PELUQUERIA CANINA MIA TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)          VILLAVERDE         0.120
+270104207                           MIX PELUDOS TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              TETUAN         0.120
+270109178                                 SHYBA TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              TETUAN         0.120
+270217776                       MIA MASCOTA, SL TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)          VILLAVERDE         0.120
+270349322                             GENTLECAN TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              RETIRO         0.120
+270460179          PELUQUERÍA CANINA ROCK & DOG TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)       CIUDAD LINEAL         0.120
+270493593             PELUQUERIA CANINA DALMATA TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              RETIRO         0.120
+270534116                              INTERZOO TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              TETUAN         0.120
+270546729                            CASA BELEN                     CENTROS DE CUIDADO INFANTIL       CIUDAD LINEAL         0.120
+270560128                      CONTIGO CUIDADOS TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              TETUAN         0.120
+270573042                                 KIARA TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)          VILLAVERDE         0.120
+280019627                      TU MASKOTA CHULA TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              RETIRO         0.120
+280020455                         MAISON DU CAN TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              RETIRO         0.120
+280031574                         DIMU MASCOTAS TRATAMIENTO HIGIENICO DE ANIMALES (PELUQUERIAS)              TETUAN         0.120
+
+==============================================================================
+DISTRIBUCION DE PROBABILIDAD POR DISTRITO
+==============================================================================
+                        n  media  mediana    p90
+desc_distrito_local                             
+VICALVARO            1073 0.0503   0.0445 0.0728
+SALAMANCA            5554 0.0464   0.0445 0.0728
+CENTRO               8485 0.0439   0.0445 0.0728
+CHAMBERI             5131 0.0429   0.0444 0.0728
+RETIRO               2664 0.0426   0.0445 0.0728
+BARAJAS              1106 0.0422   0.0445 0.0728
+TETUAN               4491 0.0420   0.0367 0.0728
+MORATALAZ            1354 0.0385   0.0346 0.0728
+VILLA DE VALLECAS    2628 0.0347   0.0346 0.0553
+VILLAVERDE           3155 0.0344   0.0198 0.0728
+CHAMARTIN            4360 0.0329   0.0339 0.0472
+SAN BLAS-CANILLEJAS  3095 0.0322   0.0339 0.0445
+ARGANZUELA           3511 0.0314   0.0339 0.0445
+FUENCARRAL-EL PARDO  3819 0.0308   0.0339 0.0553
+CIUDAD LINEAL        5151 0.0307   0.0319 0.0553
+PUENTE DE VALLECAS   4181 0.0307   0.0319 0.0553
+MONCLOA-ARAVACA      2975 0.0304   0.0339 0.0553
+CARABANCHEL          5369 0.0291   0.0319 0.0445
+HORTALEZA            2864 0.0268   0.0198 0.0445
+LATINA               4048 0.0247   0.0198 0.0367
+USERA                2419 0.0241   0.0198 0.0367
+
+  Si el orden por distrito es plausible (mas riesgo en distritos
+  con mas rotacion historica) y el top 20 no es absurdo, el scoring
+  tiene sentido a ojo.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 18:30:53

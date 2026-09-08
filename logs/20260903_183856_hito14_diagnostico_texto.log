@@ -1,0 +1,81 @@
+# hito14_diagnostico_texto
+# Ejecutado: 2026-09-03 18:38:56
+# Comando: src/hito14_diagnostico_texto.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_183856_hito14_diagnostico_texto.log
+==============================================================================
+1-2. FIRMAS DE PROBLEMA DE TEXTO POR PANEL
+==============================================================================
+ panel  n rotulos         mojibake    digito entre letras
+------------------------------------------------------------
+  2014    142,484       0 (0.00%)         54 (0.04%)
+  2015    144,168      68 (0.05%)      3,944 (2.74%)
+  2016    145,065      71 (0.05%)      4,360 (3.01%)
+  2017    145,752      75 (0.05%)      4,372 (3.00%)
+  2018    146,716      79 (0.05%)      4,230 (2.88%)
+  2019    147,576      77 (0.05%)      4,202 (2.85%)
+  2020    148,033      79 (0.05%)      4,033 (2.72%)
+  2021    149,935      85 (0.06%)      3,349 (2.23%)
+  2022    150,522      25 (0.02%)         56 (0.04%)
+  2023    150,731      24 (0.02%)         57 (0.04%)
+  2024    151,286      24 (0.02%)         55 (0.04%)
+  2025    151,880      22 (0.01%)         55 (0.04%)
+  2026    152,099      21 (0.01%)         54 (0.04%)
+
+==============================================================================
+3. ROTULOS QUE EMPIEZAN POR 'SIN ' Y NO SON PLACEHOLDERS
+==============================================================================
+  6,368 rotulos en total (todos los paneles), 128 valores distintos. Top 20:
+
+     1,653  SIN DETERMINAR
+     1,466  SIN DEFINIR
+     1,085  SIN ESPECIFICAR
+       895  SIN R0TULO
+       342  SIN NOTIFICAR
+        93  SIN REFERENCIA
+        50  SIN CATALOGAR
+        49  SIN ACTIVIDAD ASOCIADA
+        24  SIN RATULO
+        24  SIN INFORMAR
+        24  SIN INFORMACI0N
+        19  SIN MAS PIOJITOS
+        19  SIN DETERMINAR TODAVIA
+        15  SIN IDENTIFICAR
+        13  SIN DIETAS
+        13  SIN GOTERAS IMPE
+        13  SIN BARRERAS
+        13  SIN TEXTO
+        13  SIN TARIMA
+        13  SIN INFORMACION
+
+  Si son negocios reales ('SIN COMPLEJOS', 'SIN PALABRAS'), no
+  tocar. Si son huecos administrativos, anadir a PLACEHOLDERS.
+
+==============================================================================
+4. FIRMAS DE TEXTO EN LAS ROTACIONES REALES  (cohorte test 2021->2022)
+==============================================================================
+  Rotaciones reales (difiere & no mismo negocio): 2,455
+  ...con mojibake en 2021 o 2022            : 8 (0.33%)
+  ...con digito entre letras en 2021 o 2022 : 105 (4.28%)
+  ...con ALGUNA de las dos firmas           : 112 (4.56%)
+
+  COTA SUPERIOR del error por texto en el target: 112 de 2,455 rotaciones (4.56%).
+  Sobre el universo de 82,343 locales de la cohorte, son 0.136% de la tasa de churn del 4.07%.
+
+  Ejemplos (rotulo 2021 -> 2022) con firma de texto:
+    SIN R0TULO                                    -> LA ABACERIA DEL PRINCIPE
+    TIENDA ALIMENTACI0N                           -> GRANJA JAEÑA HUEVOS
+    OPTICA TIZ0N                                  -> OPTICA TIZÓN
+    ALIMENTACI0N LUMBRERAS                        -> MANDI
+    MIMÃ”T BEAUTY                                 -> MIMÔT BEAUTY
+    ALIMENTACI0N                                  -> INMOPERALES
+    EL RINC0N DE MOLLY                            -> PATAGÓNICO
+    SMOHAG (FRUTAS Y ALIMENTACI0N)                -> FRUTAS Y ALIMENTACION AMPARO 31
+    FRUTERIA Y ALIMENTACI0N                       -> FRUTERÍA TAFSIN
+    PELUQUERIA MONTERROSO7LOC 13 Y 14             -> MAYSO
+    EVA PAV0N                                     -> EVA PAVÓN
+    AUTO RADIO UNI0N                              -> AUTO RADIO UNIÓN
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:39:06

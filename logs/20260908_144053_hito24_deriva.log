@@ -1,0 +1,11 @@
+# hito24_deriva
+# Ejecutado: 2026-09-08 14:40:53
+# Comando: src/hito24_deriva.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260908_144053_hito24_deriva.log
+No existe salida\monitorizacion\predicciones.csv.
+Todavia no se ha servido ninguna prediccion por POST /predecir, o la API no ha registrado nada. Nada que comparar.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-08 14:40:53

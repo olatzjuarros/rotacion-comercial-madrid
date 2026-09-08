@@ -1,0 +1,92 @@
+# hito4_variables
+# Ejecutado: 2026-09-03 11:35:48
+# Comando: src\hito4_variables.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_113548_hito4_variables.log
+Paneles cargados: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+Vocabulario congelado: 806 palabras
+
+Cohorte 2015->2016  (train)
+  universo 78,932   target 4.55%
+  con vecindario: 95.1%
+Cohorte 2016->2017  (train)
+  universo 79,717   target 4.72%
+  con vecindario: 94.9%
+Cohorte 2017->2018  (train)
+  universo 80,170   target 4.83%
+  con vecindario: 94.7%
+Cohorte 2018->2019  (train)
+  universo 81,101   target 4.12%
+  con vecindario: 94.3%
+Cohorte 2019->2020  (val)
+  universo 81,654   target 3.69%
+  con vecindario: 94.1%
+Cohorte 2020->2021  (covid)
+  universo 82,137   target 17.29%
+  con vecindario: 94.0%
+Cohorte 2021->2022  (test)
+  universo 82,343   target 4.07%
+  con vecindario: 93.5%
+
+==============================================================
+RESUMEN
+==============================================================
+                size    sum      mean
+uso   cohorte                        
+covid 2020     82137  14204  0.172931
+test  2021     82343   3349  0.040671
+train 2015     78932   3593  0.045520
+      2016     79717   3763  0.047204
+      2017     80170   3869  0.048260
+      2018     81101   3345  0.041245
+val   2019     81654   3013  0.036900
+
+Tasa de cierre por antiguedad del negocio:
+  (sin la cohorte COVID y sin antiguedad censurada, ver abajo)
+                     size      mean
+antiguedad_negocio                 
+<1                  22461  0.073995
+1                   11847  0.069385
+2                    8406  0.061742
+3-4                  7850  0.058471
+5+                   2209  0.055229
+
+  Si la tasa baja al aumentar la antiguedad, la variable funciona.
+
+MISMA TABLA SIN FILTRAR (para ver el efecto de los artefactos):
+                      size      mean
+antiguedad_negocio                  
+<1                  103833  0.052392
+1                    91168  0.049063
+2                    85309  0.047896
+3-4                 154038  0.039198
+5+                  131706  0.114642
+  La cohorte COVID contamina los tramos altos: en 2020 los
+  negocios de 2015 tenian 5 anios, y ese anio cerro todo.
+
+Antiguedad CENSURADA por cohorte (no se puede medir hacia atras):
+cohorte
+2015    1.000000
+2016    0.957976
+2017    0.918997
+2018    0.880297
+2019    0.851912
+2020    0.831331
+2021    0.743403
+  En la cohorte 2015 es del 100%: la cadena empieza ahi y no
+  sabemos cuanto llevaba abierto nadie. Esa cohorte no aporta
+  informacion de antiguedad.
+
+Tasa de cierre por rotaciones previas del local (sin COVID):
+                      size      mean
+rotaciones_previas                  
+0                   439268  0.040176
+1                    39876  0.068914
+2                     4125  0.109333
+3                      648  0.131173
+
+Guardado: datos\dataset_modelado.pkl   (566,054 filas)
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 12:00:43

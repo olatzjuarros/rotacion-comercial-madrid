@@ -1,0 +1,12 @@
+{
+  "cohorte": "2021->2022",
+  "universo": 81398,
+  "churn": 3234,
+  "tasa_churn": 0.039730705914150226,
+  "difieren_literal": 3343,
+  "rotacion_real": 2345,
+  "descartados_mismo_negocio": 998,
+  "n_positivos_muestra": 40,
+  "n_descartados_muestra": 25,
+  "semilla": 2026
+}

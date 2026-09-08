@@ -1,0 +1,115 @@
+# hito16_barrios
+# Ejecutado: 2026-09-04 18:41:20
+# Comando: src/hito16_barrios.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_184120_hito16_barrios.log
+Vocabulario congelado: 806 palabras
+
+==============================================================================
+1. AREA DE CADA BARRIO (ConvexHull, aproximada)
+==============================================================================
+  246 barrios con area estimable (mediana 2.48 km2)
+Construyendo churn por barrio, todas las transiciones 2014->2015 .. 2025->2026 ...
+  2014->2015: 128 barrios, churn medio 3.50%
+  2015->2016: 128 barrios, churn medio 4.33%
+  2016->2017: 128 barrios, churn medio 4.38%
+  2017->2018: 129 barrios, churn medio 4.31%
+  2018->2019: 132 barrios, churn medio 3.64%
+  2019->2020: 131 barrios, churn medio 3.17%
+  2020->2021: 131 barrios, churn medio 16.45%
+  2021->2022: 131 barrios, churn medio 3.71%
+  2022->2023: 131 barrios, churn medio 1.24%
+  2023->2024: 131 barrios, churn medio 3.32%
+  2024->2025: 131 barrios, churn medio 7.08%
+  2025->2026: 131 barrios, churn medio 2.21%
+
+Panel barrio x anio: 1,434 filas (132 barrios x 11 anios)
+          size   mean
+uso                  
+covid      131 0.1645
+excluida   524 0.0346
+test       131 0.0371
+train      517 0.0416
+val        131 0.0317
+
+train 517   val 131   test 131   (aviso: son ~131 barrios por cohorte, MUCHO menos que a nivel de local -> intervalos anchos, poca potencia)
+
+==============================================================================
+2-4. MODELOS  (test = cohorte 2021, la misma que a nivel de local)
+==============================================================================
+
+ Sobre TEST:
+  0. Media historica del barrio MAE 0.0260 [0.0238, 0.0283]   R2 -2.419 [-3.439, -1.721]
+  1. Persistencia (año pasado) MAE 0.1283 [0.1194, 0.1383]   R2 -73.219 [-97.004, -57.081]
+C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\impute\_base.py:647: UserWarning: Skipping features without any observed values: ['mezcla_-1']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\impute\_base.py:647: UserWarning: Skipping features without any observed values: ['mezcla_-1']. At least one non-missing value is needed for imputation with strategy='median'.
+  warnings.warn(
+  2. Regresion lineal          MAE 0.0151 [0.0132, 0.0168]   R2 -0.291 [-0.571, -0.081]
+joblib.externals.loky.process_executor._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\_utils.py", line 109, in __call__
+    return self.func(**kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\utils\parallel.py", line 184, in __call__
+    return self.function(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\binning.py", line 82, in _find_binning_thresholds
+    bin_thresholds = sliding_window_view(distinct_values, 2).mean(axis=1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\numpy\lib\_stride_tricks_impl.py", line 439, in sliding_window_view
+    raise ValueError(
+ValueError: window shape cannot be larger than input array shape
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito16_barrios.py", line 392, in <module>
+    main()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito16_barrios.py", line 280, in main
+    m_boost.fit(train[NUM_COLS], ytr)
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\base.py", line 1403, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py", line 603, in fit
+    X_binned_train = self._bin_data(
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py", line 1122, in _bin_data
+    X_binned = self._bin_mapper.fit_transform(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\utils\_set_output.py", line 319, in wrapped
+    data_to_wrap = f(self, X, *args, **kwargs)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\base.py", line 969, in fit_transform
+    return self.fit(X, **fit_params).transform(X)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\binning.py", line 287, in fit
+    non_cat_thresholds = Parallel(n_jobs=self.n_threads, backend="threading")(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\utils\parallel.py", line 91, in __call__
+    return super().__call__(iterable_with_config_and_warning_filters)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 2098, in __call__
+    return output if self.return_generator else list(output)
+                                                ^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 1704, in _get_outputs
+    yield from self._retrieve()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 1806, in _retrieve
+    self._raise_error_fast()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 1885, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 780, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\joblib\parallel.py", line 795, in _return_or_raise
+    raise self._result
+ValueError: window shape cannot be larger than input array shape
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 18:42:38

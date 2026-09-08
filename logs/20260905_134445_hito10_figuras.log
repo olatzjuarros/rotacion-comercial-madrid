@@ -1,0 +1,94 @@
+# hito10_figuras
+# Ejecutado: 2026-09-05 13:44:45
+# Comando: src/hito10_figuras.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_134445_hito10_figuras.log
+Vocabulario congelado (2023+2024): 806 palabras
+
+[1] churn_por_cohorte.png
+   2014->2015  churn  3.73%  (n=76,897, excluida)
+   2015->2016  churn  4.44%  (n=78,413, train)
+   2016->2017  churn  4.50%  (n=79,049, train)
+   2017->2018  churn  4.65%  (n=79,324, train)
+   2018->2019  churn  4.00%  (n=80,187, train)
+   2019->2020  churn  3.53%  (n=80,660, val)
+   2020->2021  churn 17.03%  (n=81,122, excluida)
+   2021->2022  churn  3.97%  (n=81,398, test)
+   2022->2023  churn  1.27%  (n=81,573, excluida)
+   2023->2024  churn  3.45%  (n=81,606, excluida)
+   2024->2025  churn  7.01%  (n=82,005, excluida)
+   2025->2026  churn  2.01%  (n=77,820, excluida)
+
+[2] calibracion.png
+
+[3] deciles_lift.png
+       size  sum  mean  lift
+decil                       
+1      8140   71 0.009 0.220
+2      8140  100 0.012 0.309
+3      8140  182 0.022 0.563
+4      8139  211 0.026 0.653
+5      8140  278 0.034 0.860
+6      8140  339 0.042 1.048
+7      8139  406 0.050 1.256
+8      8140  442 0.054 1.367
+9      8140  520 0.064 1.608
+10     8140  685 0.084 2.118
+   lift decil 10 (ficha, oficial): 2.026
+
+[4] ablaciones.png
+   fuente: logs/20260904_175432_hito7_campeon.log
+                         modelo  lift    lo    hi
+                 A. Solo sector 1.880 1.740 2.000
+           B. Sector + distrito 2.016 1.900 2.170
+C. Sector + distrito + historia 2.026 1.900 2.180
+    D. Completo (con geo micro) 2.112 1.970 2.260
+                  E. Sin sector 1.574 1.490 1.740
+   PermutationExplainer: 3,000 casos, fondo 100, max_evals 300 (esto tarda unos minutos)
+   aditividad: error maximo 1.11e-16  (debe ser ~0)
+
+[5] shap_importancia.png / shap_beeswarm.png
+   |SHAP| medio por variable (puntos de probabilidad):
+id_epigrafe              1.158 pp
+desc_distrito_local      0.531 pp
+rotaciones_previas       0.340 pp
+id_division              0.128 pp
+antiguedad_negocio       0.094 pp
+desc_tipo_acceso_local   0.088 pp
+antiguedad_censurada     0.033 pp
+tasa_rotacion_local      0.012 pp
+antiguedad_local         0.001 pp
+
+   CONTRASTE: orden SHAP (campeon) vs importancia por permutacion (log hito6)
+   SHAP  (campeon, 9 vars) : ['id_epigrafe', 'desc_distrito_local', 'rotaciones_previas', 'id_division', 'antiguedad_negocio', 'desc_tipo_acceso_local', 'antiguedad_censurada', 'tasa_rotacion_local', 'antiguedad_local']
+   Perm. (hito6, 15 vars)  : ['id_epigrafe', 'desc_distrito_local', 'rotaciones_previas', 'id_division', 'desc_tipo_acceso_local', 'tasa_rotacion_local', 'antiguedad_local', 'antiguedad_censurada', 'antiguedad_negocio']
+
+   Nota: no son medidas del mismo modelo. La permutacion de hito6
+   se calculo sobre el modelo COMPLETO (15 variables, con geo-micro)
+   y mide caida de AUC; SHAP aqui es sobre el CAMPEON (9 variables) y
+   mide efecto medio sobre la probabilidad calibrada.
+   -> Aun asi, el PODIO COINCIDE: ['id_epigrafe', 'desc_distrito_local', 'rotaciones_previas'].
+      'id_epigrafe' (la actividad) domina en ambas, seguido de
+      distrito e historia de rotaciones. Las dos lecturas cuentan
+      la misma historia: el modelo ordena por sector y matiza por
+      distrito e historia; la antiguedad aporta poco o nada.
+
+[6] casos_shap.md
+   caso alto: 280047543 p=0.065
+   caso bajo: 280041844 p=0.011
+
+Figuras en C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\salida\figuras
+   ablaciones.png
+   barrios_predicho_vs_real.png
+   calibracion.png
+   casos_shap.md
+   churn_por_cohorte.png
+   deciles_lift.png
+   prospectiva_deciles.png
+   real_vs_predicho_distrito.png
+   shap_beeswarm.png
+   shap_importancia.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 13:48:58

@@ -1,0 +1,35 @@
+# Configuracion de herramientas del proyecto (TFM - rotacion comercial Madrid).
+# No define un paquete instalable: los scripts se ejecutan desde la raiz del
+# repo (ver README.md). Este fichero solo fija el estilo de codigo.
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+# el frontal, los datos y el entorno virtual no se revisan
+extend-exclude = ["api/static", "datos", ".tfm", "notebooks"]
+
+[tool.ruff.lint]
+# Conjunto por defecto de ruff (errores de pyflakes/pycodestyle y "code
+# smells" habituales) + ordenacion de imports.
+extend-select = ["I"]
+
+ignore = [
+  # Timestamps de log y de nombres de fichero: se quiere la hora LOCAL, sin
+  # zona. src/gobierno.py, que si compara instantes, usa datetime con tz.
+  "DTZ005",
+  # `except Exception` deliberado en codigo defensivo: la monitorizacion y la
+  # introspeccion del pipeline NO deben tumbar una peticion ni un script.
+  # Cada caso lleva su comentario explicando por que.
+  "BLE001",
+  # `dict(clave=valor)` es una forma legitima y legible para dicts tipo
+  # configuracion / kwargs; se usa de forma consistente en el proyecto.
+  "C408",
+  # tipografia espanola en cadenas y docstrings: el punto medio (·) y las
+  # rayas (– —) son intencionados, no confusiones de caracteres.
+  "RUF001", "RUF002", "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# registro.py mantiene el fichero de log abierto a proposito durante toda la
+# ejecucion (lo cierra un atexit); no puede ir en un `with`.
+"src/registro.py" = ["SIM115"]

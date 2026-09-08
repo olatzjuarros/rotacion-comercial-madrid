@@ -1,0 +1,359 @@
+/* Riesgo de rotación comercial · Madrid — estilo sobrio, sin animaciones */
+
+:root {
+  --tinta: #1a1a1a;
+  --tinta-suave: #555555;
+  --linea: #d8d5cf;
+  --fondo: #fdfcfa;
+  --fondo-panel: #ffffff;
+  --acento: #7a1f1f;
+  --acento-suave: #f4ede9;
+  --ok: #2f5233;
+  --radio: 4px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: "Georgia", "Iowan Old Style", "Segoe UI", Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+header {
+  padding: 28px 32px 20px;
+  border-bottom: 1px solid var(--linea);
+  background: var(--fondo-panel);
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 6px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.subt {
+  margin: 0;
+  color: var(--tinta-suave);
+  font-size: 16px;
+}
+
+.nota-corta {
+  font-style: italic;
+}
+
+main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 8px 32px 60px;
+}
+
+section {
+  background: var(--fondo-panel);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  padding: 24px 28px;
+  margin-top: 28px;
+}
+
+h2 {
+  font-size: 21px;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.ayuda {
+  color: var(--tinta-suave);
+  font-size: 15px;
+  margin: 0 0 14px;
+}
+
+/* ---- cabecera explicativa (antes del mapa) ---- */
+
+.explicacion {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px 20px;
+  margin: 10px 0 0;
+}
+
+.explicacion dt {
+  font-weight: 600;
+  color: var(--tinta);
+}
+
+.explicacion dd {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+@media (max-width: 560px) {
+  .explicacion { grid-template-columns: 1fr; }
+  .explicacion dt { margin-top: 8px; }
+}
+
+/* ---- mapa ---- */
+
+#mapa {
+  height: 520px;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+}
+
+#leyenda {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--tinta-suave);
+}
+
+#leyenda .tramos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+#leyenda .tramo-leyenda {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+#leyenda .muestra {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--linea);
+  display: inline-block;
+}
+
+/* ---- formularios ---- */
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  max-width: 100%;
+}
+
+/* El simulador tiene 4 desplegables + botón: en una rejilla de 2 columnas
+   cada <select> ocupa el 100% de su columna y nada se sale ni a 1280 ni a
+   768 px. Por debajo de ~620 px pasa a una sola columna. */
+#form-simulador {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+}
+
+#form-simulador button {
+  grid-column: 1 / -1;
+  justify-self: start;
+}
+
+@media (max-width: 620px) {
+  #form-simulador { grid-template-columns: 1fr; }
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--tinta-suave);
+  flex: 1 1 200px;
+  /* Sin esto, un <select> con una option muy larga (p. ej. un epígrafe con
+     un texto de 100+ caracteres) impone su ancho intrínseco al elemento
+     flex y lo saca del formulario/sección. min-width:0 permite que el
+     elemento se encoja por debajo del contenido; el select de abajo hace
+     el resto (width:100% + text-overflow). */
+  min-width: 0;
+}
+
+input, select {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 12px;
+  border: 1px solid #b9b4ab;
+  border-radius: var(--radio);
+  background: #fff;
+  color: var(--tinta);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Epígrafe/división traen descripciones largas ("INTERMEDIARIOS DEL
+   COMERCIO DE TEXTILES, PRENDAS DE VESTIR..."): recortar con "…" en vez de
+   desbordar el formulario. */
+select {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+button {
+  font-family: inherit;
+  font-size: 16px;
+  padding: 11px 22px;
+  border: 1px solid var(--acento);
+  border-radius: var(--radio);
+  background: var(--acento);
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover { background: #611818; border-color: #611818; }
+
+/* ---- lista de resultados de busqueda ---- */
+
+.lista-resultados {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.lista-resultados li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--linea);
+  cursor: pointer;
+}
+
+.lista-resultados li:last-child { border-bottom: none; }
+.lista-resultados li:hover, .lista-resultados li:focus {
+  background: var(--acento-suave);
+  outline: none;
+}
+
+.lista-resultados .nombre {
+  font-weight: 600;
+  flex: 1 1 auto;
+}
+
+.lista-resultados .detalle {
+  color: var(--tinta-suave);
+  font-size: 14px;
+  flex: 2 1 auto;
+}
+
+.lista-resultados .prob {
+  font-weight: 600;
+  color: var(--acento);
+  white-space: nowrap;
+}
+
+details#buscador-id {
+  margin-top: 18px;
+  color: var(--tinta-suave);
+  font-size: 15px;
+}
+
+details#buscador-id summary {
+  cursor: pointer;
+}
+
+details#buscador-id form {
+  margin-top: 12px;
+}
+
+/* ---- resultados ---- */
+
+.resultado {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--linea);
+}
+
+.resultado .prob-grande {
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--acento);
+  line-height: 1;
+}
+
+.resultado .fila {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.resultado .dato {
+  min-width: 140px;
+}
+
+.resultado .dato .etiqueta {
+  display: block;
+  font-size: 13px;
+  color: var(--tinta-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.resultado .dato .valor {
+  font-size: 19px;
+}
+
+.resultado .comparativa {
+  margin-top: 16px;
+  font-size: 17px;
+  padding: 12px 16px;
+  background: var(--acento-suave);
+  border-radius: var(--radio);
+}
+
+.resultado .avisos {
+  margin-top: 14px;
+  font-size: 14px;
+  color: var(--tinta-suave);
+}
+
+.resultado .avisos li { margin-bottom: 4px; }
+
+.mensaje-error {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--acento);
+  border-radius: var(--radio);
+  background: var(--acento-suave);
+  color: var(--acento);
+  font-size: 16px;
+}
+
+.nota-poblacional {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--tinta-suave);
+  font-style: italic;
+}
+
+footer {
+  text-align: center;
+  color: var(--tinta-suave);
+  font-size: 13px;
+  padding: 24px;
+}
+
+footer a {
+  color: var(--acento);
+}
+
+footer p {
+  margin: 4px 0;
+}
+
+.leaflet-tooltip {
+  font-family: inherit;
+  font-size: 14px;
+}

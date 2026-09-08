@@ -1,0 +1,79 @@
+# hito11_contraste_distrito
+# Ejecutado: 2026-09-03 18:42:02
+# Comando: src/hito11_contraste_distrito.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_184202_hito11_contraste_distrito.log
+
+======================================================================
+SOLO TEST (cohorte 2021)   (82,343 locales, 3,349 cierres)
+======================================================================
+                        n  tasa_real_%  riesgo_pred_%
+distrito                                             
+CENTRO               9036         5.56           4.67
+RETIRO               2811         5.19           4.48
+SALAMANCA            5934         4.82           4.93
+USERA                2664         4.62           2.67
+VICALVARO            1092         4.49           4.81
+PUENTE DE VALLECAS   4382         4.36           3.28
+FUENCARRAL-EL PARDO  4071         4.35           3.25
+TETUAN               4713         4.29           4.34
+CHAMBERI             5471         4.22           4.61
+CIUDAD LINEAL        5579         4.18           3.35
+VILLAVERDE           3329         4.15           3.87
+MORATALAZ            1524         4.07           3.96
+VILLA DE VALLECAS    2716         4.01           3.74
+MONCLOA-ARAVACA      3101         3.90           3.27
+CHAMARTIN            4679         3.87           3.53
+HORTALEZA            3000         3.37           2.94
+ARGANZUELA           3794         3.35           3.49
+BARAJAS              1220         3.28           3.73
+LATINA               4306         2.93           2.69
+SAN BLAS-CANILLEJAS  3241         2.68           3.12
+CARABANCHEL          5680         2.06           3.40
+
+  Spearman rho = +0.495   p = 0.0226   IC95% bootstrap [+0.28, +0.67]   (n = 21 distritos)
+
+======================================================================
+TEST + VALIDACION (cohortes 2019 y 2021)   (163,997 locales, 6,362 cierres)
+======================================================================
+                         n  tasa_real_%  riesgo_pred_%
+distrito                                              
+VICALVARO             2192         5.57           4.75
+CENTRO               17915         5.35           4.59
+RETIRO                5486         5.34           4.46
+TETUAN                9454         4.68           4.27
+SALAMANCA            11877         4.66           4.91
+CHAMBERI             10853         4.20           4.56
+VILLA DE VALLECAS     5419         4.10           3.70
+PUENTE DE VALLECAS    8952         3.92           3.22
+CHAMARTIN             9218         3.91           3.52
+FUENCARRAL-EL PARDO   8051         3.76           3.23
+MONCLOA-ARAVACA       6101         3.74           3.24
+MORATALAZ             3026         3.50           3.90
+CIUDAD LINEAL        11189         3.39           3.30
+VILLAVERDE            6664         3.29           3.83
+USERA                 5316         3.22           2.63
+HORTALEZA             5892         3.17           2.87
+ARGANZUELA            7431         3.16           3.45
+CARABANCHEL          11416         3.10           3.35
+BARAJAS               2431         2.71           3.70
+LATINA                8678         2.39           2.60
+SAN BLAS-CANILLEJAS   6436         2.32           3.10
+
+  Spearman rho = +0.719   p = 0.0002   IC95% bootstrap [+0.61, +0.80]   (n = 21 distritos)
+
+======================================================================
+LECTURA
+======================================================================
+  Spearman una cohorte  : +0.49  IC95% [+0.28, +0.67]
+  Spearman dos cohortes : +0.72  IC95% [+0.61, +0.80]
+  El pool reduce el ancho del IC de 0.39 a 0.19.
+
+  rho = 0.72 (IC [0.61, 0.80]): el orden por distrito
+  del scoring se corresponde razonablemente con lo observado.
+
+Guardado: salida\figuras\real_vs_predicho_distrito.png
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:42:16

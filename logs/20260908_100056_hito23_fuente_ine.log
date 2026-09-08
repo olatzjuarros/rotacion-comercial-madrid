@@ -1,0 +1,90 @@
+# hito23_fuente_ine
+# Ejecutado: 2026-09-08 10:00:56
+# Comando: src/hito23_fuente_ine.py --repeticiones 400
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260908_100056_hito23_fuente_ine.log
+==============================================================================
+1. RENTA POR BARRIO Y POR DISTRITO, POR ANIO
+==============================================================================
+  INE: 2,493 secciones, periodos 2015-2023, 2.1% de secciones sin dato de renta
+  mapa seccion->barrio: 2,494 secciones, 131 barrios
+  renta_barrio: 131 barrios x 12 anios
+  renta media de Madrid por anio (media de barrios):
+anio
+2015    15776.0
+2016    16177.0
+2017    16460.0
+2018    17234.0
+2019    17755.0
+2020    17750.0
+2021    18268.0
+2022    19503.0
+2023    20672.0
+2024    20672.0
+2025    20672.0
+2026    20672.0
+
+==============================================================================
+2. COBERTURA DEL CRUCE, POR ANIO
+==============================================================================
+      locales_abiertos  % cruce por seccion  % cruce por barrio
+anio                                                           
+2015             97674                  0.0                98.5
+2016             99185                  0.0                98.5
+2017            100227                  0.0                98.6
+2018            101525                  0.0                98.9
+2019            102434                  0.0                98.9
+2020            102403                  0.0                98.9
+2021             99083                  0.0                98.9
+2022             99488                100.0                98.9
+2023             99402                100.0               100.0
+2024             99809                100.0               100.0
+2025             99682                 99.7               100.0
+2026             99581                 99.7               100.0
+
+  El cruce por seccion solo es posible desde 2022 (antes el censo no
+  trae id_seccion_censal_local). El cruce por barrio funciona en toda
+  la serie. Para 2024-2026 la renta es la de 2023 arrastrada.
+
+  union con el dataset: 7,073 filas sin renta de barrio -> imputadas con mediana de distrito; 1 con mediana global
+
+==============================================================================
+3. ROTACION POR QUINTIL DE RENTA DEL BARRIO  (sin COVID)
+==============================================================================
+                  locales  rotaciones  tasa_rotacion  renta_media
+quintil                                                          
+Q1 (menor renta)    96322        3556           3.69       9862.0
+Q2                  95559        3416           3.57      12420.0
+Q3                  95877        4011           4.18      15610.0
+Q4                  95613        4568           4.78      19936.0
+Q5 (mayor renta)    95660        4463           4.67      25212.0
+
+  Q1 (menor renta): 3.69% de rotacion   Q5 (mayor renta): 4.67%
+  correlacion lineal renta_barrio vs target: +0.0221
+  -> Los barrios de mayor renta rotan MAS que los de menor renta.
+
+==============================================================================
+4. CANDIDATO G = C + renta_barrio  (protocolo hito7)
+==============================================================================
+  C (campeon, C)             AUC 0.6670 [0.659,0.675]  lift10 2.0194 [1.87,2.14]  Brier 0.03766
+  G = C + renta_barrio       AUC 0.6596 [0.652,0.668]  lift10 1.9080 [1.81,2.07]  Brier 0.03770
+
+  G vs C, bootstrap PAREADO (mismos locales cada remuestreo):
+    delta AUC   -0.0074  IC [-0.0102, -0.0048]
+    delta lift10 -0.1113  IC [-0.1911, +0.0375]
+
+  Importancia por permutacion de renta_barrio en G: +0.00170 de AUC
+  (si es ~0 o negativa, el modelo no la usa de forma util)
+
+  VEREDICTO:
+  La renta NO APORTA de forma medible: la diferencia de lift entre
+  G y C entra en el intervalo de confianza. ESO ES EL RESULTADO.
+  El censo municipal, con sector + distrito + historia, ya captura
+  la senal socioeconomica que la renta del barrio podria anadir
+  (el distrito es un proxy grueso de renta, y el sector aun mas).
+
+Informe: salida/comparativa_fuente_ine.md
+
+#------------------------------------------------------------------
+# Fin: 2026-09-08 10:01:49

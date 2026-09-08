@@ -1,0 +1,47 @@
+# hito8b_error_residual
+# Ejecutado: 2026-09-05 19:13:07
+# Comando: src/hito8b_error_residual.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_191307_hito8b_error_residual.log
+[aviso] descartados_25.csv: la columna 'era_cierre_real' esta sin rellenar. Se omite este bloque del calculo.
+======================================================================
+VALIDACION MANUAL DEL TARGET  (cohorte 2021->2022)
+======================================================================
+  Universo: 81,398   churn actual: 3,234 (3.97%)
+  Poblacion 'rotacion real'        : 2,345  (de aqui salen los 40 positivos)
+  Poblacion 'descartados = mismo'  : 998  (de aqui salen los 25 descartados)
+
+----------------------------------------------------------------------
+FALSOS POSITIVOS  (es_cierre_real = 0)
+----------------------------------------------------------------------
+  1 de 40  ->  tasa 2.5%   IC95% Wilson [0.4%, 12.9%]
+
+FALSOS NEGATIVOS  (era_cierre_real = 1)
+----------------------------------------------------------------------
+  descartados_25.csv aun sin revisar -> los falsos negativos NO
+  se han medido en esta iteracion del target. El efecto de abajo
+  es solo el de los FALSOS POSITIVOS (cota de la SOBRESTIMACION).
+
+======================================================================
+EFECTO NETO SOBRE LA TASA DE CHURN
+======================================================================
+  Falsos positivos restan  ~59 casos (-0.07% sobre la tasa)
+  Falsos negativos suman   ~0 casos (+0.00% sobre la tasa)
+
+  Tasa de churn observada : 3.97%
+  Tasa de churn corregida : 3.90%   (rango por IC: 3.60% a 3.96%)
+
+  El target SOBRESTIMA la rotacion real en ~0.07% (en terminos absolutos sobre el 4%).
+  En terminos relativos: -2% del churn.
+
+  Frase para la memoria:
+  "La revision manual de 40 rotaciones marcadas como cierre estima
+   un 2% (1/40) de falsos positivos, IC95% Wilson
+   [0%, 13%]. Corrigiendo solo por esa tasa, el target
+   SOBRESTIMA la rotacion en ~0.07% puntos sobre el 3.97%
+   (-2% del churn), dentro del ruido. Los falsos
+   negativos (descartados_25.csv) quedan pendientes de revisar."
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 19:13:07

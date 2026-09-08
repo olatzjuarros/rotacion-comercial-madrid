@@ -1,0 +1,42 @@
+# hito8b_error_residual
+# Ejecutado: 2026-09-05 19:40:45
+# Comando: src/hito8b_error_residual.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_194045_hito8b_error_residual.log
+======================================================================
+VALIDACION MANUAL DEL TARGET  (cohorte 2021->2022)
+======================================================================
+  Universo: 81,398   churn actual: 3,234 (3.97%)
+  Poblacion 'rotacion real'        : 2,345  (de aqui salen los 40 positivos)
+  Poblacion 'descartados = mismo'  : 998  (de aqui salen los 25 descartados)
+
+----------------------------------------------------------------------
+FALSOS POSITIVOS  (es_cierre_real = 0)
+----------------------------------------------------------------------
+  1 de 40  ->  tasa 2.5%   IC95% Wilson [0.4%, 12.9%]
+
+FALSOS NEGATIVOS  (era_cierre_real = 1)
+----------------------------------------------------------------------
+  8 de 25  ->  tasa 32.0%   IC95% Wilson [17.2%, 51.6%]
+
+======================================================================
+EFECTO NETO SOBRE LA TASA DE CHURN
+======================================================================
+  Falsos positivos restan  ~59 casos (-0.07% sobre la tasa)
+  Falsos negativos suman   ~319 casos (+0.39% sobre la tasa)
+
+  Tasa de churn observada : 3.97%
+  Tasa de churn corregida : 4.29%   (rango por IC: 3.81% a 4.59%)
+
+  El target SUBESTIMA la rotacion real en ~0.32% (en terminos absolutos sobre el 4%).
+  En terminos relativos: +8% del churn.
+
+  Frase para la memoria:
+  "La revision manual de 65 casos estima un 2% de falsos
+   positivos y un 32% de falsos negativos en la frontera de
+   identidad del rotulo. El efecto neto sobre la tasa de churn del
+   3.97% es de +0.32% puntos, dentro del ruido."
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 19:40:45

@@ -1,0 +1,84 @@
+# hito18_errores_target
+# Ejecutado: 2026-09-05 13:37:43
+# Comando: hito18_errores_target.py --dir ../datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_133743_hito18_errores_target.log
+Paneles cargados: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
+
+==============================================================================
+1. RECUENTO DE 'POR DEFINIR' POR PANEL
+==============================================================================
+   Confirmacion previa: el patron PLACEHOLDER_PATRON actual NO
+   reconoce 'POR DEFINIR' como hueco administrativo:
+     es_placeholder('POR DEFINIR') = False
+
+  panel 2014:     22 de 142,484 locales (0.0154%)
+  panel 2015:     21 de 144,168 locales (0.0146%)  <-- entra en cohortes modeladas
+  panel 2016:     17 de 145,065 locales (0.0117%)  <-- entra en cohortes modeladas
+  panel 2017:     15 de 145,752 locales (0.0103%)  <-- entra en cohortes modeladas
+  panel 2018:     16 de 146,716 locales (0.0109%)  <-- entra en cohortes modeladas
+  panel 2019:     20 de 147,576 locales (0.0136%)  <-- entra en cohortes modeladas
+  panel 2020:     18 de 148,033 locales (0.0122%)  <-- entra en cohortes modeladas
+  panel 2021:     14 de 149,935 locales (0.0093%)  <-- entra en cohortes modeladas
+  panel 2022:     19 de 150,522 locales (0.0126%)  <-- entra en cohortes modeladas
+  panel 2023:     19 de 150,731 locales (0.0126%)
+  panel 2024:     18 de 151,286 locales (0.0119%)
+  panel 2025:     19 de 151,880 locales (0.0125%)
+  panel 2026:     19 de 152,099 locales (0.0125%)
+
+  TOTAL 'POR DEFINIR' en los 13 paneles: 237
+
+==============================================================================
+2. CUANTOS CASOS DEL TARGET DE TEST (2021->2022) SE VEN AFECTADOS
+==============================================================================
+  Universo test: 81,398   churn actual: 3,234 (3.97%)  -- para contraste con la ficha
+
+  (a) Locales cuyo rotulo de PARTIDA (2021) es 'POR DEFINIR': 13
+      Estos permanecen en el universo (no se excluyen como los
+      demas placeholders) y su identidad se compara contra 2022
+      partiendo de una base que en realidad no identifica ningun
+      negocio concreto.
+
+  (b) Locales cuyo rotulo cambia A 'POR DEFINIR' en 2022 (entre los que difieren): 6
+      Al no estar en PLACEHOLDER_PATRON, mismo_negocio() los trata
+      como negocio nuevo en vez de aplicar la regla de 'destino
+      administrativo => no se sabe, no se cuenta cambio' que ya
+      aplica a 'POR DETERMINAR'/'SIN DEFINIR'.
+
+  TOTAL filas del target de test tocadas por este hueco: 19 de 81,398 (0.023%)
+  Efecto MAXIMO posible sobre la tasa de churn del test (3.97%): +0.023% puntos (cota superior: supone que las filas afectadas se contaran erroneamente en TODOS
+  los casos, lo cual es una sobreestimacion -- ver el ejemplo de
+  'PORCELANOSA'->'POR DEFINIR' en la revision manual, donde la
+  clasificacion actual YA acierta).
+
+==============================================================================
+3. 'BILLARES BOLAS 8' / 'BILLARBOLA 8': alcance del error de espaciado
+==============================================================================
+  Este tipo de error (plural/singular + fusion de tokens sin
+  espacio) no se puede enumerar de forma barata: por definicion,
+  la regla actual no lo detecta, asi que no hay una consulta
+  automatica que liste 'los demas casos parecidos' sin antes
+  corregir la regla (lo que esta tarea prohibe expresamente).
+
+  Lo que SI se puede acotar es su peso dentro del error ya medido:
+  es uno de los 6 falsos positivos de la muestra de 40 rotaciones
+  revisadas a mano en `src/hito8b_error_residual.py`
+  (id_local 280061969, `salida/validacion/positivos_40.csv`), que
+  ya arroja una tasa de falsos positivos del 15% (6/40, IC95%
+  Wilson [7,1%, 29,1%]) con un efecto neto sobre la tasa de churn
+  DENTRO DEL RUIDO (ver logs/*hito8b_error_residual*). Este caso
+  concreto pesa, el solo, 1 de los 3,234 casos de churn del test (0.0012% del universo): negligible a nivel
+  individual; su magnitud como CLASE de error es la que ya reporta
+  el 15% de falsos positivos de hito8b, no una cifra nueva.
+
+==============================================================================
+RESUMEN PARA salida/DATOS.md
+==============================================================================
+  'POR DEFINIR': 237 apariciones en 13 paneles; 19 filas del target de
+  test tocadas (0.023% del universo, cota superior).
+  'BILLARES BOLAS 8'/'BILLARBOLA 8': 1 caso conocido, ya incluido
+  en el 15% de falsos positivos medido por hito8b.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 13:37:51

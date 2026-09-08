@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riesgo de rotación comercial · Madrid</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Riesgo de rotación comercial en Madrid</h1>
+  <p class="subt">
+    Modelo <strong id="h-modelo">—</strong> · AUC <span id="h-auc">—</span> ·
+    tasa base <span id="h-base">—</span> ·
+    <span class="nota-corta">estimación poblacional, no un diagnóstico individual</span>
+  </p>
+</header>
+
+<main>
+
+  <!-- ===================== CABECERA EXPLICATIVA (antes del mapa) ===================== -->
+  <section id="seccion-explicacion">
+    <h2>¿Qué es esto?</h2>
+    <dl id="explicacion" class="explicacion">
+      <dt>Qué predice</dt>
+      <dd>La probabilidad de que, en los próximos 12 meses, el local deje de
+        albergar el mismo negocio (cierre, traspaso o cambio de rótulo).</dd>
+
+      <dt>Datos</dt>
+      <dd>Censo de Locales y Actividades de Madrid, 13 cortes anuales
+        (2014-2026).</dd>
+
+      <dt>Entrenamiento</dt>
+      <dd id="exp-entrenamiento">—</dd>
+
+      <dt>Modelo</dt>
+      <dd id="exp-modelo">—</dd>
+
+      <dt>Fiabilidad</dt>
+      <dd id="exp-fiabilidad">—</dd>
+
+      <dt>Horizonte</dt>
+      <dd>Estado de partida: junio de 2026. Predicción a 12 meses vista.</dd>
+    </dl>
+  </section>
+
+  <!-- ============================== 1. MAPA ============================== -->
+  <section id="seccion-mapa">
+    <h2>1. Riesgo por barrio</h2>
+    <p class="ayuda">Radio = número de locales del barrio · color = quintil de riesgo medio del barrio (amarillo = quintil más bajo, rojo oscuro = quintil más alto).</p>
+    <div id="mapa"></div>
+    <div id="leyenda"></div>
+  </section>
+
+  <!-- ======================= 2. BUSCADOR DE LOCAL ========================= -->
+  <section id="seccion-buscador">
+    <h2>2. Consultar un local del censo</h2>
+    <p class="ayuda">Busca un negocio real del censo por su nombre y consulta su ficha de riesgo individual. Escribe parte del nombre del negocio; opcionalmente, acota por barrio.</p>
+    <form id="form-buscador-nombre" autocomplete="off">
+      <label>Nombre del negocio
+        <input type="text" id="input-nombre" placeholder="p. ej. carnicería, kebab, peluquería…">
+      </label>
+      <label>Barrio (opcional)
+        <select id="sel-barrio-filtro">
+          <option value="">— todos —</option>
+        </select>
+      </label>
+    </form>
+    <ul id="lista-resultados" class="lista-resultados" hidden></ul>
+    <p id="aviso-busqueda" class="ayuda" hidden></p>
+
+    <details id="buscador-id">
+      <summary>Buscar por id_local (opción secundaria)</summary>
+      <form id="form-buscador" autocomplete="off">
+        <input type="text" id="input-id-local" placeholder="id_local, p. ej. 270041394" inputmode="numeric">
+        <button type="submit">Buscar</button>
+      </form>
+    </details>
+
+    <div id="resultado-buscador" class="resultado" hidden></div>
+    <div id="error-buscador" class="mensaje-error" hidden></div>
+  </section>
+
+  <!-- ============================ 3. SIMULADOR ============================ -->
+  <section id="seccion-simulador">
+    <h2>3. Simular un local hipotético</h2>
+    <p class="ayuda">Elige sector, distrito y tipo de acceso de un negocio que no existe todavía y calcula su riesgo estimado.</p>
+    <form id="form-simulador" autocomplete="off">
+      <label>Epígrafe de actividad
+        <select id="sel-epigrafe" required></select>
+      </label>
+      <label>División de actividad
+        <select id="sel-division" required></select>
+      </label>
+      <label>Distrito
+        <select id="sel-distrito" required></select>
+      </label>
+      <label>Tipo de acceso
+        <select id="sel-acceso" required></select>
+      </label>
+      <button type="submit">Calcular riesgo</button>
+    </form>
+    <div id="resultado-simulador" class="resultado" hidden></div>
+    <div id="error-simulador" class="mensaje-error" hidden></div>
+  </section>
+
+</main>
+
+<footer>
+  <p>TFM · Censo de Locales y Actividades, Ayuntamiento de Madrid. Datos hasta junio de 2026.</p>
+  <p><a href="/docs">Documentación técnica de la API (/docs)</a></p>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+# TFM - Rotación comercial en Madrid.
+# Versiones EXACTAS de lo que importan de verdad los scripts (no un pip freeze).
+# Python 3.12.  Instalación:  python -m venv .tfm  &&  .tfm/Scripts/pip install -r requirements.txt
+#
+# El campeón (datos/modelo_campeon.joblib) es un Pipeline de scikit-learn
+# serializado con joblib: hay que deserializarlo con ESTAS versiones.
+
+# --- núcleo del pipeline (hito3b .. hito21) ---
+pandas==3.0.5
+numpy==2.5.2
+scikit-learn==1.9.0
+scipy==1.18.1
+joblib==1.6.0
+pyarrow==25.0.1          # pandas.read_parquet / to_parquet de los paneles
+
+# --- figuras (hito10, hito15, hito16) ---
+matplotlib==3.11.1
+shap==0.52.0             # solo hito10 --shap; si falta, hito10 se salta esa parte
+
+# --- exportación de datos ---
+pyproj==3.7.2            # hito13: reproyección UTM 25830 -> WGS84 para Tableau
+openpyxl==3.1.5          # hito8: copia .xlsx de las muestras de validación manual
+
+# --- API (api/main.py) ---
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+pydantic==2.13.5
+
+# --- tests ---
+pytest==9.1.1
+httpx==0.28.1            # fastapi.testclient lo necesita
+
+# --- requisitos de la guia del TFM (tarea 31) ---
+xgboost==3.4.1           # hito22: una de las 6 tecnicas comparadas.
+                         # Si falta, hito22 la salta y lo dice (try/except).
+nbformat==5.11.1         # construir/ejecutar notebooks/01_analisis_exploratorio.ipynb
+nbconvert==7.17.1        # exportar el notebook a salida/01_analisis_exploratorio.html
+ipykernel==7.3.0         # kernel para ejecutar el notebook con nbconvert
+# hito23 (fuente INE) usa solo urllib + pandas, sin dependencias nuevas.
+
+# spark/ (hito12, verificación cruzada del vecindario) NO está aquí: se ejecuta
+# en Databricks, no en este entorno. Ver spark/vecindario_*.py.

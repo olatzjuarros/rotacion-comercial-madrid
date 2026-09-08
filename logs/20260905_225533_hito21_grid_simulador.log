@@ -1,0 +1,60 @@
+# hito21_grid_simulador
+# Ejecutado: 2026-09-05 22:55:33
+# Comando: src/hito21_grid_simulador.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_225533_hito21_grid_simulador.log
+Campeon: C. Sector + distrito + historia   tasa base 0.0397
+Epigrafes: 437   distritos: 21
+Perfil 'local tipico' (medianas 2026): {'antiguedad_negocio': 3.0, 'antiguedad_local': 3.0, 'rotaciones_previas': 0.0, 'tasa_rotacion_local': 0.0, 'antiguedad_censurada': 1.0}
+
+[1] simulador_grid.csv
+  simulador_grid.csv / simulador_grid_es.csv   (27,531 filas)
+    prob: min 0.0000  media 0.0396  max 0.2000
+    OJO al importar en Tableau: 'epigrafe_codigo' es TEXTO (hay codigos con ceros a la izquierda: 000000, 010001, ...). Si Tableau lo detecta como numero, los pierde.
+
+    VERIFICACION por distrito ('ACABADO DE EDIFICIOS (CARPINTERIA, REVOCAMIENTO, REVESTIMIENTO DE SUELOS Y PAREDES,  PINTURA, ACRISTALAMIENTO)', perfil 'local tipico'):
+      6 valores distintos en 21 distritos
+      mas riesgo:  ARGANZUELA           0.0214
+      menos riesgo:USERA                0.0134
+      cociente alto/bajo: 1.59x
+
+[2] cohortes_churn.csv
+  cohortes_churn.csv / cohortes_churn_es.csv   (12 filas)
+
+[3] distrito_real_vs_predicho.csv
+  distrito_real_vs_predicho.csv / distrito_real_vs_predicho_es.csv   (21 filas)
+           distrito  n_locales  churn_observado  riesgo_medio_predicho
+          VICALVARO       2131           0.0549                 0.0451
+             RETIRO       5449           0.0521                 0.0422
+             CENTRO      17706           0.0520                 0.0452
+             TETUAN       9342           0.0455                 0.0413
+          SALAMANCA      11774           0.0451                 0.0478
+           CHAMBERI      10756           0.0409                 0.0408
+  VILLA DE VALLECAS       5352           0.0398                 0.0336
+ PUENTE DE VALLECAS       8838           0.0381                 0.0307
+          CHAMARTIN       9116           0.0380                 0.0333
+    MONCLOA-ARAVACA       6050           0.0360                 0.0308
+FUENCARRAL-EL PARDO       7952           0.0357                 0.0312
+          MORATALAZ       2992           0.0334                 0.0402
+         VILLAVERDE       6579           0.0322                 0.0364
+      CIUDAD LINEAL      11084           0.0319                 0.0322
+              USERA       5208           0.0307                 0.0245
+          HORTALEZA       5810           0.0306                 0.0284
+        CARABANCHEL      11243           0.0302                 0.0311
+         ARGANZUELA       7307           0.0301                 0.0326
+            BARAJAS       2406           0.0258                 0.0352
+             LATINA       8565           0.0231                 0.0247
+SAN BLAS-CANILLEJAS       6398           0.0227                 0.0303
+
+  (pool val 2019->2020 + test 2021->2022. La cohorte val se uso para calibrar, asi que su ajuste es algo optimista.)
+
+================================================================
+RESUMEN
+================================================================
+  simulador_grid.csv           27,531 filas (437 epigrafes x 21 distritos x 3 perfiles)
+  cohortes_churn.csv           12 filas
+  distrito_real_vs_predicho.csv 21 filas
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 22:55:50

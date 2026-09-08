@@ -1,0 +1,50 @@
+# hito7_campeon
+# Ejecutado: 2026-09-03 14:17:39
+# Comando: src\hito7_campeon.py --dir datos --repeticiones 500
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_141739_hito7_campeon.log
+train 319,920   val 81,654   test 82,343
+tasa base en test: 4.07%
+bootstrap: 500 remuestreos
+
+  entrenado: A. Solo sector
+  entrenado: B. Sector + distrito
+  entrenado: C. Sector + distrito + historia
+  entrenado: D. Completo (con geo micro)
+  entrenado: E. Sin sector
+
+==============================================================================
+RESULTADOS EN TEST  (cohorte 2021->2022, nunca vista)
+==============================================================================
+                                 n_vars   auc          auc_ic  lift10       lift_ic  brier
+modelo                                                                                    
+A. Solo sector                        2 0.659  [0.651, 0.667]   1.771  [1.66, 1.90]  0.039
+B. Sector + distrito                  3 0.663  [0.654, 0.671]   1.968  [1.85, 2.11]  0.039
+C. Sector + distrito + historia       9 0.667  [0.658, 0.676]   2.138  [1.98, 2.24]  0.039
+D. Completo (con geo micro)          15 0.661  [0.652, 0.669]   2.102  [1.95, 2.23]  0.039
+E. Sin sector                        13 0.609  [0.599, 0.618]   1.738  [1.64, 1.91]  0.039
+
+==============================================================================
+¿HAY DIFERENCIAS REALES?
+==============================================================================
+  Referencia: 'A. Solo sector' -> AUC 0.659 [0.651, 0.667], lift 1.77 [1.66, 1.90]
+
+  B. Sector + distrito             AUC +0.005   lift +0.20
+  C. Sector + distrito + historia  AUC +0.009   lift +0.37
+  D. Completo (con geo micro)      AUC +0.003   lift +0.33
+  E. Sin sector                    AUC -0.049   lift -0.03
+
+  Si los intervalos de dos modelos se solapan mucho, la
+  diferencia entre ellos NO es concluyente y hay que decirlo.
+
+==============================================================================
+CAMPEON POR LIFT: C. Sector + distrito + historia
+==============================================================================
+  Guardado: datos/modelo_campeon.joblib
+  Ficha:    datos/ficha_modelo.json
+
+  Esta ficha es la fuente unica de los numeros de la memoria.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 14:18:49

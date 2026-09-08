@@ -1,0 +1,54 @@
+# Datos (se reconstruyen con hito3a -> hito3b -> hito4; pesan cientos de MB)
+datos/
+
+# Entorno virtual
+.tfm/
+
+# Caché de Python y de pytest
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Artefactos serializados (se regeneran; el .joblib del campeón pesa y depende
+# de versiones exactas de sklearn)
+*.pkl
+*.joblib
+
+# Exportación para Tableau (se regenera con hito13 y hito21). Se conserva el
+# libro .twb; se ignoran los datos y los ficheros de recuperación de Tableau.
+salida/tableau/*.csv
+*.twbr
+~*.tmp
+*.twb.bak
+
+# Scoring prospectivo por local (~9 MB; lo regenera hito15, en RESULTADOS.md
+# se cita el LOG, no este CSV)
+salida/prospectiva_2025_2026.csv
+
+# Registro de monitorización de la API (datos de operación en runtime)
+salida/monitorizacion/*.csv
+salida/monitorizacion/*.md
+
+# Muestras de entrada/salida de los notebooks de Spark (~13 MB; se generan en
+# Databricks, no hacen falta para ejecutar nada en local; los .py sí se conservan)
+spark/*.csv
+
+# Exploración: se conservan los .py (rastro del proceso), no los CSV ni las
+# notas de planificación desfasadas
+exploracion/*.csv
+exploracion/*.md
+
+# Árbol de ficheros autogenerado
+estructura.txt
+
+# Copia de trabajo del Space de Hugging Face (es su propio repo git; se arma
+# con deploy/INSTRUCCIONES.md, no forma parte de este repositorio)
+riesgo-rotacion-madrid/
+
+# NOTA: salida/riesgo_2026.csv (~11 MB) SÍ se versiona a propósito: es el
+# scoring del censo 2026 que sirve la API y el dashboard; tenerlo hace que el
+# repo sea ejecutable nada más clonar. Se regenera con hito9 si hiciera falta.
+
+# Sistema
+.DS_Store
+Thumbs.db

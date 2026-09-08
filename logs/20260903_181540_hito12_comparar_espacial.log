@@ -1,0 +1,14 @@
+# hito12_comparar_espacial
+# Ejecutado: 2026-09-03 18:15:40
+# Comando: src/hito12_comparar_espacial.py --anio 2021 --exportar
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_181540_hito12_comparar_espacial.log
+Guardado: spark\panel_2021.csv   (149,935 filas)
+
+Sube este fichero a Databricks como /FileStore/tfm/panel_2021.csv
+y ejecuta spark/vecindario_sedona.py (con ANIO = 2021).
+Luego descarga vecindario_sedona_2021_flat.csv a spark/vecindario_sedona_2021.csv y relanza este script sin --exportar.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 18:15:42

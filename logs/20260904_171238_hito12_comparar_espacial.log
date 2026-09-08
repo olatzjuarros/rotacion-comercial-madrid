@@ -1,0 +1,16 @@
+# hito12_comparar_espacial
+# Ejecutado: 2026-09-04 17:12:38
+# Comando: src\hito12_comparar_espacial.py --exportar --anio 2021
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260904_171238_hito12_comparar_espacial.log
+Guardado: spark\panel_2021.csv   (149,935 filas)
+
+  1. Sube panel_2021.csv a Databricks (Volumen o /FileStore/tfm/).
+  2. Ejecuta spark/vecindario_pyspark.py (Serverless) o
+     spark/vecindario_sedona.py (cluster con JVM), con ANIO = 2021.
+  3. Descarga el CSV plano a spark/vecindario_pyspark_2021.csv (o _sedona_) y
+     relanza este script sin --exportar.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-04 17:12:40

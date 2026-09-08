@@ -1,0 +1,37 @@
+# hito6_boosting
+# Ejecutado: 2026-09-03 12:35:36
+# Comando: src\hito6_boosting.py --dir datos
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260903_123536_hito6_boosting.log
+train 319,920   val 81,654   test 82,343
+tasa base test: 4.07%
+
+==============================================================================
+1. ¿CRECE LA APORTACION CON UN MODELO NO LINEAL?  (validacion)
+==============================================================================
+Traceback (most recent call last):
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito6_boosting.py", line 251, in <module>
+    main()
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\src\hito6_boosting.py", line 132, in main
+    m_sector.fit(train[columnas([], ["id_epigrafe", "id_division"])], ytr)
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\base.py", line 1403, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\pipeline.py", line 649, in fit
+    self._final_estimator.fit(Xt, y, **last_step_params["fit"])
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\base.py", line 1403, in wrapper
+    return fit_method(estimator, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py", line 447, in fit
+    X, known_categories = self._preprocess_X(X, reset=True)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py", line 299, in _preprocess_X
+    known_categories = self._check_categories()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ibon\OneDrive - Mondragon Unibertsitatea\Escritorio\Olatz\Máster\v2_TFM\.tfm\Lib\site-packages\sklearn\ensemble\_hist_gradient_boosting\gradient_boosting.py", line 348, in _check_categories
+    raise ValueError(
+ValueError: Categorical feature at index 0 is expected to have a cardinality <= 255 but actually has a cardinality of 441.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-03 12:35:37

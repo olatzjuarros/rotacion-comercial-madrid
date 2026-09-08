@@ -1,0 +1,161 @@
+# hito17_dispersion
+# Ejecutado: 2026-09-05 22:53:46
+# Comando: src/hito17_dispersion.py --dir datos --repeticiones 500 --fijar-campeon
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260905_225346_hito17_dispersion.log
+train 316,973   val 80,660   test 81,398
+tasa base test: 3.97%
+bootstrap: 500 remuestreos
+
+==============================================================================
+1. RENDIMIENTO  (confirmacion del empate, bootstrap PAREADO)
+==============================================================================
+  entrenado: B. Sector + distrito (3 variables)
+  entrenado: C. Sector + distrito + historia (9 variables)
+
+                                 n_vars    auc          auc_ic  lift10       lift_ic  brier
+modelo                                                                                     
+B. Sector + distrito                  3 0.6668  [0.658, 0.675]  2.0286  [1.89, 2.15] 0.0377
+C. Sector + distrito + historia       9 0.6670  [0.659, 0.676]  2.0194  [1.87, 2.14] 0.0377
+
+  C vs B, bootstrap PAREADO (mismos locales cada remuestreo):
+    delta AUC   +0.0003  IC [-0.0047, +0.0057]  -> EMPATE
+    delta lift10 -0.0093  IC [-0.1613, +0.1430]  -> EMPATE
+    delta Brier -0.00004  IC [-0.00009, -0.00000]  -> diferencia real (negativo = C calibra mejor)
+
+==============================================================================
+2. METRICAS DE DISPERSION  (por que un empate estadistico no es
+   lo mismo que 'da igual cual se use')
+==============================================================================
+
+  --- B. Sector + distrito ---
+  valores de probabilidad distintos en test: 27 (de 81,398 locales)
+  desviacion tipica:                         0.01921
+  rango intercuartilico (IQR):                0.02430  [0.01826, 0.04257]
+  grupos (epigrafe x distrito) con >=2 locales: 4,643
+  CV medio DENTRO de esos grupos (simple):    0.00000
+  CV medio DENTRO de esos grupos (ponderado): 0.00000
+  % locales que comparten prob. exacta con >=10 mas: 100.00%
+
+  --- C. Sector + distrito + historia ---
+  valores de probabilidad distintos en test: 56 (de 81,398 locales)
+  desviacion tipica:                         0.02009
+  rango intercuartilico (IQR):                0.03580  [0.02138, 0.05719]
+  grupos (epigrafe x distrito) con >=2 locales: 4,643
+  CV medio DENTRO de esos grupos (simple):    0.14902
+  CV medio DENTRO de esos grupos (ponderado): 0.19193
+  % locales que comparten prob. exacta con >=10 mas: 99.96%
+
+==============================================================================
+3. UTILIDAD: DE 100 LOCALES VISITADOS, CUANTOS CIERRES SE CAPTURAN
+==============================================================================
+  B. Sector + distrito                8 de 100  (8% de los visitados cierran de verdad; tasa base 3.97%)
+  C. Sector + distrito + historia    12 de 100  (12% de los visitados cierran de verdad; tasa base 3.97%)
+
+==============================================================================
+4. CALIBRACION  (¿empeora C la fiabilidad de la probabilidad?)
+==============================================================================
+
+  --- B. Sector + distrito ---
+                  n  cierre_real  prob_predicha
+tramo                                          
+(0.0, 0.02]   24931       0.0132         0.0150
+(0.02, 0.04]  28072       0.0393         0.0323
+(0.04, 0.06]  21084       0.0568         0.0478
+(0.06, 0.08]   5727       0.0810         0.0712
+(0.08, 0.12]   1584       0.0878         0.1018
+
+  --- C. Sector + distrito + historia ---
+                  n  cierre_real  prob_predicha
+tramo                                          
+(0.0, 0.02]   15588       0.0098         0.0125
+(0.02, 0.04]  41012       0.0348         0.0291
+(0.04, 0.06]   6950       0.0508         0.0524
+(0.06, 0.08]  16993       0.0703         0.0646
+(0.08, 0.12]    831       0.1227         0.1028
+(0.12, 1.0]      24       0.2500         0.1483
+
+  Si 'cierre_real' y 'prob_predicha' se parecen tramo a tramo en
+  ambos modelos, ninguno de los dos esta mal calibrado.
+
+==============================================================================
+5. EJEMPLO CONCRETO: CARNICERIAS DE TETUAN, PANEL 2026
+==============================================================================
+
+  48 carnicerias en Tetuan (panel 2026):
+
+ id_local                                       rotulo  prob_B  prob_C
+270099657 CARNICERÍA Y POLLERÍA CON CASQUERÍA 'MIGUEL'  0.1016  0.2000
+270101955                      CARNICERÍA CORTE LATINO  0.1016  0.2000
+ 60000692                    CARNICERIA GIRALDEZ AYALA  0.1016  0.1183
+ 60002299                             CARNES DEL NORTE  0.1016  0.1183
+280027502                          CARNICERÍA LOS DELY  0.1016  0.1183
+ 60000058                       CARNICERIA CAAGUASEÑOS  0.1016  0.0751
+270552112       CARNICERÍA LA FINCA -  EL CORTE INGLES  0.1016  0.0706
+270562187                                      YARCOPE  0.1016  0.0706
+270583556   BUTCHER SHOP (DENTRO DE CARREFOUR MARQUET)  0.1016  0.0706
+270576055                       ALIMENTACION LOS MARES  0.1016  0.0706
+ 60000806     CARNICERIA MARTIN SANCHEZ / CJ 259 A 266  0.1016  0.0630
+ 60002886                               VENTURA CORDÓN  0.1016  0.0630
+ 60002858               LA BOUTIQUE DE LA CARNE. CJ168  0.1016  0.0630
+ 60000719                  CARNICERIA TEYJO / 281-282A  0.1016  0.0630
+ 60000789                                  LAS ENCINAS  0.1016  0.0630
+ 60000044                          CARNICERIA LOS DELY  0.1016  0.0630
+280029780                      CARNICERÍA HALAL MEDINA  0.1016  0.0630
+270109701                               IGNACIO GARCIA  0.0426  0.0630
+ 60002179               CARNICERIAS PACO / CJ 42-43-44  0.1016  0.0630
+ 60002926                       CARNICERIA LOS DE LEON  0.1016  0.0630
+ 60002608        CARNICERIA JIMENEZ ALVAREZ/ CJ 6 A 10  0.0426  0.0630
+270353466          CARNICERIA MARTIN CARO / CJ 345-346  0.1016  0.0630
+270443246                    CARNICERIA / CJ 335 Y 336  0.1016  0.0630
+270362525          SALCHICHERIA JAMONERIA / CJ 286-287  0.0426  0.0630
+270555330           CARNICERIAS A. GRANADOS/CJ 38 Y 39  0.0426  0.0630
+270528468                         SUPERMERCADO WENZHOU  0.1016  0.0630
+270527341                               8 DE DICIEMBRE  0.1016  0.0630
+270525432                       ANGEL MERCADO DE CARNE  0.1016  0.0630
+280027480                                  FEDE Y GABY  0.1016  0.0630
+270576736                  CARNICERIA PUESTOS 282B-283  0.1016  0.0630
+280027483                       CARNICERIA /  CJ 32-33  0.0426  0.0630
+280027516                            CARNICERIA CARMEN  0.0716  0.0630
+285008416                                        FROIZ  0.1016  0.0630
+280027524                           CARNICERIA GONZALO  0.1016  0.0630
+280027519                         DEHESA GRANDE/ CJ192  0.1016  0.0630
+280027530             CARNICAS MARTIN SANCHEZ / CJ 267  0.1016  0.0630
+280027531                    CARNICERIA/ CJ268-269-270  0.1016  0.0630
+280027631                  CARNES SELECTAS LUIS MARTIN  0.0426  0.0630
+280027796                  CARNICERIA MARTIN Y MENESES  0.1016  0.0630
+280029643                               NOBLEZA VACUNA  0.1016  0.0630
+280027653               FELIPE GARCIA CASAS CARNICERIA  0.1016  0.0630
+280030787                               CARNICERÍA NOR  0.1016  0.0630
+280031824                    CARNICERIA LUIS DEL CAMPO  0.1016  0.0630
+285009994                         ANGEL MERCADO CARNES  0.0716  0.0553
+280030270             CHARCUTERIA, CARNICERÍA Y QUESOS  0.0716  0.0553
+ 60003004                           CARNICERIA ALBERTO  0.0426  0.0372
+270566413                               DOBAY ALIMENTA  0.0426  0.0372
+280030829                            SUPERMERCADO OKEY  0.0426  0.0372
+
+  B: 3 valor(es) distinto(s) -> 0.1016 para todas por igual (mismo
+  epigrafe + distrito, sus 2 unicas variables + division).
+  C: 7 valores distintos (rango [0.0372, 0.2000]) -- distingue por la historia de cada local.
+
+==============================================================================
+RESUMEN PARA LA DECISION
+==============================================================================
+  Rendimiento: EMPATE (lift10, bootstrap pareado) -- coincide con hito7.
+  Calibracion: no empeora con C (ver IC de la diferencia de Brier arriba).
+  Dispersion intra-grupo (CV ponderado): B=0.00000  C=0.19193
+  Si B es (casi) 0 por construccion y C > 0, C aporta prediccion
+  diferenciada por local que B no puede dar, sin perder rendimiento
+  ni calibracion -- ese es el criterio de utilidad del enunciado.
+
+==============================================================================
+FIJANDO CAMPEON: C. Sector + distrito + historia
+==============================================================================
+  Guardado: datos/modelo_campeon.joblib
+  Ficha:    datos/ficha_modelo.json
+  Pendiente (fuera de este script): regenerar hito9 -> hito10 ->
+  hito13 -> hito15 y actualizar salida/RESULTADOS.md.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-05 22:54:32

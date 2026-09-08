@@ -1,0 +1,36 @@
+# hito24_deriva
+# Ejecutado: 2026-09-08 10:12:37
+# Comando: src/hito24_deriva.py --guardar-informe
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260908_101237_hito24_deriva.log
+peticiones registradas: 179
+referencia de entrenamiento: 316,973 filas (cohortes [np.int64(2015), np.int64(2016), np.int64(2017), np.int64(2018)])
+
+==============================================================================
+PSI POR VARIABLE  (esperado = entrenamiento, observado = peticiones)
+==============================================================================
+  epigrafe              PSI  0.077   -> estable
+  division              PSI  0.200   -> DERIVA MODERADA
+  distrito              PSI  0.051   -> estable
+  tipo_acceso           PSI  0.011   -> estable
+  antiguedad            PSI  2.448   -> DERIVA ALTA
+  rotaciones_previas    PSI    nan   -> sin datos
+
+==============================================================================
+DERIVA ALTA en: antiguedad.
+Las peticiones que recibe la API no se parecen a los datos con
+los que se entreno el campeon. Revisar el caso de uso y valorar
+un reentrenamiento con cohortes mas recientes.
+
+  Detalle de 'antiguedad' (la de mayor PSI):
+                    esperado  observado  psi_bin
+antiguedad_negocio                              
+(-inf, 1.0]           0.5370     0.0615   1.0307
+(1.0, 2.0]            0.2392     0.0279   0.4538
+(2.0, inf]            0.2238     0.9106   0.9638
+
+Informe: salida\monitorizacion\deriva_20260908.md
+
+#------------------------------------------------------------------
+# Fin: 2026-09-08 10:12:37
