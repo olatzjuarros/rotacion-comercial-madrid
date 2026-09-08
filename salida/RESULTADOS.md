@@ -270,7 +270,8 @@ semántica (1.0.1), fecha de entrenamiento y SHA-256 del artefacto en
 (`salida/monitorizacion/predicciones.csv`); `GET /metrics` la resume;
 `src/hito24_deriva.py` compara la distribución de las peticiones con la de
 entrenamiento (PSI). `MODEL_CARD.md` recoge uso previsto, limitaciones y
-sesgos. `deploy/` deja la API lista para Hugging Face Spaces.
+sesgos. `Dockerfile` + `render.yaml` en la raíz dejan la API lista para
+Render.com (plan free; arranca en ~155 MB de RAM sobre 512).
 
 **R4.4 — análisis exploratorio.** `notebooks/01_analisis_exploratorio.ipynb`
 (→ `salida/01_analisis_exploratorio.html`): volumen y evolución del censo,

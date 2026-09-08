@@ -47,15 +47,19 @@ colaboradores (instrucciones en §6).
 
 ## 3. Servicio desplegado
 
-**URL:** _[https://<usuario>-riesgo-rotacion-madrid.hf.space — pendiente]_
+**URL:** _[https://riesgo-rotacion-madrid.onrender.com — pendiente]_
 
 API FastAPI + frontal web (mapa de riesgo por barrio, buscador de locales,
-simulador de local hipotético) desplegada en Hugging Face Spaces con Docker.
-Endpoints en `…/docs`. Comprobación de estado y versión en `…/health`;
-métricas de operación en `…/metrics`.
+simulador de local hipotético) desplegada en **Render.com** (plan gratuito,
+runtime Docker). Endpoints en `…/docs`. Estado, versión e integridad del
+artefacto en `…/health`; métricas de operación en `…/metrics`.
 
-Instrucciones de despliegue reproducibles: `deploy/INSTRUCCIONES.md` en el
-repo.
+Arranca en ~155 MB de RAM (límite del plan free: 512 MB). El servicio se
+**duerme tras 15 min sin tráfico**: la primera petición tras el reposo tarda
+~30-60 s (conviene abrirlo un minuto antes de la demostración).
+
+Blueprint y Dockerfile en la raíz del repo (`render.yaml`, `Dockerfile`);
+instrucciones paso a paso en `deploy/INSTRUCCIONES.md`.
 
 ---
 
@@ -102,9 +106,9 @@ Alternativa sin cuenta de GitHub: **Settings → General → Danger Zone → Cha
 visibility → Public** durante el periodo de evaluación, y volver a privado
 después. O generar un ZIP del repo (`Code → Download ZIP`) y adjuntarlo.
 
-**Hugging Face Space** — si se deja privado: Space → **Settings** →
-**Members** → invitar al tutor con rol *read*. Si es público no hace falta
-nada.
+**Render** — el servicio web es público por su URL, no hace falta dar acceso.
+El panel de Render (logs, métricas de la plataforma) solo lo necesita quien
+mantiene el despliegue.
 
 **Tableau** — si es Tableau Public, el enlace basta. Si es Tableau Cloud,
 compartir la vista con el correo del tutor o exportar el libro

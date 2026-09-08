@@ -1,0 +1,21 @@
+# Blueprint de Render (https://render.com/docs/blueprint-spec).
+# Al conectar el repo en Render, "New +" -> "Blueprint" lee este fichero y
+# crea el servicio. Tambien se puede crear el servicio a mano con estos
+# mismos valores.
+
+services:
+  - type: web
+    name: riesgo-rotacion-madrid
+    runtime: docker
+    plan: free
+    region: frankfurt          # el mas cercano a Espana en el plan free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    autoDeploy: true            # redeploy en cada push a la rama por defecto
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      # Render inyecta PORT automaticamente; el Dockerfile lo lee con ${PORT:-8000}.
+      # MONITOR_DIR ya apunta a /tmp en el Dockerfile (efimero: el disco de
+      # Render free no persiste entre reinicios).

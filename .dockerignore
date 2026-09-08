@@ -1,0 +1,56 @@
+# Contexto de build para Render (= raiz del repo). Todo lo que el Dockerfile
+# NO copia explicitamente sobra: aqui se excluye lo pesado para que la subida
+# del contexto sea rapida y la imagen pequena.
+
+# Datos crudos, paneles, dataset y artefactos serializados grandes
+datos/panel/
+datos/actividades_*.csv
+datos/dataset_modelado.pkl
+datos/*.joblib
+datos/ine/
+!datos/modelo_campeon.joblib
+
+# Entorno virtual y cache
+.tfm/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# La API se copia entera menos lo que no se ejecuta en produccion
+api/test_api.py
+api/Dockerfile
+api/requirements.txt
+
+# Salida que la API no sirve
+salida/figuras/
+salida/capturas/
+salida/validacion/
+salida/tableau/*.twb
+salida/tableau/*.twbr
+salida/tableau/simulador_grid*.csv
+salida/tableau/cohortes_churn*.csv
+salida/tableau/distrito_real_vs_predicho*.csv
+salida/tableau/riesgo_locales*.csv
+salida/tableau/riesgo_por_epigrafe*.csv
+salida/prospectiva_2025_2026.csv
+salida/*.md
+salida/*.html
+salida/monitorizacion/
+
+# Notebooks, spark, exploracion, logs, documentacion
+notebooks/
+spark/
+exploracion/
+logs/
+*.md
+!api/**/*.md
+
+# Otro despliegue y control de versiones
+deploy/
+riesgo-rotacion-madrid/
+.git/
+.gitignore
+.github/
+estructura.txt
+catalogo_censo_locales.rdf

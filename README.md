@@ -102,8 +102,8 @@ log. No hay ningún paso manual salvo **una** revisión a mano en el hito 8
   fuente externa de renta, monitorización de deriva). Ninguno cambia el
   campeón. Detalle en `salida/MEMORIA_INSUMOS.md`.
 - `MODEL_CARD.md` — ficha de modelo (uso previsto, limitaciones, sesgos,
-  gobierno). `deploy/` — todo lo necesario para publicar la API en Hugging
-  Face Spaces (`deploy/INSTRUCCIONES.md`).
+  gobierno). `Dockerfile` + `render.yaml` + `requirements-deploy.txt` en la
+  raíz publican la API en Render.com (`deploy/INSTRUCCIONES.md`).
 
 ---
 
@@ -125,16 +125,23 @@ probabilidades), `GET /catalogos`, `GET /barrios`, `GET /buscar?q=&barrio=`,
 `GET /local/{id_local}`, `POST /predecir` (se registra en
 `salida/monitorizacion/predicciones.csv`).
 
-**Docker** (contexto de build = raíz del repo):
+**Docker** (contexto de build = raíz del repo; el `Dockerfile` de la raíz
+sirve tanto para local como para Render):
 
 ```bash
-docker build -f api/Dockerfile -t riesgo-api .
-docker run --rm -p 8000:8000 riesgo-api
+docker build -t riesgo-api .
+docker run --rm -e PORT=8000 -p 8000:8000 riesgo-api
 ```
 
-**Hugging Face Spaces:** `deploy/` trae el Dockerfile adaptado (puerto 7860,
-sin dataset ni paneles), el `README.md` con la cabecera YAML de Spaces y
-`deploy/INSTRUCCIONES.md` paso a paso.
+Copia solo lo que la API ejecuta (sin dataset ni paneles): `api/`,
+`src/{hito6_boosting,prediccion,gobierno}.py`, el `.joblib` del campeón, las
+fichas JSON, `riesgo_2026.csv` y `riesgo_por_barrio.csv`. Arranca en
+**~155 MB de RAM** (medido en contenedor con límite de 512 MB).
+
+**Despliegue en Render.com** (plan free, runtime Docker): `render.yaml` +
+`Dockerfile` en la raíz, `requirements-deploy.txt`. Paso a paso en
+`deploy/INSTRUCCIONES.md`. Escucha en `$PORT` (Render la inyecta;
+`${PORT:-8000}` en local).
 
 ---
 
@@ -160,10 +167,13 @@ se cambia el campeón.
 ## 5. Estructura del repositorio
 
 ```
+Dockerfile      imagen de despliegue (raíz: Render la busca aquí)
+render.yaml     blueprint del servicio en Render.com (plan free)
+requirements-deploy.txt   dependencias del contenedor (solo runtime)
 src/            27 scripts hitoN + gobierno.py + prediccion.py + registro.py + test_reglas_texto.py
 notebooks/      01_analisis_exploratorio.ipynb (fase descriptiva de la guía)
-deploy/         Dockerfile + README (YAML Spaces) + INSTRUCCIONES para Hugging Face
-api/            FastAPI (main.py, modelos.py, static/, Dockerfile, test_api.py)
+deploy/         INSTRUCCIONES.md — despliegue en Render paso a paso
+api/            FastAPI (main.py, modelos.py, monitor.py, static/, test_api.py)
 spark/          notebooks de Databricks para la verificación del vecindario
 datos/          [gitignore] CSV crudos, paneles, dataset, campeón .joblib
 salida/         resultados (.md), figuras/, tableau/, capturas/, validacion/

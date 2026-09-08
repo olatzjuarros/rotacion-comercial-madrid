@@ -41,8 +41,9 @@ exploracion/*.md
 # Árbol de ficheros autogenerado
 estructura.txt
 
-# Copia de trabajo del Space de Hugging Face (es su propio repo git; se arma
-# con deploy/INSTRUCCIONES.md, no forma parte de este repositorio)
+# Copias de trabajo de despliegue con su propio repo git (p. ej. el intento
+# antiguo de Hugging Face Spaces). El despliegue actual (Render) usa el
+# Dockerfile de la raíz directamente, no una carpeta aparte.
 riesgo-rotacion-madrid/
 
 # NOTA: salida/riesgo_2026.csv (~11 MB) SÍ se versiona a propósito: es el

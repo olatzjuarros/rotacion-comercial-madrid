@@ -104,12 +104,41 @@ def _cargar():
 
     scoring = None
     if RUTA_SCORING.exists():
-        scoring = pd.read_csv(RUTA_SCORING, sep=";", dtype={"id_local": str})
+        # Solo las columnas que sirve la API (sin coordenadas) y con los tipos
+        # mas compactos: los textos que se repiten van a 'category' y la
+        # probabilidad a float32. En el plan free de Render (512 MB) cada MB
+        # cuenta; asi la tabla de scoring baja de ~16 MB a ~6 MB en RAM.
+        scoring = pd.read_csv(
+            RUTA_SCORING,
+            sep=";",
+            usecols=[
+                "id_local",
+                "rotulo",
+                "desc_epigrafe",
+                "desc_distrito_local",
+                "desc_barrio_local",
+                "probabilidad",
+                "decil_riesgo",
+            ],
+            dtype={
+                "id_local": str,
+                "desc_epigrafe": "category",
+                "desc_distrito_local": "category",
+                "desc_barrio_local": "category",
+                "decil_riesgo": "int16",
+            },
+        )
+        scoring["probabilidad"] = scoring["probabilidad"].astype("float32")
         scoring = scoring.set_index("id_local")
         # columnas normalizadas precalculadas, para que /buscar no repita el
         # trabajo de quitar tildes en cada peticion
         scoring["_rotulo_norm"] = scoring["rotulo"].map(_normalizar_busqueda)
-        scoring["_barrio_norm"] = scoring["desc_barrio_local"].map(_normalizar_busqueda)
+        scoring["_barrio_norm"] = (
+            scoring["desc_barrio_local"]
+            .astype(str)
+            .map(_normalizar_busqueda)
+            .astype("category")
+        )
 
     barrios = None
     if RUTA_BARRIOS.exists():

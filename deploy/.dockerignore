@@ -1,9 +1,0 @@
-# Contexto de build del Space: mantener la imagen limpia.
-**/__pycache__
-**/*.pyc
-**/.pytest_cache
-api/test_api.py
-api/requirements.txt
-api/Dockerfile
-.git
-.gitattributes
