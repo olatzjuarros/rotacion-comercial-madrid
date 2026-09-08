@@ -1,0 +1,41 @@
+{
+  "modelo": "C. Sector + distrito + historia",
+  "variables": [
+    "id_epigrafe",
+    "id_division",
+    "desc_distrito_local",
+    "desc_tipo_acceso_local",
+    "antiguedad_negocio",
+    "antiguedad_local",
+    "rotaciones_previas",
+    "tasa_rotacion_local",
+    "antiguedad_censurada"
+  ],
+  "cohortes_train": [
+    2015,
+    2016,
+    2017,
+    2018
+  ],
+  "cohorte_val": 2019,
+  "cohorte_test": 2021,
+  "metricas_test": {
+    "n_vars": 9.0,
+    "auc": 0.6670411409535925,
+    "auc_ic": "[0.659, 0.676]",
+    "lift10": 2.0193697736217877,
+    "lift_ic": "[1.87, 2.14]",
+    "brier": 0.03766411215466626
+  },
+  "tasa_base_test": 0.039730705914150226,
+  "metricas_test_nota": "lift10/AUC recalculados en la tarea 29 tras corregir un desajuste de formato: el fichero del censo 2021 (cohorte de test) trae id_epigrafe/id_division sin ceros a la izquierda y ~600 filas se codificaban como NaN. El modelo (entrenado sobre 2015-2018, sin ese artefacto) es identico; solo cambian las metricas de test: lift10 1,99 -> 2,02, AUC sin cambio. El scoring de 2026 (riesgo_2026.csv) nunca se vio afectado. Ver salida/DATOS.md.",
+  "criterio_eleccion": "C empata en rendimiento con B (hito7: bootstrap PAREADO, IC de la diferencia de lift10 cruza el cero) y no empeora la calibracion. Entre modelos empatados, se elige C por UTILIDAD para el caso de uso: predicciones diferenciadas por local (CV intra-grupo epigrafe x distrito: B=0,000 por construccion, C=0,192) sin romper la productivizacion (POST /predecir sigue disponible). El candidato F (C + 6 variables de marca) se evaluo en las tareas 26-27 y se DESCARTO: su ventaja de lift en test (+0,15) no es atribuible a ninguna variable (desaparece al quitar cualquier subconjunto), incluye variables con importancia por permutacion NEGATIVA, una redundante al 100% con desc_tipo_acceso_local, rompe POST /predecir, y en prospectiva la ventaja sobre C se diluye a +0,06. MODELO CONGELADO. Ver salida/decision_modelo.md y salida/RESULTADOS.md.",
+  "empatado_con": "B. Sector + distrito",
+  "candidatos_descartados": {
+    "F. Sector + distrito + historia + marca": "tareas 26-27: mejora de lift en test no reproducible, variables-ruido, redundancia, rompe /predecir, sin ventaja real en prospectiva."
+  },
+  "version_semantica": "1.0.1",
+  "fecha_entrenamiento": "2026-09-05",
+  "sha256_joblib": "65a21d6edbce5453e6cb4d2ad47b522fe6daa5828c90e58f37b8779c72e64cba",
+  "sellado": "2026-09-08T08:04:53+00:00"
+}
