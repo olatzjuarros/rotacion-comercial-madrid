@@ -1,5 +1,8 @@
 # Datos (se reconstruyen con hito3a -> hito3b -> hito4; pesan cientos de MB)
-datos/
+datos/*
+!datos/modelo_campeon.joblib
+!datos/ficha_modelo.json
+!datos/catalogos.json
 
 # Entorno virtual
 .tfm/
