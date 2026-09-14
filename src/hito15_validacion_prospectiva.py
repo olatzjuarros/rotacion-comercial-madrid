@@ -19,6 +19,15 @@ NO SON COMPARABLES con el test por esa razon (medio anio de exposicion da,
 a igual riesgo anual, la mitad de churn observado). El AUC y el lift SI son
 comparables: son metricas de ORDEN, no de nivel.
 
+Produce:
+    salida/prospectiva_2025_2026.csv          un local por fila
+    salida/tableau/validacion_barrio.csv(_es) predicho vs observado por barrio
+                                              (+ lat/lon EPSG:4326) -> mapa de
+                                              donde acierta y donde falla
+    salida/tableau/deciles.csv(_es)           lift + nº locales + nº cierres
+                                              por decil, en test y prospectiva
+    salida/figuras/prospectiva_deciles.png
+
 Uso:
     python src/hito15_validacion_prospectiva.py
 """
@@ -38,6 +47,15 @@ from prediccion import preparar_X
 from registro import iniciar_log
 
 warnings.filterwarnings("ignore", category=FutureWarning)
+
+try:
+    from pyproj import Transformer
+except ImportError:
+    Transformer = None
+
+CRS_ORIGEN = "EPSG:25830"  # UTM 30N ETRS89, coordenadas del censo
+CRS_DESTINO = "EPSG:4326"  # lat/lon WGS84, lo que espera un mapa de Tableau
+BOM = "utf-8-sig"
 
 try:
     import hito2c_target_v2 as reglas
@@ -109,6 +127,17 @@ def tabla_deciles(y, p):
     t = d.groupby("decil")["y"].agg(["size", "sum", "mean"])
     t["lift"] = t["mean"] / y.mean()
     return t
+
+
+def guardar_tableau(df, ruta):
+    """Dos versiones UTF-8 con BOM, igual que hito13:
+    <nombre>.csv (',' + '.') y <nombre>_es.csv (';' + ',')."""
+    ruta = Path(ruta)
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(ruta, index=False, encoding=BOM, sep=",", decimal=".")
+    ruta_es = ruta.with_name(ruta.stem + "_es" + ruta.suffix)
+    df.to_csv(ruta_es, index=False, encoding=BOM, sep=";", decimal=",")
+    print(f"  {ruta.name} / {ruta_es.name}   ({len(df):,} filas)")
 
 
 def tabla_calibracion(y, p, edges=(0, 0.01, 0.02, 0.03, 0.04, 0.06, 1.0)):
@@ -294,9 +323,20 @@ def main():
         print("  la capacidad de ordenar se ha degradado o es indistinguible del")
         print("  ruido en esta ventana de 6 meses. Declararlo, no maquillarlo.")
 
+    # deciles del TEST 2021->2022 con el mismo joblib (para comparar y para
+    # el export deciles.csv). Es la misma tabla que la ficha; no depende de
+    # matplotlib, asi que se calcula aqui.
+    test = ds[ds["uso"] == "test"]
+    p_test = campeon.predict_proba(preparar_X(test, paquete))[:, 1]
+    t_test = tabla_deciles(test["target"].values.astype(int), p_test)
+
     # ------------------------------------------------------------------
     # 6. Export para el dashboard
     # ------------------------------------------------------------------
+    print("\n" + "=" * 78)
+    print("6. EXPORT PARA EL CUADRO DE MANDO")
+    print("=" * 78)
+
     salida = u.reset_index()[
         [
             "id_local",
@@ -319,7 +359,127 @@ def main():
 
     ruta = Path("salida") / "prospectiva_2025_2026.csv"
     salida.to_csv(ruta, sep=";", index=False, encoding="utf-8-sig")
-    print(f"\nGuardado: {ruta}   ({len(salida):,} locales)")
+    print(f"  {ruta.name}   ({len(salida):,} locales)")
+
+    tableau = Path("salida") / "tableau"
+
+    # 6a. validacion_barrio.csv: donde acierta y donde falla el modelo, por
+    #     barrio (el mapa de error a nivel de distrito ya lo da hito11).
+    ub = u.copy()
+    ub["desc_barrio_local"] = ub["desc_barrio_local"].astype(str).str.strip()
+    x = pd.to_numeric(ub["coordenada_x_local"], errors="coerce")
+    y_utm = pd.to_numeric(ub["coordenada_y_local"], errors="coerce")
+    valida = x.notna() & y_utm.notna() & (x > 1000) & (y_utm > 1000)
+    if Transformer is not None:
+        tr = Transformer.from_crs(CRS_ORIGEN, CRS_DESTINO, always_xy=True)
+        lon, lat = tr.transform(x.where(valida).values, y_utm.where(valida).values)
+        ub["longitud"] = pd.Series(lon, index=ub.index).where(valida)
+        ub["latitud"] = pd.Series(lat, index=ub.index).where(valida)
+    else:
+        print("  [aviso] pyproj no esta: validacion_barrio sin latitud/longitud")
+        ub["longitud"] = np.nan
+        ub["latitud"] = np.nan
+
+    barrio = (
+        ub.groupby("desc_barrio_local")
+        .agg(
+            n_locales=("target", "size"),
+            tasa_observada=("target", "mean"),
+            riesgo_medio_predicho=("prob", "mean"),
+            latitud=("latitud", "mean"),
+            longitud=("longitud", "mean"),
+            n_con_coord=("latitud", "count"),
+        )
+        .reset_index()
+    )
+    barrio["error"] = barrio["riesgo_medio_predicho"] - barrio["tasa_observada"]
+    barrio["tasa_observada"] = barrio["tasa_observada"].round(5)
+    barrio["riesgo_medio_predicho"] = barrio["riesgo_medio_predicho"].round(5)
+    barrio["error"] = barrio["error"].round(5)
+    barrio["latitud"] = barrio["latitud"].round(6)
+    barrio["longitud"] = barrio["longitud"].round(6)
+    barrio = barrio[
+        [
+            "desc_barrio_local",
+            "n_locales",
+            "tasa_observada",
+            "riesgo_medio_predicho",
+            "error",
+            "latitud",
+            "longitud",
+        ]
+    ].sort_values("error", ascending=False)
+    guardar_tableau(barrio, tableau / "validacion_barrio.csv")
+    print(
+        f"    barrios: {len(barrio)}   error medio (pred-obs) "
+        f"{barrio['error'].mean():+.4f}   "
+        f"|error| medio {barrio['error'].abs().mean():.4f}"
+    )
+
+    # 6b. deciles.csv: lift + nº de locales y de cierres por decil, en test
+    #     (2021->2022, 12 meses) y en la prospectiva (2025->2026, 6 meses).
+    #     Deciles de IGUAL tamano (qcut sobre el rango de la probabilidad), no
+    #     "top 10% por argsort" como el lift_decil10 de la ficha: por eso el
+    #     lift del decil 10 aqui puede diferir ~0,05-0,10 del titular (empates
+    #     de la isotonica justo en el corte del percentil 90). La progresion
+    #     entre deciles -y la comparacion test vs prospectiva- si es limpia.
+    deciles = pd.DataFrame({"decil": range(1, 11)}).set_index("decil")
+    deciles["lift_test"] = t_test["lift"].round(4)
+    deciles["n_locales_test"] = t_test["size"].astype(int)
+    deciles["n_cierres_test"] = t_test["sum"].astype(int)
+    deciles["lift_prospectiva"] = t_dec["lift"].round(4)
+    deciles["n_locales_prospectiva"] = t_dec["size"].astype(int)
+    deciles["n_cierres_prospectiva"] = t_dec["sum"].astype(int)
+    guardar_tableau(deciles.reset_index(), tableau / "deciles.csv")
+    print(
+        f"    lift decil 10:  test {deciles.loc[10, 'lift_test']:.2f}   "
+        f"prospectiva {deciles.loc[10, 'lift_prospectiva']:.2f}"
+    )
+
+    # 6c. deciles_largo.csv: el MISMO contenido en formato largo (una fila por
+    #     decil y cohorte, 20 filas). Tableau agrupa/colorea por 'cohorte' sin
+    #     tener que crear medidas calculadas por columna. Se deriva del ancho,
+    #     asi que los lifts coinciden por construccion; se verifica abajo.
+    largo = pd.concat(
+        [
+            deciles.reset_index()[
+                ["decil", f"lift_{suf}", f"n_locales_{suf}", f"n_cierres_{suf}"]
+            ]
+            .rename(
+                columns={
+                    f"lift_{suf}": "lift",
+                    f"n_locales_{suf}": "n_locales",
+                    f"n_cierres_{suf}": "n_cierres",
+                }
+            )
+            .assign(cohorte=etiqueta)
+            for suf, etiqueta in (
+                ("test", "Contraste 2021-2022"),
+                ("prospectiva", "Prospectiva 2025-2026"),
+            )
+        ],
+        ignore_index=True,
+    )[["decil", "cohorte", "lift", "n_locales", "n_cierres"]]
+    guardar_tableau(largo, tableau / "deciles_largo.csv")
+
+    # verificacion: el largo debe reproducir exactamente el ancho
+    control = largo.pivot(index="decil", columns="cohorte")
+    problemas = []
+    for suf, etiqueta in (
+        ("test", "Contraste 2021-2022"),
+        ("prospectiva", "Prospectiva 2025-2026"),
+    ):
+        for var in ("lift", "n_locales", "n_cierres"):
+            a = deciles[f"{var}_{suf}"]
+            b = control[(var, etiqueta)].reindex(a.index)
+            if not np.allclose(a.values, b.values):
+                problemas.append(f"{var} / {etiqueta}")
+    if problemas:
+        sys.exit(f"  ERROR: deciles_largo no cuadra con deciles en: {problemas}")
+    print(
+        f"    verificacion: {len(largo)} filas (10 deciles x 2 cohortes); "
+        "lift, n_locales y n_cierres coinciden con el fichero ancho"
+    )
 
     # ------------------------------------------------------------------
     # 7. Top 20 de mayor riesgo que efectivamente rotaron
@@ -349,9 +509,7 @@ def main():
         print("\n[aviso] matplotlib no esta; me salto la figura")
         return
 
-    test = ds[ds["uso"] == "test"]
-    p_test = campeon.predict_proba(preparar_X(test, paquete))[:, 1]
-    t_test = tabla_deciles(test["target"].values.astype(int), p_test)
+    # t_test ya calculado en la seccion 6 (deciles del test 2021->2022)
 
     plt.rcParams.update(
         {

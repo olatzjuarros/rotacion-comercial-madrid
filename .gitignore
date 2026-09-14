@@ -44,6 +44,13 @@ exploracion/*.md
 # Árbol de ficheros autogenerado
 estructura.txt
 
+# Notas de trabajo desfasadas (PLAN_TFM.md, ESTADO_PROYECTO.md, estructura.txt):
+# se conservan en disco por si hacen falta, pero no son un entregable
+notas_proceso/
+
+# La memoria se entrega por la plataforma del máster, no por el repositorio
+*.docx
+
 # Copias de trabajo de despliegue con su propio repo git (p. ej. el intento
 # antiguo de Hugging Face Spaces). El despliegue actual (Render) usa el
 # Dockerfile de la raíz directamente, no una carpeta aparte.

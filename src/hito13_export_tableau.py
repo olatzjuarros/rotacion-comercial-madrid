@@ -8,9 +8,11 @@ fichero se escribe DOS veces (UTF-8 con BOM en ambas):
   <nombre>_es.csv  separador ';' y coma decimal     (locale espanol; Tableau
                    con config regional ES lee el punto decimal como NULL)
 
-  riesgo_locales.csv     un local por fila: lo de riesgo_2026 + latitud y
-                         longitud en EPSG:4326 (reproyectadas desde las UTM
-                         EPSG:25830 con pyproj), conservando tambien las UTM.
+  riesgo_locales.csv     un local por fila: lo de riesgo_2026 + division y
+                         seccion de actividad (desc_division, desc_seccion,
+                         del panel 2026) + latitud y longitud en EPSG:4326
+                         (reproyectadas desde las UTM EPSG:25830 con pyproj),
+                         conservando tambien las UTM.
   riesgo_por_barrio.csv  agregado por distrito+barrio: nº de locales, riesgo
                          medio, riesgo maximo, % de locales en el decil 10 y
                          el centroide (latitud/longitud media en EPSG:4326)
@@ -39,6 +41,7 @@ except ImportError:
     from pyproj import Transformer
 
 ENTRADA = Path("salida") / "riesgo_2026.csv"
+PANEL_2026 = Path("datos") / "panel" / "panel_2026.parquet"
 SALIDA = Path("salida") / "tableau"
 CRS_ORIGEN = "EPSG:25830"  # UTM 30N ETRS89, coordenadas del censo
 CRS_DESTINO = "EPSG:4326"  # lat/lon WGS84, lo que espera un mapa de Tableau
@@ -72,8 +75,35 @@ def main():
 
     df = pd.read_csv(entrada, sep=";", dtype={"id_local": str})
     print(f"Leidos {len(df):,} locales de {entrada}")
-    for c in ("desc_distrito_local", "desc_barrio_local", "desc_epigrafe"):
+
+    # division y seccion de actividad: no estan en riesgo_2026.csv, se traen
+    # del panel 2026 por id_local. La seccion (letra CNAE) es el nivel mas
+    # amplio, la division el intermedio y el epigrafe el mas fino.
+    if not PANEL_2026.exists():
+        sys.exit(f"[PARA] falta {PANEL_2026}. Ejecuta antes src/hito3b_cohortes.py.")
+    panel = pd.read_parquet(
+        PANEL_2026, columns=["id_local", "desc_division", "desc_seccion"]
+    ).drop_duplicates("id_local")
+    panel["id_local"] = panel["id_local"].astype(str).str.strip()
+    df = df.merge(panel, on="id_local", how="left")
+    sin_div = int(df["desc_division"].isna().sum())
+    if sin_div:
+        print(f"  [aviso] {sin_div} locales sin division/seccion en el panel 2026")
+
+    for c in (
+        "desc_distrito_local",
+        "desc_barrio_local",
+        "desc_epigrafe",
+        "desc_division",
+        "desc_seccion",
+    ):
         df[c] = df[c].astype(str).str.strip()
+
+    print(
+        f"  actividad: {df['desc_seccion'].nunique()} secciones, "
+        f"{df['desc_division'].nunique()} divisiones, "
+        f"{df['desc_epigrafe'].nunique()} epigrafes distintos"
+    )
 
     SALIDA.mkdir(parents=True, exist_ok=True)
 
@@ -111,6 +141,8 @@ def main():
             "id_local",
             "rotulo",
             "desc_epigrafe",
+            "desc_division",
+            "desc_seccion",
             "desc_distrito_local",
             "desc_barrio_local",
             "probabilidad",

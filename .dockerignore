@@ -26,13 +26,9 @@ api/requirements.txt
 salida/figuras/
 salida/capturas/
 salida/validacion/
-salida/tableau/*.twb
-salida/tableau/*.twbr
-salida/tableau/simulador_grid*.csv
-salida/tableau/cohortes_churn*.csv
-salida/tableau/distrito_real_vs_predicho*.csv
-salida/tableau/riesgo_locales*.csv
-salida/tableau/riesgo_por_epigrafe*.csv
+# de salida/tableau/ la API solo necesita riesgo_por_barrio.csv (para el mapa)
+salida/tableau/*
+!salida/tableau/riesgo_por_barrio.csv
 salida/prospectiva_2025_2026.csv
 salida/*.md
 salida/*.html

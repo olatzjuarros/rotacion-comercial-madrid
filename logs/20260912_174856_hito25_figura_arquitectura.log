@@ -1,0 +1,16 @@
+# hito25_figura_arquitectura
+# Ejecutado: 2026-09-12 17:48:56
+# Comando: src/hito25_figura_arquitectura.py
+#------------------------------------------------------------------
+
+[log] guardando en logs\20260912_174856_hito25_figura_arquitectura.log
+Generando el diagrama de arquitectura (Figura 7 de la memoria)
+Guardado: salida\figuras\arquitectura.png
+
+Pie de figura sugerido para la memoria:
+  Figura 7. Arquitectura del sistema: proceso por lotes, servicio
+  web FastAPI, interfaz de consulta y cuadro de mando desacoplado.
+  Elaboracion propia.
+
+#------------------------------------------------------------------
+# Fin: 2026-09-12 17:48:57

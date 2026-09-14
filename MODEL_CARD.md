@@ -13,7 +13,7 @@ los logs con fecha de `logs/`. Última actualización: modelo v1.0.1
 | Tipo | Clasificador binario calibrado — `HistGradientBoostingClassifier` (scikit-learn 1.9.0) + calibración isotónica |
 | Artefacto | `datos/modelo_campeon.joblib` — SHA-256 `65a21d6e…64cba` |
 | Fecha de entrenamiento | 2026-09-05 |
-| Autoría | TFM, olatzjuarros — Mondragon Unibertsitatea |
+| Autoría | TFM, olatzjuarros — Universidad Complutense de Madrid |
 | Responsable de mantenimiento | la autora del TFM (contacto en la memoria) |
 | Estado | **congelado** desde la tarea 27; no se reentrena |
 

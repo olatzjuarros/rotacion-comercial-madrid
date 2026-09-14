@@ -57,7 +57,7 @@ log. No hay ningún paso manual salvo **una** revisión a mano en el hito 8
 | 9 | `python src/hito13_export_tableau.py` | `salida/riesgo_2026.csv` | `salida/tableau/riesgo_{locales,por_barrio,por_epigrafe}.csv` (+ `_es.csv`) |
 | 10 | `python src/hito21_grid_simulador.py` | campeón + catálogo + dataset | `salida/tableau/{simulador_grid,cohortes_churn,distrito_real_vs_predicho}.csv` (+ `_es.csv`) |
 | 11 | `python src/hito10_figuras.py` | campeón + dataset + logs de hito6/hito7 | `salida/figuras/*.png` + `casos_shap.md` |
-| 12 | `python src/hito15_validacion_prospectiva.py` | campeón + paneles 2025/2026 | `salida/prospectiva_2025_2026.csv` + `salida/figuras/prospectiva_deciles.png` |
+| 12 | `python src/hito15_validacion_prospectiva.py` | campeón + paneles 2025/2026 | `salida/prospectiva_2025_2026.csv` + `salida/tableau/{validacion_barrio,deciles}.csv` (+ `_es`) + `salida/figuras/prospectiva_deciles.png` |
 | 13 | `python src/hito16_barrios.py` | `datos/panel/*.parquet` | modelo barrio×año + `salida/figuras/barrios_predicho_vs_real.png` |
 | 14 | `python src/hito11_contraste_distrito.py` | campeón + dataset | correlación distrito real vs. predicho + `salida/figuras/real_vs_predicho_distrito.png` |
 | 15 | `python src/gobierno.py` | campeón + ficha | sella `ficha_modelo.json` con versión semántica, fecha de entrenamiento y SHA-256 del joblib |

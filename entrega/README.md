@@ -47,7 +47,7 @@ colaboradores (instrucciones en §6).
 
 ## 3. Servicio desplegado
 
-**URL:** _[https://riesgo-rotacion-madrid.onrender.com — pendiente]_
+**URL:** _[https://riesgo-rotacion-madrid.onrender.com/]_
 
 API FastAPI + frontal web (mapa de riesgo por barrio, buscador de locales,
 simulador de local hipotético) desplegada en **Render.com** (plan gratuito,
@@ -68,10 +68,12 @@ instrucciones paso a paso en `deploy/INSTRUCCIONES.md`.
 **Tableau:** _[enlace a Tableau Public / Tableau Cloud — pendiente]_
 
 Libro fuente en el repo: `salida/tableau/TFM_V2.twb`. Se alimenta de las
-tablas que generan `src/hito13_export_tableau.py` y
-`src/hito21_grid_simulador.py` (`salida/tableau/*.csv`, regenerables). Hojas:
-mapa de riesgo por barrio, riesgo por epígrafe, simulador epígrafe × distrito
-× perfil de historia, contraste distrito real vs. predicho.
+tablas que generan `src/hito13_export_tableau.py`,
+`src/hito21_grid_simulador.py` y `src/hito15_validacion_prospectiva.py`
+(`salida/tableau/*.csv`, regenerables). Hojas: mapa de riesgo por barrio,
+riesgo por epígrafe/división/sección, simulador epígrafe × distrito × perfil
+de historia, contraste distrito real vs. predicho, validación por barrio
+(dónde acierta y dónde falla) y lift por decil (test vs prospectiva).
 
 ---
 
